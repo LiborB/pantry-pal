@@ -1,0 +1,44 @@
+﻿<Properties StartupConfiguration="{95CCAB26-0A55-439F-A62A-5ADAC547E93F}|https">
+  <MonoDevelop.Ide.ItemProperties.PantryPal.Business FirstBuild="True" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="PantryPal.Business/Services/PantryItemService.cs">
+    <Files>
+      <File FileName="pantry-pal-api/Controllers/PantryController.cs" Line="11" Column="6" />
+      <File FileName="pantry-pal-api/Program.cs" Line="12" Column="19" />
+      <File FileName="PantryPal.Data/Entities/Pantry.cs" Line="6" Column="1" />
+      <File FileName="pantry-pal-api/appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="pantry-pal-api/appsettings.json" Line="7" Column="5" />
+      <File FileName="PantryPal.Business/ServiceCollectionExtensions.cs" Line="11" Column="55" />
+      <File FileName="PantryPal.Business/Services/PantryItemService.cs" Line="6" Column="22" />
+      <File FileName="PantryPal.Business/DTO/PantryItem.cs" Line="4" Column="28" />
+      <File FileName="PantryPal.Business/AutomapperProfile.cs" Line="12" Column="43" />
+      <File FileName="PantryPal.Business/DTO/CreatePantryItemDTO.cs" Line="6" Column="35" />
+      <File FileName="PantryPal.Business/Services/PantryItemService.cs" Line="28" Column="10" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="pantry-pal-api" expanded="True">
+            <Node name="PantryPal.Business" expanded="True" selected="True">
+              <Node name="DTO" expanded="True" />
+              <Node name="Services" expanded="True" />
+            </Node>
+            <Node name="PantryPal.Core" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+            </Node>
+            <Node name="PantryPal.Data" expanded="True">
+              <Node name="Entities" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.PantryPal.Core PreferredExecutionTarget="/Applications/Google Chrome.app" FirstBuild="True" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
