@@ -10,7 +10,7 @@ class CreateItemPage extends StatefulWidget {
 }
 
 class _CreateItemPageState extends State<CreateItemPage> {
-  final productNameController = TextEditingController();
+  final _productNameController = TextEditingController();
 
   Future<String> scanBarcode() async {
     final result = await FlutterBarcodeScanner.scanBarcode(
@@ -27,7 +27,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
       final productInfo = await ApiService.getProductInformation(barcode);
 
       setState(() {
-        productNameController.text = productInfo.productName;
+        _productNameController.text = productInfo.productName;
       });
     } catch (error) {
       showDialog(
@@ -67,7 +67,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 height: 24,
               ),
               TextField(
-                controller: productNameController,
+                controller: _productNameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Name",
@@ -79,7 +79,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(46),
+                  minimumSize: const Size.fromHeight(48),
                 ),
                 child: const Text("Add Item"),
               )

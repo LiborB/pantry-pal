@@ -26,8 +26,10 @@ class _PantryPageState extends State<PantryPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateItemPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CreateItemPage()));
           },
           child: const Icon(Icons.add),
         ));

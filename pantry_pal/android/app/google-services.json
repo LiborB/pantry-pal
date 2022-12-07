@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "135361706279",
+    "project_id": "pantrypal-3d54e",
+    "storage_bucket": "pantrypal-3d54e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135361706279:android:29900bae22c7c8c1785102",
+        "android_client_info": {
+          "package_name": "com.example.pantry_pal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "135361706279-epf8d6a247c7f2lundptlftlbtrr4d1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_ZSsgBYCtzUXgriOh4e56f_04EepsTyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "135361706279-epf8d6a247c7f2lundptlftlbtrr4d1f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,11 +14,11 @@ class ProductInformationResponse {
 }
 
 class ApiService {
-  static final baseUrl = "${dotenv.env["API_BASE_URL"]}/pantry";
+  static final _baseUrl = "${dotenv.env["API_BASE_URL"]}/pantry";
 
   static Future<ProductInformationResponse> getProductInformation(
       String barcode) async {
-    final response = await http.get(Uri.parse("$baseUrl/detail"));
+    final response = await http.get(Uri.parse("$_baseUrl/detail"));
 
     if (response.statusCode == 200) {
       return ProductInformationResponse.fromJSON(jsonDecode(response.body));

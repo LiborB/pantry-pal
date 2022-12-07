@@ -1,11 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
+import 'package:pantry_pal/store/app_store.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
 Future main() async {
   await dotenv.load();
-  runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // await FirebaseAuth.instance.signOut();
+
+  runApp(ChangeNotifierProvider(
+    child: const MyApp(),
+    create: (context) => AppStore(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -17,28 +32,55 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State {
   int _currentIndex = 0;
-
   final List<Widget> _pages = [const HomePage(), const PantryPage()];
+  var _isLoggedIn = FirebaseAuth.instance.currentUser != null;
+
+  @override
+  void initState() {
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      setState(() {
+        if (user == null) {
+          _isLoggedIn = false;
+        } else {
+          _isLoggedIn = true;
+        }
+      });
+    });
+
+    super.initState();
+  }
+
+  Widget _getLandingPage() {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.data == null) {
+          return const LoginPage();
+        } else {
+          return Scaffold(
+            body: _pages[_currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              onTap: (index) => setState(() {
+                _currentIndex = index;
+              }),
+              currentIndex: _currentIndex,
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(icon: Icon(Icons.list), label: "Pantry")
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-      ),
-      home: Scaffold(
-        body: _pages[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) => setState(() {
-            _currentIndex = index;
-          }),
-          currentIndex: _currentIndex,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.list), label: "Pantry")
-          ],
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
         ),
-      ),
-    );
+        home: _getLandingPage());
   }
 }
