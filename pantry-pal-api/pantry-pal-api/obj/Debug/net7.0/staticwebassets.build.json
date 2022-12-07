@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "hUwCQEktSW8DQfEEPKxmRe+ltUdURhOqh9yiYEytQY8=",
+  "Source": "pantry-pal-api",
+  "BasePath": "_content/pantry-pal-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

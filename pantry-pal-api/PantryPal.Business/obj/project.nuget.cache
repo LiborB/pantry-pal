@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hav0pC4NR5iTaHTLCmexB7syWxNBz/hCzTnUmDNZP4MOzkko+N2zB+Qa4QRjPYMNMdiTjU3WSeFlNl1/UDU7bA==",
+  "dgSpecHash": "4VgurevA0WSGS7SVFbfgWGUr9sOUa3bqRuiFa1JyCmh2rRt2gWPfKr771XgNLVS/bm7+eoyZymzhG5aR6VuBCQ==",
   "success": true,
   "projectFilePath": "/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/PantryPal.Business.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "/Users/playground/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "/Users/playground/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "/Users/playground/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "/Users/playground/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
     "/Users/playground/.nuget/packages/npgsql/7.0.0/npgsql.7.0.0.nupkg.sha512",
     "/Users/playground/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.0/npgsql.entityframeworkcore.postgresql.7.0.0.nupkg.sha512",
     "/Users/playground/.nuget/packages/system.collections/4.3.0/system.collections.4.3.0.nupkg.sha512",

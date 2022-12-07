@@ -16,7 +16,8 @@
       "applicationUrl": "http://localhost:5130",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": ""
+        "DB_CONNECTION_STRING": "",
+        "FIREBASE_PROJECT_ID": ""
       }
     },
     "https": {

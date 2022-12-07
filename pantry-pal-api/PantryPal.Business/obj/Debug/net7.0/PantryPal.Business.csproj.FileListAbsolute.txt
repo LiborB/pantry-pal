@@ -1,0 +1,15 @@
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/bin/Debug/net7.0/PantryPal.Business.deps.json
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/bin/Debug/net7.0/PantryPal.Business.dll
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/bin/Debug/net7.0/PantryPal.Business.pdb
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/bin/Debug/net7.0/PantryPal.Data.dll
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/bin/Debug/net7.0/PantryPal.Data.pdb
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.csproj.AssemblyReference.cache
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.GeneratedMSBuildEditorConfig.editorconfig
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.AssemblyInfoInputs.cache
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.AssemblyInfo.cs
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.csproj.CoreCompileInputs.cache
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.csproj.CopyComplete
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.dll
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/refint/PantryPal.Business.dll
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/PantryPal.Business.pdb
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Business/obj/Debug/net7.0/ref/PantryPal.Business.dll

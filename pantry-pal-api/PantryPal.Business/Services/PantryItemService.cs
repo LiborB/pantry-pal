@@ -11,7 +11,7 @@ namespace PantryPal.Business.Services
         private readonly PantryPalContext _context;
         private readonly IMapper _mapper;
 
-        PantryItemService(PantryPalContext context, IMapper mapper)
+        public PantryItemService(PantryPalContext context, IMapper mapper)
         {
             this._context = context;
             this._mapper = mapper;
