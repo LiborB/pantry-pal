@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/PantryPal.Core.props" />
+</Project>

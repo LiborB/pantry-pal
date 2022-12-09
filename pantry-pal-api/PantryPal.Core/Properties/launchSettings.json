@@ -16,8 +16,8 @@
       "applicationUrl": "http://localhost:5130",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_CONNECTION_STRING": "",
-        "FIREBASE_PROJECT_ID": ""
+        "DB_CONNECTION_STRING": "postgresql://postgres:postgres@localhost:5432/pantry_pal",
+        "FIREBASE_PROJECT_ID": "pantrypal-3d54e"
       }
     },
     "https": {

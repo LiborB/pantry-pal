@@ -5,12 +5,13 @@ namespace PantryPal.Data
 {
 	public class PantryPalContext : DbContext
 	{
+
+		public PantryPalContext(DbContextOptions<PantryPalContext> contextOptions) : base(contextOptions)
+		{
+			
+		}
 		public DbSet<PantryItem> PantryItems { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder builder)
-		{
-			builder.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
-		}
 	}
 }
 

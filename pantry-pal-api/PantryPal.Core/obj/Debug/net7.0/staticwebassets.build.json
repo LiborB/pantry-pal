@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "hUwCQEktSW8DQfEEPKxmRe+ltUdURhOqh9yiYEytQY8=",
-  "Source": "pantry-pal-api",
-  "BasePath": "_content/pantry-pal-api",
+  "Hash": "h25rYVcyVINn2n4gilxvbkJLNnioQGr9u/Sn1z1kCh0=",
+  "Source": "PantryPal.Core",
+  "BasePath": "_content/PantryPal.Core",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

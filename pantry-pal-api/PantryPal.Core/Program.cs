@@ -2,11 +2,12 @@
 using Microsoft.Extensions.Options;
 using PantryPal.Business;
 using PantryPal.Business.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDb();
+builder.Services.AddDb(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
 builder.Services.AddAutoMapper(typeof(AutomapperProfile));
 builder.Services.AddScoped<IPantryItemService, PantryItemService>();
 builder.Services.AddScoped<IProductService, ProductService>();

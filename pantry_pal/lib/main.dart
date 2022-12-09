@@ -33,27 +33,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State {
   int _currentIndex = 0;
   final List<Widget> _pages = [const HomePage(), const PantryPage()];
-  var _isLoggedIn = FirebaseAuth.instance.currentUser != null;
-
-  @override
-  void initState() {
-    FirebaseAuth.instance.authStateChanges().listen((user) {
-      setState(() {
-        if (user == null) {
-          _isLoggedIn = false;
-        } else {
-          _isLoggedIn = true;
-        }
-      });
-    });
-
-    super.initState();
-  }
 
   Widget _getLandingPage() {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
+        snapshot.data?.getIdToken().then((value) => print(value));
         if (snapshot.data == null) {
           return const LoginPage();
         } else {
