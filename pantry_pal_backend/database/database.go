@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 func InitDatabase() {
 	connString := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s",
@@ -26,5 +26,10 @@ func InitDatabase() {
 		log.Fatal("Failed to initialise database connection")
 	}
 
-	db = dbContext
+	err = dbContext.AutoMigrate(&PantryItem{})
+	if err != nil {
+		log.Fatalf("Failed to migrate database objects %s", err)
+	}
+
+	DB = dbContext
 }

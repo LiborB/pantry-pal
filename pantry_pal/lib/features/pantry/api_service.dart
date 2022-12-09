@@ -1,29 +1,36 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:pantry_pal/shared/api_http.dart';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
+part 'api_service.g.dart';
 
-class ProductInformationResponse {
+@JsonSerializable()
+class Product {
+  @JsonKey(name: "product_name")
   String productName;
 
-  ProductInformationResponse({required this.productName});
+  @JsonKey(name: "image_url")
+  String imageUrl;
 
-  factory ProductInformationResponse.fromJSON(Map<String, dynamic> json) {
-    return ProductInformationResponse(productName: json["product_name"]);
-  }
+  Product({required this.productName, required this.imageUrl});
+
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
+}
+
+@JsonSerializable()
+class ProductInformationResponse {
+  Product product;
+
+  ProductInformationResponse({required this.product});
+
+  factory ProductInformationResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductInformationResponseFromJson(json);
 }
 
 class ApiService {
-  static final _baseUrl = "${dotenv.env["API_BASE_URL"]}/pantry";
-
   static Future<ProductInformationResponse> getProductInformation(
       String barcode) async {
-    final response = await http.get(Uri.parse("$_baseUrl/detail"));
-
-    if (response.statusCode == 200) {
-      return ProductInformationResponse.fromJSON(jsonDecode(response.body));
-    } else {
-      throw Exception("Failed to find product information");
-    }
+    final response = await ApiHttp.get("/product/detail", {"barcode": barcode});
+    return ProductInformationResponse.fromJson(response);
   }
 }

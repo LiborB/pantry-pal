@@ -67,8 +67,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '135361706279',
     projectId: 'pantrypal-3d54e',
     storageBucket: 'pantrypal-3d54e.appspot.com',
-    iosClientId: '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pantryPal',
+    iosClientId:
+        '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
+    iosBundleId: 'com.furionsoftware.pantrypal',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '135361706279',
     projectId: 'pantrypal-3d54e',
     storageBucket: 'pantrypal-3d54e.appspot.com',
-    iosClientId: '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pantryPal',
+    iosClientId:
+        '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
+    iosBundleId: 'com.furionsoftware.pantrypal',
   );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pantry_pal/features/pantry/api_service.dart';
+import 'package:pantry_pal/shared/loader.dart';
 
 class CreateItemPage extends StatefulWidget {
   const CreateItemPage({super.key});
@@ -11,6 +12,7 @@ class CreateItemPage extends StatefulWidget {
 
 class _CreateItemPageState extends State<CreateItemPage> {
   final _productNameController = TextEditingController();
+  ProductInformationResponse? _productInfo;
 
   Future<String> scanBarcode() async {
     final result = await FlutterBarcodeScanner.scanBarcode(
@@ -22,20 +24,32 @@ class _CreateItemPageState extends State<CreateItemPage> {
     return result;
   }
 
-  void fetchProductInformation(String barcode) async {
+  Future fetchProductInformation(String barcode) async {
     try {
-      final productInfo = await ApiService.getProductInformation(barcode);
+      final info = await ApiService.getProductInformation(barcode);
 
       setState(() {
-        _productNameController.text = productInfo.productName;
+        _productNameController.text = info.product.productName;
+        _productInfo = info;
       });
     } catch (error) {
       showDialog(
+        barrierDismissible: false,
         context: context,
-        builder: (context) => const Dialog(
-          child: Text(
-            "Product information not found for this item. Please enter manually.",
+        builder: (context) => AlertDialog(
+          title: const Text("Product not found"),
+          content: const SingleChildScrollView(
+            child: Text(
+              "Product information not found for this item. Please enter manually.",
+            ),
           ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
         ),
       );
     }
@@ -54,10 +68,18 @@ class _CreateItemPageState extends State<CreateItemPage> {
             children: [
               OutlinedButton(
                 onPressed: () async {
-                  // final barcode = await scanBarcode();
-                  final barcode = "5000157024671";
+                  Loader(context).startLoading();
 
-                  fetchProductInformation(barcode);
+                  // final barcode = await scanBarcode();
+                  final barcode = "9400547001811";
+
+                  if (barcode != "-1") {
+                    await fetchProductInformation(barcode);
+                  }
+
+                  if (mounted) {
+                    Loader(context).stopLoading();
+                  }
                 },
                 style: OutlinedButton.styleFrom(
                     minimumSize: const Size.fromHeight(40)),

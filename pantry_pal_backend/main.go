@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"pantry_pal_backend/database"
 	"pantry_pal_backend/pantry"
+	"pantry_pal_backend/product"
 	"strings"
 )
 
@@ -31,6 +32,7 @@ func main() {
 	}
 
 	pantry.AddRoutes(r)
+	product.AddRoutes(r)
 
 	err = r.Run("localhost:8080")
 
