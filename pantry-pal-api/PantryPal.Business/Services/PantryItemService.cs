@@ -17,7 +17,7 @@ namespace PantryPal.Business.Services
             this._mapper = mapper;
         }
 
-        public async Task AddPantryItem(string userId, CreatePantryItemDTO createPantryItemDTO)
+        public async Task CreatePantryItem(string userId, CreatePantryItemDTO createPantryItemDTO)
         {
             _context.PantryItems.Add(new()
             {

@@ -6,7 +6,7 @@ namespace PantryPal.Business.Services
 	public interface IPantryItemService
 	{
 		Task<List<PantryItemDTO>> GetPantryItems(string userId);
-		Task AddPantryItem(string userId, CreatePantryItemDTO createPantryItemDTO);
+		Task CreatePantryItem(string userId, CreatePantryItemDTO createPantryItemDTO);
 		Task DeletePantryItem(string userId, int pantryItemId);
 	}
 }

@@ -10,3 +10,5 @@
 /Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Data/obj/Debug/net7.0/refint/PantryPal.Data.dll
 /Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Data/obj/Debug/net7.0/PantryPal.Data.pdb
 /Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Data/obj/Debug/net7.0/ref/PantryPal.Data.dll
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Data/bin/Debug/net7.0/PantryPal.Data.runtimeconfig.json
+/Users/playground/projects/pantry-pal-flutter/pantry-pal-api/PantryPal.Data/obj/Debug/net7.0/PantryPal.Data.genruntimeconfig.cache

@@ -5,7 +5,6 @@ using PantryPal.Business.Services;
 
 namespace PantryPal.Core.Controllers;
 
-[Authorize]
 [Route("api/product")]
 public class ProductController : Controller
 {

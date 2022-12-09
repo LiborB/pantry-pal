@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PantryPal.Business.DTO;
 using PantryPal.Business.Services;
+using PantryPal.Core.Models;
 
 namespace PantryPal.Core.Controllers;
 
@@ -15,12 +14,21 @@ public class PantryController : Controller
 
     public PantryController(IPantryItemService pantryItemService)
     {
-        this._pantryItemService = pantryItemService;
+        _pantryItemService = pantryItemService;
     }
 
     [HttpGet]
     public async Task<List<PantryItemDTO>> GetAll()
     {
-        return await this._pantryItemService.GetPantryItems("");
+        return await _pantryItemService.GetPantryItems("");
+    }
+
+    [HttpPost]
+    public async Task Add([FromBody] CreatePantryItemModel model)
+    {
+        await _pantryItemService.CreatePantryItem(User.FindFirstValue(ClaimTypes.NameIdentifier), new ()
+        {
+            Name = model.Name
+        });
     }
 }
