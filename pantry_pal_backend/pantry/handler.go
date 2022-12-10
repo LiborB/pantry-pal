@@ -10,8 +10,8 @@ import (
 func AddRoutes(r *gin.Engine) {
 	group := r.Group("/pantry")
 
-	group.POST("/", addItem)
-	group.GET("/", getItems)
+	group.POST("", addItem)
+	group.GET("", getItems)
 }
 
 type addItemPayload struct {

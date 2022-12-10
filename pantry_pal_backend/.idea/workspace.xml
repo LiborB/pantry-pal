@@ -5,29 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/database/models.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/product/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/google-services.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/src/main/kotlin/com/example/pantry_pal/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/src/main/kotlin/com/example/pantry_pal/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/ios/Runner/GoogleService-Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/ios/Runner/GoogleService-Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/ios/Runner/Info.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/api_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/create_item_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/create_item_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/firebase_options.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/store/app_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/store/app_store.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/macos/Runner/Configs/AppInfo.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/macos/Runner/Configs/AppInfo.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/macos/Runner/GoogleService-Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/macos/Runner/GoogleService-Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/pantry_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/features/pantry/pantry_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal/lib/shared/api_http.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal/lib/shared/api_http.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.http" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/pantry/handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

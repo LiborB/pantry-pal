@@ -15,8 +15,8 @@ abstract class ApiHttp {
     return dio;
   }
 
-  static Future<T> get<T>(
-      String url, Map<String, dynamic>? queryParameters) async {
+  static Future<T> get<T>(String url,
+      {Map<String, dynamic>? queryParameters}) async {
     final client = await _getClient();
 
     final resp = await client.get<T>(url, queryParameters: queryParameters);
@@ -28,5 +28,11 @@ abstract class ApiHttp {
     }
 
     return data;
+  }
+
+  static post(String url, Map<String, dynamic> body) async {
+    final client = await _getClient();
+
+    await client.post(url, data: body);
   }
 }

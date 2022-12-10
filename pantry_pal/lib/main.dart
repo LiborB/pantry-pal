@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
+import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -17,9 +18,12 @@ Future main() async {
 
   // await FirebaseAuth.instance.signOut();
 
-  runApp(ChangeNotifierProvider(
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AppStore()),
+      ChangeNotifierProvider(create: (context) => PantryStore())
+    ],
     child: const MyApp(),
-    create: (context) => AppStore(),
   ));
 }
 

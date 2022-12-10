@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pantry_pal/shared/api_http.dart';
 
@@ -27,10 +29,42 @@ class ProductInformationResponse {
       _$ProductInformationResponseFromJson(json);
 }
 
-class ApiService {
+class CreatePantryItem {
+  String name;
+  DateTime? expiryDate;
+
+  CreatePantryItem({required this.name, this.expiryDate});
+}
+
+@JsonSerializable()
+class PantryItem {
+  int id;
+  String name;
+  DateTime? expiryDate;
+
+  PantryItem({required this.id, required this.name, this.expiryDate});
+
+  factory PantryItem.fromJson(Map<String, dynamic> json) =>
+      _$PantryItemFromJson(json);
+}
+
+class PantryService {
   static Future<ProductInformationResponse> getProductInformation(
       String barcode) async {
-    final response = await ApiHttp.get("/product/detail", {"barcode": barcode});
+    final response = await ApiHttp.get("/product/detail",
+        queryParameters: {"barcode": barcode});
     return ProductInformationResponse.fromJson(response);
+  }
+
+  static Future createPantryItem(CreatePantryItem item) async {
+    await ApiHttp.post("/pantry", {"name": item.name});
+  }
+
+  static Future<List<PantryItem>> getPantryItems() async {
+    List response = await ApiHttp.get("/pantry");
+
+    return response
+        .map((pantryItem) => PantryItem.fromJson(pantryItem))
+        .toList();
   }
 }
