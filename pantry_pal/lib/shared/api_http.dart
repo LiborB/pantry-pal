@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class ApiHttp {
   static Future<Dio> _getClient() async {
@@ -7,7 +8,7 @@ abstract class ApiHttp {
 
     var dio = Dio(
       BaseOptions(
-        baseUrl: "http://localhost:8080",
+        baseUrl: dotenv.get("API_BASE_URL"),
         headers: {"Authorization": "Bearer $token"},
       ),
     );

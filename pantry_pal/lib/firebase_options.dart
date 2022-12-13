@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC_ZSsgBYCtzUXgriOh4e56f_04EepsTyo',
-    appId: '1:135361706279:android:29900bae22c7c8c1785102',
+    appId: '1:135361706279:android:ce993cfda18a929a785102',
     messagingSenderId: '135361706279',
     projectId: 'pantrypal-3d54e',
     storageBucket: 'pantrypal-3d54e.appspot.com',
@@ -63,23 +63,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDJIRs2pEh2rAXPjMXf10wo0lBY0flmOPQ',
-    appId: '1:135361706279:ios:3d4f67f648d3edc5785102',
+    appId: '1:135361706279:ios:047db9cc8ef52fc5785102',
     messagingSenderId: '135361706279',
     projectId: 'pantrypal-3d54e',
     storageBucket: 'pantrypal-3d54e.appspot.com',
-    iosClientId:
-        '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
+    iosClientId: '135361706279-712vj6m4u3dd33rnugqdnre0obccej8e.apps.googleusercontent.com',
     iosBundleId: 'com.furionsoftware.pantrypal',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDJIRs2pEh2rAXPjMXf10wo0lBY0flmOPQ',
-    appId: '1:135361706279:ios:3d4f67f648d3edc5785102',
+    appId: '1:135361706279:ios:047db9cc8ef52fc5785102',
     messagingSenderId: '135361706279',
     projectId: 'pantrypal-3d54e',
     storageBucket: 'pantrypal-3d54e.appspot.com',
-    iosClientId:
-        '135361706279-u3vp77nb9hrplbdu0f1nsiv6si43kf9h.apps.googleusercontent.com',
+    iosClientId: '135361706279-712vj6m4u3dd33rnugqdnre0obccej8e.apps.googleusercontent.com',
     iosBundleId: 'com.furionsoftware.pantrypal',
   );
 }
