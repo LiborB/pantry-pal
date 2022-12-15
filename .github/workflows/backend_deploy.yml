@@ -39,3 +39,15 @@ jobs:
         local_path: ./pantry_pal_backend
         remote_path: pantry-pal/pantry_pal_backend
 
+    - name: Start Server
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.SSH_SERVER }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          tmux kill-session -t pantrypal
+          tmux new -s pantrypal
+          ./pantry-pal/pantry_pal_backend
+
