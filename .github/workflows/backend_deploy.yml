@@ -36,7 +36,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         server: ${{ secrets.SSH_SERVER }}
         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        local_path: ./pantry_pal_backend
+        local_path: ./pantry_pal_backend/pantry_pal_backend
         remote_path: pantry-pal/pantry_pal_backend
 
     - name: Start Server
@@ -47,7 +47,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
+          cd pantry-pal
           tmux kill-session -t pantrypal
           tmux new -s pantrypal
-          ./pantry-pal/pantry_pal_backend
+          ./pantry_pal_backend
 
