@@ -47,6 +47,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd pantry-pal
-          nohup ./pantry_pal_backend &
+          
 
