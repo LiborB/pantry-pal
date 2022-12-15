@@ -48,7 +48,7 @@ jobs:
         port: 22
         script: |
           cd pantry-pal
-          tmux kill-session -t pantrypal || true
-          tmux new -s pantrypal
+          tmux new-session -A -s pantrypal 
+          tmux send-keys -t 0 C-c
           ./pantry_pal_backend
 
