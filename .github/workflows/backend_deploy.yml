@@ -48,6 +48,6 @@ jobs:
         port: 22
         script: |
           cd pantry-pal/pantry_pal_backend
-          pm2 delete pantry-pal-backend 2> /dev/null && pm2 start process.json
+          pm2 delete pantry-pal-backend 2>/dev/null & pm2 start process.json
           
 
