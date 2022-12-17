@@ -47,7 +47,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd pantry-pal
+          cd pantry-pal/pantry_pal_backend
           pm2 delete pantry-pal-backend 2> /dev/null && pm2 start process.json
           
 
