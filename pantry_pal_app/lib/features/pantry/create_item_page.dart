@@ -23,16 +23,12 @@ class _CreateItemPageState extends State<CreateItemPage> {
   initState() {
     super.initState();
 
-    _expiryDateController.text = _formatter.format(DateTime.now().add(const Duration(days: 7)));
+    _expiryDateController.text = _formatDate(DateTime.now().add(const Duration(days: 7)));
   }
 
   Future<String> _scanBarcode() async {
     final result = await FlutterBarcodeScanner.scanBarcode(
-        "#${Theme
-            .of(context)
-            .primaryColor
-            .value
-            .toRadixString(16)}",
+        "#${Theme.of(context).primaryColor.value.toRadixString(16)}",
         "Cancel",
         false,
         ScanMode.BARCODE);
@@ -51,45 +47,61 @@ class _CreateItemPageState extends State<CreateItemPage> {
       showDialog(
         barrierDismissible: false,
         context: context,
-        builder: (context) =>
-            AlertDialog(
-              title: const Text("Product not found"),
-              content: const SingleChildScrollView(
-                child: Text(
-                  "Product information not found for this item. Please enter manually.",
-                ),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("OK"))
-              ],
+        builder: (context) => AlertDialog(
+          title: const Text("Product not found"),
+          content: const SingleChildScrollView(
+            child: Text(
+              "Product information not found for this item. Please enter manually.",
             ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"))
+          ],
+        ),
       );
     }
   }
 
   void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
-      Loader(context).startLoading();
       await PantryService.createPantryItem(
           CreatePantryItem(name: _nameController.text));
 
       if (mounted) {
-        Loader(context).stopLoading();
         Provider.of<PantryStore>(context, listen: false).refreshPantryItems();
         Navigator.of(context).pop();
       }
     }
   }
 
-  void _expiryDateClick() {
-    showDatePicker(context: context,
-        initialDate: DateTime.now().add(Duration(days: 7)),
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 365 * 5)));
+  String _formatDate(DateTime dateTime) {
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    final dateDiff = dateTime.difference(startOfToday).inDays;
+    final dayLabel = dateDiff == 1 ? "day" : "days";
+
+    return "${_formatter.format(dateTime)} (in $dateDiff $dayLabel)";
+  }
+
+  void _expiryDateClick() async {
+    final result = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(const Duration(days: 7)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365 * 5),
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        _expiryDateController.text = _formatDate(result);
+      });
+    }
   }
 
   @override

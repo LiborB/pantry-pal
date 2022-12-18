@@ -1,10 +1,14 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type PantryItem struct {
 	gorm.Model
-	Name    string
-	UserId  string
-	Barcode *string
+	Name       string
+	UserId     string
+	Barcode    *string
+	ExpiryDate time.Time
 }

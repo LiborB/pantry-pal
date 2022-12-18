@@ -15,7 +15,8 @@ func AddRoutes(r *gin.Engine) {
 }
 
 type addItemPayload struct {
-	Name string `json:"name"`
+	Name       string `json:"name"`
+	ExpiryDate string `json:"expiryDate"`
 }
 
 func addItem(c *gin.Context) {

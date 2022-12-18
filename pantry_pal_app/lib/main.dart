@@ -23,7 +23,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => AppStore()),
       ChangeNotifierProvider(create: (context) => PantryStore())
     ],
-    child: const MyApp(),
+    child: const MaterialApp(home: MyApp()),
   ));
 }
 
