@@ -50,7 +50,8 @@ func getItems(c *gin.Context) {
 		UserId: userId,
 	}).Find(&items)
 
-	var res []pantryItem
+	res := []pantryItem{}
+
 	for _, item := range items {
 		res = append(res, pantryItem{
 			ID:        int(item.ID),
