@@ -4,6 +4,7 @@ import 'package:pantry_pal/features/pantry/api_service.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/shared/loader.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class CreateItemPage extends StatefulWidget {
   const CreateItemPage({super.key});
@@ -13,13 +14,25 @@ class CreateItemPage extends StatefulWidget {
 }
 
 class _CreateItemPageState extends State<CreateItemPage> {
-  final nameController = TextEditingController();
-  ProductInformationResponse? _productInfo;
+  final _nameController = TextEditingController();
+  final _formatter = DateFormat("dd/MM/yyyy");
+  final _expiryDateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<String> scanBarcode() async {
+  @override
+  initState() {
+    super.initState();
+
+    _expiryDateController.text = _formatter.format(DateTime.now().add(const Duration(days: 7)));
+  }
+
+  Future<String> _scanBarcode() async {
     final result = await FlutterBarcodeScanner.scanBarcode(
-        "#${Theme.of(context).primaryColor.value.toRadixString(16)}",
+        "#${Theme
+            .of(context)
+            .primaryColor
+            .value
+            .toRadixString(16)}",
         "Cancel",
         false,
         ScanMode.BARCODE);
@@ -27,42 +40,42 @@ class _CreateItemPageState extends State<CreateItemPage> {
     return result;
   }
 
-  Future fetchProductInformation(String barcode) async {
+  Future _fetchProductInformation(String barcode) async {
     try {
       final info = await PantryService.getProductInformation(barcode);
 
       setState(() {
-        nameController.text = info.product.productName;
-        _productInfo = info;
+        _nameController.text = info.product.productName;
       });
     } catch (error) {
       showDialog(
         barrierDismissible: false,
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Product not found"),
-          content: const SingleChildScrollView(
-            child: Text(
-              "Product information not found for this item. Please enter manually.",
+        builder: (context) =>
+            AlertDialog(
+              title: const Text("Product not found"),
+              content: const SingleChildScrollView(
+                child: Text(
+                  "Product information not found for this item. Please enter manually.",
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"))
+              ],
             ),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("OK"))
-          ],
-        ),
       );
     }
   }
 
-  void createItemClick() async {
+  void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
       Loader(context).startLoading();
       await PantryService.createPantryItem(
-          CreatePantryItem(name: nameController.text));
+          CreatePantryItem(name: _nameController.text));
 
       if (mounted) {
         Loader(context).stopLoading();
@@ -70,6 +83,13 @@ class _CreateItemPageState extends State<CreateItemPage> {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  void _expiryDateClick() {
+    showDatePicker(context: context,
+        initialDate: DateTime.now().add(Duration(days: 7)),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 365 * 5)));
   }
 
   @override
@@ -93,7 +113,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     final barcode = "9400547001811";
 
                     if (barcode != "-1") {
-                      await fetchProductInformation(barcode);
+                      await _fetchProductInformation(barcode);
                     }
 
                     if (mounted) {
@@ -114,10 +134,22 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     }
                     return null;
                   },
-                  controller: nameController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Name",
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: TextFormField(
+                    readOnly: true,
+                    controller: _expiryDateController,
+                    onTap: _expiryDateClick,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Expiry Date",
+                    ),
                   ),
                 ),
                 const Spacer(
@@ -125,7 +157,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    createItemClick();
+                    _createItemClick();
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
