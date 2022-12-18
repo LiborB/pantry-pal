@@ -2,15 +2,17 @@ package main
 
 import (
 	"context"
-	firebase "firebase.google.com/go"
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
+	"os"
 	"pantry_pal_backend/database"
 	"pantry_pal_backend/pantry"
 	"pantry_pal_backend/product"
 	"strings"
+
+	firebase "firebase.google.com/go"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -34,7 +36,7 @@ func main() {
 	pantry.AddRoutes(r)
 	product.AddRoutes(r)
 
-	err = r.Run("localhost:8080")
+	err = r.Run(os.Getenv("URL"))
 
 	if err != nil {
 		log.Fatal(err)
