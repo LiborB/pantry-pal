@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pantry_pal/shared/api_http.dart';
+import 'package:pantry_pal/shared/date-extension.dart';
 
 part 'api_service.g.dart';
 
@@ -31,18 +32,18 @@ class ProductInformationResponse {
 
 class CreatePantryItem {
   String name;
-  DateTime? expiryDate;
+  DateTime expiryDate;
 
-  CreatePantryItem({required this.name, this.expiryDate});
+  CreatePantryItem({required this.name, required this.expiryDate});
 }
 
 @JsonSerializable()
 class PantryItem {
   int id;
   String name;
-  DateTime? expiryDate;
+  DateTime expiryDate;
 
-  PantryItem({required this.id, required this.name, this.expiryDate});
+  PantryItem({required this.id, required this.name, required this.expiryDate});
 
   factory PantryItem.fromJson(Map<String, dynamic> json) =>
       _$PantryItemFromJson(json);
@@ -57,7 +58,8 @@ class PantryService {
   }
 
   static Future createPantryItem(CreatePantryItem item) async {
-    await ApiHttp.post("/pantry", {"name": item.name});
+    await ApiHttp.post("/pantry",
+        {"name": item.name, "expiryDate": item.expiryDate});
   }
 
   static Future<List<PantryItem>> getPantryItems() async {

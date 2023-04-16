@@ -2,17 +2,16 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
-	"os"
-	"pantry_pal_backend/database"
-	"pantry_pal_backend/pantry"
-	"pantry_pal_backend/product"
-	"strings"
-
 	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"log"
+	"net/http"
+	"os"
+	"pantry_pal_backend/domain/database"
+	"pantry_pal_backend/domain/pantry"
+	"pantry_pal_backend/domain/product"
+	"strings"
 )
 
 func main() {

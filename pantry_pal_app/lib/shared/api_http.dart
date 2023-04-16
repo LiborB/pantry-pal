@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:retrofit/http.dart';
 
+part "api_http.g.dart";
+
+@RestApi()
 abstract class ApiHttp {
+  factory ApiHttp(Dio dio, {String baseUrl}) = _ApiHttp;
   static Future<Dio> _getClient() async {
     var token = await FirebaseAuth.instance.currentUser?.getIdToken();
 

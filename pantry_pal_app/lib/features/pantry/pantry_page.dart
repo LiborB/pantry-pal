@@ -62,10 +62,7 @@ class _PantryPageState extends State<PantryPage> {
                         ),
                         Column(
                           children: [
-                            Text(
-                              "exp: 18/06/2022",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
+
                             if (store.pantryItems[i].expiryDate != null)
                               Text(
                                 "exp ${store.pantryItems[i].expiryDate.toString()}",

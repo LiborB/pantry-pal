@@ -31,14 +31,12 @@ Map<String, dynamic> _$ProductInformationResponseToJson(
 PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem(
       id: json['id'] as int,
       name: json['name'] as String,
-      expiryDate: json['expiryDate'] == null
-          ? null
-          : DateTime.parse(json['expiryDate'] as String),
+      expiryDate: DateTime.parse(json['expiryDate'] as String),
     );
 
 Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'expiryDate': instance.expiryDate?.toIso8601String(),
+      'expiryDate': instance.expiryDate.toIso8601String(),
     };

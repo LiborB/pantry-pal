@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pantry_pal/features/pantry/api_service.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
-import 'package:pantry_pal/shared/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -18,12 +19,16 @@ class _CreateItemPageState extends State<CreateItemPage> {
   final _formatter = DateFormat("dd/MM/yyyy");
   final _expiryDateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late DateTime _expiryDate;
 
   @override
   initState() {
     super.initState();
 
-    _expiryDateController.text = _formatDate(DateTime.now().add(const Duration(days: 7)));
+    final plusSevenDays = DateTime.now().add(const Duration(days: 7));
+
+    _expiryDateController.text = _formatDate(plusSevenDays);
+    _expiryDate = plusSevenDays;
   }
 
   Future<String> _scanBarcode() async {
@@ -59,7 +64,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text("OK"))
+                child: const Text("OK")),
           ],
         ),
       );
@@ -68,12 +73,34 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
   void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
-      await PantryService.createPantryItem(
-          CreatePantryItem(name: _nameController.text));
-
-      if (mounted) {
-        Provider.of<PantryStore>(context, listen: false).refreshPantryItems();
-        Navigator.of(context).pop();
+      try {
+        await PantryService.createPantryItem(CreatePantryItem(
+            name: _nameController.text, expiryDate: _expiryDate));
+        if (mounted) {
+          Provider.of<PantryStore>(context, listen: false).refreshPantryItems();
+          Navigator.of(context).pop();
+        }
+      } catch (error) {
+        log(error.toString());
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Error"),
+            content: const SingleChildScrollView(
+              child: Text(
+                "An error occurred while creating the item. Please try again.",
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("OK")),
+            ],
+          ),
+        );
       }
     }
   }
@@ -100,6 +127,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
     if (result != null) {
       setState(() {
         _expiryDateController.text = _formatDate(result);
+        _expiryDate = result;
       });
     }
   }
@@ -119,17 +147,11 @@ class _CreateItemPageState extends State<CreateItemPage> {
               children: [
                 OutlinedButton(
                   onPressed: () async {
-                    Loader(context).startLoading();
-
                     // final barcode = await scanBarcode();
-                    final barcode = "9400547001811";
+                    final barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);
-                    }
-
-                    if (mounted) {
-                      Loader(context).stopLoading();
                     }
                   },
                   style: OutlinedButton.styleFrom(
