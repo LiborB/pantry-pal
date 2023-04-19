@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/pantry/create_item_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/shared/date_extension.dart';
 import 'package:provider/provider.dart';
 
 class PantryPage extends StatefulWidget {
@@ -40,7 +41,9 @@ class _PantryPageState extends State<PantryPage> {
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.outline,
                   ),
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(12),
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -62,12 +65,10 @@ class _PantryPageState extends State<PantryPage> {
                         ),
                         Column(
                           children: [
-
-                            if (store.pantryItems[i].expiryDate != null)
-                              Text(
-                                "exp ${store.pantryItems[i].expiryDate.toString()}",
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
+                            Text(
+                              "exp ${store.pantryItems[i].expiryDate.toDisplay()}",
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
                           ],
                         )
                       ],

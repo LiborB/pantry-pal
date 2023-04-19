@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:pantry_pal/features/pantry/api_service.dart';
+import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -43,12 +43,13 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
   Future _fetchProductInformation(String barcode) async {
     try {
-      final info = await PantryService.getProductInformation(barcode);
+      final info = await ApiHttp().getProductInformation(barcode);
 
       setState(() {
         _nameController.text = info.product.productName;
       });
     } catch (error) {
+      print(error);
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -74,7 +75,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
   void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await PantryService.createPantryItem(CreatePantryItem(
+        await ApiHttp().createPantryItem(CreatePantryItem(
             name: _nameController.text, expiryDate: _expiryDate));
         if (mounted) {
           Provider.of<PantryStore>(context, listen: false).refreshPantryItems();

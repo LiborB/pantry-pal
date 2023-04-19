@@ -6,6 +6,7 @@ import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/shared/globals.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -40,10 +41,10 @@ class _MyAppState extends State {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
-        snapshot.data?.getIdToken().then((value) => print(value));
         if (snapshot.data == null) {
           return const LoginPage();
         } else {
+          snapshot.data?.getIdToken().then((token) => currentUserToken = token);
           return Scaffold(
             body: _pages[_currentIndex],
             bottomNavigationBar: BottomNavigationBar(

@@ -2,7 +2,6 @@ package database
 
 import (
 	"gorm.io/gorm"
-	"time"
 )
 
 type PantryItem struct {
@@ -10,5 +9,5 @@ type PantryItem struct {
 	Name       string
 	UserId     string
 	Barcode    *string
-	ExpiryDate time.Time
+	ExpiryDate int
 }
