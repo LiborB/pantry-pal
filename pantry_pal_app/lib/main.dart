@@ -16,8 +16,6 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // await FirebaseAuth.instance.signOut();
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AppStore()),

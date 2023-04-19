@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
     } catch (e) {
-      showDialog(context: context, builder: ((context) => Text("Hello")));
+      showDialog(context: context, builder: ((context) => Text(e.toString())));
     }
   }
 
