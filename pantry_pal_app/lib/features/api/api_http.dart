@@ -21,7 +21,7 @@ abstract class ApiHttp {
   }
 
   @GET("/product/detail")
-  Future<ProductInformationResponse> getProductInformation(String barcode);
+  Future<Product> getProductInformation(@Query("barcode") String barcode);
 
   @POST("/pantry")
   Future createPantryItem(@Body() CreatePantryItem item);
@@ -32,26 +32,12 @@ abstract class ApiHttp {
 
 @JsonSerializable()
 class Product {
-  @JsonKey(name: "product_name")
-  String productName;
+  String name;
 
-  @JsonKey(name: "image_url")
-  String imageUrl;
-
-  Product({required this.productName, required this.imageUrl});
+  Product({required this.name});
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
-}
-
-@JsonSerializable()
-class ProductInformationResponse {
-  Product product;
-
-  ProductInformationResponse({required this.product});
-
-  factory ProductInformationResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProductInformationResponseFromJson(json);
 }
 
 @JsonSerializable()
@@ -59,8 +45,14 @@ class ProductInformationResponse {
 class CreatePantryItem {
   String name;
   DateTime expiryDate;
+  bool updateLocalItem;
+  String barcode;
 
-  CreatePantryItem({required this.name, required this.expiryDate});
+  CreatePantryItem(
+      {required this.name,
+      required this.expiryDate,
+      required this.updateLocalItem,
+      required this.barcode});
 
   Map<String, dynamic> toJson() => _$CreatePantryItemToJson(this);
 }

@@ -7,25 +7,11 @@ part of 'api_http.dart';
 // **************************************************************************
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
-      productName: json['product_name'] as String,
-      imageUrl: json['image_url'] as String,
+      name: json['name'] as String,
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
-      'product_name': instance.productName,
-      'image_url': instance.imageUrl,
-    };
-
-ProductInformationResponse _$ProductInformationResponseFromJson(
-        Map<String, dynamic> json) =>
-    ProductInformationResponse(
-      product: Product.fromJson(json['product'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$ProductInformationResponseToJson(
-        ProductInformationResponse instance) =>
-    <String, dynamic>{
-      'product': instance.product,
+      'name': instance.name,
     };
 
 CreatePantryItem _$CreatePantryItemFromJson(Map<String, dynamic> json) =>
@@ -33,12 +19,16 @@ CreatePantryItem _$CreatePantryItemFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       expiryDate:
           const CustomDateTimeConverter().fromJson(json['expiryDate'] as int),
+      updateLocalItem: json['updateLocalItem'] as bool? ?? false,
+      barcode: json['barcode'] as String? ?? "",
     );
 
 Map<String, dynamic> _$CreatePantryItemToJson(CreatePantryItem instance) =>
     <String, dynamic>{
       'name': instance.name,
       'expiryDate': const CustomDateTimeConverter().toJson(instance.expiryDate),
+      'updateLocalItem': instance.updateLocalItem,
+      'barcode': instance.barcode,
     };
 
 PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem(
@@ -72,13 +62,13 @@ class _ApiHttp implements ApiHttp {
   String? baseUrl;
 
   @override
-  Future<ProductInformationResponse> getProductInformation(barcode) async {
+  Future<Product> getProductInformation(barcode) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'barcode': barcode};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ProductInformationResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Product>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -90,7 +80,7 @@ class _ApiHttp implements ApiHttp {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ProductInformationResponse.fromJson(_result.data!);
+    final value = Product.fromJson(_result.data!);
     return value;
   }
 

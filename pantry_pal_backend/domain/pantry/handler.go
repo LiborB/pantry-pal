@@ -1,6 +1,7 @@
 package pantry
 
 import (
+	"gorm.io/gorm/clause"
 	"log"
 	"net/http"
 	"pantry_pal_backend/domain/database"
@@ -16,8 +17,10 @@ func AddRoutes(r *gin.Engine) {
 }
 
 type addItemPayload struct {
-	Name       string `json:"name"`
-	ExpiryDate int    `json:"expiryDate"`
+	Name            string `json:"name"`
+	ExpiryDate      int    `json:"expiryDate"`
+	UpdateLocalItem bool   `json:"updateLocalItem"`
+	Barcode         string `json:"barcode"`
 }
 
 func addItem(c *gin.Context) {
@@ -38,6 +41,14 @@ func addItem(c *gin.Context) {
 		UserId:     c.GetString("userId"),
 		ExpiryDate: body.ExpiryDate,
 	})
+
+	if body.UpdateLocalItem && body.Barcode != "" {
+		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
+			Barcode: body.Barcode,
+			UserId:  c.GetString("userId"),
+			Name:    body.Name,
+		})
+	}
 
 	c.Status(http.StatusNoContent)
 }

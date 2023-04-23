@@ -18,7 +18,11 @@ class _CreateItemPageState extends State<CreateItemPage> {
   final _nameController = TextEditingController();
   final _formatter = DateFormat("dd/MM/yyyy");
   final _expiryDateController = TextEditingController();
+  var _barcode = "";
   final _formKey = GlobalKey<FormState>();
+  var _updateLocalItem = false;
+  var _isLoadingItem = false;
+
   late DateTime _expiryDate;
 
   @override
@@ -43,13 +47,18 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
   Future _fetchProductInformation(String barcode) async {
     try {
+      setState(() {
+        _isLoadingItem = true;
+      });
       final info = await ApiHttp().getProductInformation(barcode);
 
       setState(() {
-        _nameController.text = info.product.productName;
+        _nameController.text = info.name;
+        _barcode = barcode;
       });
     } catch (error) {
-      print(error);
+      log(error.toString());
+
       showDialog(
         barrierDismissible: false,
         context: context,
@@ -69,14 +78,24 @@ class _CreateItemPageState extends State<CreateItemPage> {
           ],
         ),
       );
+    } finally {
+      setState(() {
+        _isLoadingItem = false;
+      });
     }
   }
 
   void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await ApiHttp().createPantryItem(CreatePantryItem(
-            name: _nameController.text, expiryDate: _expiryDate));
+        await ApiHttp().createPantryItem(
+          CreatePantryItem(
+            name: _nameController.text,
+            expiryDate: _expiryDate,
+            updateLocalItem: _updateLocalItem,
+            barcode: _barcode,
+          ),
+        );
         if (mounted) {
           Provider.of<PantryStore>(context, listen: false).refreshPantryItems();
           Navigator.of(context).pop();
@@ -156,8 +175,26 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     }
                   },
                   style: OutlinedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40)),
-                  child: const Text("Scan Item"),
+                      minimumSize: const Size.fromHeight(48)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (_isLoadingItem)
+                        SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ))
+                      else
+                        Icon(
+                          Icons.photo_camera,
+                          size: 20,
+                        ),
+                      const SizedBox(width: 6),
+                      const Text("Scan Item"),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 24,
@@ -185,6 +222,22 @@ class _CreateItemPageState extends State<CreateItemPage> {
                       border: OutlineInputBorder(),
                       labelText: "Expiry Date",
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: SwitchListTile(
+                    dense: true,
+                    contentPadding: const EdgeInsets.all(0),
+                    value: _updateLocalItem,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _updateLocalItem = newValue;
+                      });
+                    },
+                    title: const Text("Update barcode information"),
+                    subtitle: const Text(
+                        "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
                   ),
                 ),
                 const Spacer(

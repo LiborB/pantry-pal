@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"pantry_pal_backend/domain/database"
 )
 
 func AddRoutes(r *gin.Engine) {
@@ -22,6 +23,10 @@ type productResponse struct {
 	} `json:"product"`
 	Barcode string `json:"code"`
 	Status  int    `json:"status"`
+}
+
+type productInfo struct {
+	Name string `json:"name"`
 }
 
 func productDetail(c *gin.Context) {
@@ -54,7 +59,21 @@ func productDetail(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, body)
+	customItem := database.PantryItemCustomised{
+		UserId:  c.GetString("userId"),
+		Barcode: barcode,
+	}
+
+	result := database.DB.First(&customItem)
+	var info productInfo
+
+	if result.Error == nil {
+		info = productInfo{Name: customItem.Name}
+	} else {
+		info = productInfo{Name: body.Product.ProductName}
+	}
+
+	c.JSON(http.StatusOK, info)
 }
 
 func getJson[T any](body io.ReadCloser) (*T, error) {
