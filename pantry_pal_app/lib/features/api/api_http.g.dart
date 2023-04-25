@@ -19,8 +19,8 @@ CreatePantryItem _$CreatePantryItemFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       expiryDate:
           const CustomDateTimeConverter().fromJson(json['expiryDate'] as int),
-      updateLocalItem: json['updateLocalItem'] as bool? ?? false,
-      barcode: json['barcode'] as String? ?? "",
+      updateLocalItem: json['updateLocalItem'] as bool,
+      barcode: json['barcode'] as String,
     );
 
 Map<String, dynamic> _$CreatePantryItemToJson(CreatePantryItem instance) =>
@@ -36,6 +36,8 @@ PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem(
       name: json['name'] as String,
       expiryDate:
           const CustomDateTimeConverter().fromJson(json['expiryDate'] as int),
+      createdAt:
+          const CustomDateTimeConverter().fromJson(json['createdAt'] as int),
     );
 
 Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
@@ -43,6 +45,7 @@ Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
       'id': instance.id,
       'name': instance.name,
       'expiryDate': const CustomDateTimeConverter().toJson(instance.expiryDate),
+      'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
     };
 
 // **************************************************************************

@@ -175,19 +175,20 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     }
                   },
                   style: OutlinedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(48)),
+                    minimumSize: const Size.fromHeight(48),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (_isLoadingItem)
-                        SizedBox(
+                        const SizedBox(
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                             ))
                       else
-                        Icon(
+                        const Icon(
                           Icons.photo_camera,
                           size: 20,
                         ),
@@ -243,7 +244,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 const Spacer(
                   flex: 1,
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     _createItemClick();
                   },

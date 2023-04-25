@@ -63,8 +63,13 @@ class PantryItem {
   int id;
   String name;
   DateTime expiryDate;
+  DateTime createdAt;
 
-  PantryItem({required this.id, required this.name, required this.expiryDate});
+  PantryItem(
+      {required this.id,
+      required this.name,
+      required this.expiryDate,
+      required this.createdAt});
 
   factory PantryItem.fromJson(Map<String, dynamic> json) =>
       _$PantryItemFromJson(json);

@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/ios/Podfile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pantry/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/product/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/product/handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -22,7 +22,10 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => AppStore()),
       ChangeNotifierProvider(create: (context) => PantryStore())
     ],
-    child: const MaterialApp(home: MyApp()),
+    child: MaterialApp(
+      home: const MyApp(),
+      theme: ThemeData(useMaterial3: true),
+    ),
   ));
 }
 
@@ -68,6 +71,7 @@ class _MyAppState extends State {
     return MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.indigo,
+          useMaterial3: true,
         ),
         home: _getLandingPage());
   }

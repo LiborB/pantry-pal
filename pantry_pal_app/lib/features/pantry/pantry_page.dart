@@ -13,8 +13,6 @@ class PantryPage extends StatefulWidget {
 }
 
 class _PantryPageState extends State<PantryPage> {
-  var isDialOpen = ValueNotifier(false);
-
   @override
   void initState() {
     super.initState();
@@ -28,6 +26,35 @@ class _PantryPageState extends State<PantryPage> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Pantry"),
+            actions: [
+              PopupMenuButton<PageSort>(
+                  initialValue: store.sort,
+                  onSelected: (value) {
+                    store.setPageSort(value);
+                  },
+                  itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: PageSort.dateAddedDesc,
+                          child: Text("Recently Added"),
+                        ),
+                        const PopupMenuItem(
+                          value: PageSort.nameAsc,
+                          child: Text("Name"),
+                        ),
+                        const PopupMenuItem(
+                          value: PageSort.expiryDesc,
+                          child: Text("Expiry Date"),
+                        )
+                      ],
+                  child: IconButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStatePropertyAll(
+                          Theme.of(context).colorScheme.onBackground),
+                    ),
+                    onPressed: null,
+                    icon: const Icon(Icons.sort),
+                  )),
+            ],
           ),
           body: ListView.separated(
             separatorBuilder: (context, i) {
@@ -36,18 +63,15 @@ class _PantryPageState extends State<PantryPage> {
             itemCount: store.pantryItems.length,
             itemBuilder: (context, i) {
               return Card(
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 elevation: 0,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 12, right: 12, top: 24, bottom: 24),
+                    left: 12,
+                    right: 12,
+                    top: 16,
+                    bottom: 16,
+                  ),
                   child: SizedBox(
                     child: Row(
                       children: [
