@@ -24,7 +24,10 @@ abstract class ApiHttp {
   Future<Product> getProductInformation(@Query("barcode") String barcode);
 
   @POST("/pantry")
-  Future createPantryItem(@Body() CreatePantryItem item);
+  Future createPantryItem(@Body() UpdatePantryItem item);
+
+  @PATCH("/pantry")
+  Future updatePantryItem(@Body() UpdatePantryItem item);
 
   @GET("/pantry")
   Future<List<PantryItem>> getPantryItems();
@@ -42,19 +45,22 @@ class Product {
 
 @JsonSerializable()
 @CustomDateTimeConverter()
-class CreatePantryItem {
+class UpdatePantryItem {
+  int id;
   String name;
   DateTime expiryDate;
-  bool updateLocalItem;
   String barcode;
+  bool updateLocalItem;
 
-  CreatePantryItem(
-      {required this.name,
-      required this.expiryDate,
-      required this.updateLocalItem,
-      required this.barcode});
+  UpdatePantryItem({
+    required this.id,
+    required this.name,
+    required this.expiryDate,
+    required this.barcode,
+    required this.updateLocalItem,
+  });
 
-  Map<String, dynamic> toJson() => _$CreatePantryItemToJson(this);
+  toJson() => _$UpdatePantryItemToJson(this);
 }
 
 @JsonSerializable()
@@ -64,13 +70,18 @@ class PantryItem {
   String name;
   DateTime expiryDate;
   DateTime createdAt;
+  String barcode;
 
-  PantryItem(
-      {required this.id,
-      required this.name,
-      required this.expiryDate,
-      required this.createdAt});
+  PantryItem({
+    required this.id,
+    required this.name,
+    required this.expiryDate,
+    required this.createdAt,
+    required this.barcode,
+  });
 
   factory PantryItem.fromJson(Map<String, dynamic> json) =>
       _$PantryItemFromJson(json);
+
+  toJson() => _$PantryItemToJson(this);
 }

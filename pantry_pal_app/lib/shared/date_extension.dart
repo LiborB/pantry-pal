@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 extension CustomFormat on DateTime {
   String toDisplay() {

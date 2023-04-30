@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class CreateItemPage extends StatefulWidget {
-  const CreateItemPage({super.key});
+  final PantryItem? item;
+
+  const CreateItemPage({super.key, this.item});
 
   @override
   State<StatefulWidget> createState() => _CreateItemPageState();
@@ -31,16 +33,24 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
     final plusSevenDays = DateTime.now().add(const Duration(days: 7));
 
-    _expiryDateController.text = _formatDate(plusSevenDays);
-    _expiryDate = plusSevenDays;
+    if (widget.item != null) {
+      _expiryDateController.text = _formatDate(widget.item!.expiryDate);
+      _expiryDate = widget.item!.expiryDate;
+      _nameController.text = widget.item!.name;
+      _barcode = widget.item!.barcode;
+    } else {
+      _expiryDateController.text = _formatDate(plusSevenDays);
+      _expiryDate = plusSevenDays;
+    }
   }
 
   Future<String> _scanBarcode() async {
     final result = await FlutterBarcodeScanner.scanBarcode(
-        "#${Theme.of(context).primaryColor.value.toRadixString(16)}",
-        "Cancel",
-        false,
-        ScanMode.BARCODE);
+      "#${Theme.of(context).primaryColor.value.toRadixString(16)}",
+      "Cancel",
+      false,
+      ScanMode.BARCODE,
+    );
 
     return result;
   }
@@ -88,14 +98,27 @@ class _CreateItemPageState extends State<CreateItemPage> {
   void _createItemClick() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await ApiHttp().createPantryItem(
-          CreatePantryItem(
+        if (widget.item == null) {
+          await ApiHttp().createPantryItem(UpdatePantryItem(
+            id: 0,
             name: _nameController.text,
             expiryDate: _expiryDate,
             updateLocalItem: _updateLocalItem,
             barcode: _barcode,
-          ),
-        );
+          ));
+        } else {
+          final item = widget.item!;
+          await ApiHttp().updatePantryItem(
+            UpdatePantryItem(
+              id: item.id,
+              name: _nameController.text,
+              expiryDate: _expiryDate,
+              barcode: _barcode,
+              updateLocalItem: _updateLocalItem,
+            ),
+          );
+        }
+
         if (mounted) {
           Provider.of<PantryStore>(context, listen: false).refreshPantryItems();
           Navigator.of(context).pop();
@@ -156,7 +179,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Item"),
+        title: Text(widget.item == null ? "Add Item" : "Edit Item"),
       ),
       body: Container(
         margin: const EdgeInsets.all(24),
@@ -251,7 +274,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                   ),
-                  child: const Text("Add Item"),
+                  child: Text(widget.item == null ? "Add" : "Update"),
                 )
               ],
             ),

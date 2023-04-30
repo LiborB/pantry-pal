@@ -23,6 +23,7 @@ func main() {
 	database.InitDatabase()
 
 	r := gin.Default()
+	r.Use(errorHandler)
 
 	setupAuth(r)
 
@@ -72,4 +73,12 @@ func setupAuth(engine *gin.Engine) {
 
 		c.Next()
 	})
+}
+
+func errorHandler(c *gin.Context) {
+	c.Next()
+
+	for _, err := range c.Errors {
+		log.Println(err.Error())
+	}
 }

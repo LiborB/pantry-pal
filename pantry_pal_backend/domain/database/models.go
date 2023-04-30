@@ -7,10 +7,10 @@ import (
 
 type PantryItem struct {
 	gorm.Model
-	Name       string
-	UserId     string
-	Barcode    *string
-	ExpiryDate int
+	Name       string `json:"name"`
+	UserId     string `json:"user_id"`
+	Barcode    string `json:"barcode"`
+	ExpiryDate int    `json:"expiry_date"`
 }
 
 type PantryItemCustomised struct {

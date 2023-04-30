@@ -9,7 +9,11 @@
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/shared/date_extension.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/shared/date_extension.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/database/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pantry/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

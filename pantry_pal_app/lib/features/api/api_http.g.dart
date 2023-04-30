@@ -14,21 +14,23 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'name': instance.name,
     };
 
-CreatePantryItem _$CreatePantryItemFromJson(Map<String, dynamic> json) =>
-    CreatePantryItem(
+UpdatePantryItem _$UpdatePantryItemFromJson(Map<String, dynamic> json) =>
+    UpdatePantryItem(
+      id: json['id'] as int,
       name: json['name'] as String,
       expiryDate:
           const CustomDateTimeConverter().fromJson(json['expiryDate'] as int),
-      updateLocalItem: json['updateLocalItem'] as bool,
       barcode: json['barcode'] as String,
+      updateLocalItem: json['updateLocalItem'] as bool,
     );
 
-Map<String, dynamic> _$CreatePantryItemToJson(CreatePantryItem instance) =>
+Map<String, dynamic> _$UpdatePantryItemToJson(UpdatePantryItem instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'expiryDate': const CustomDateTimeConverter().toJson(instance.expiryDate),
-      'updateLocalItem': instance.updateLocalItem,
       'barcode': instance.barcode,
+      'updateLocalItem': instance.updateLocalItem,
     };
 
 PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem(
@@ -38,6 +40,7 @@ PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem(
           const CustomDateTimeConverter().fromJson(json['expiryDate'] as int),
       createdAt:
           const CustomDateTimeConverter().fromJson(json['createdAt'] as int),
+      barcode: json['barcode'] as String,
     );
 
 Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
@@ -46,6 +49,7 @@ Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
       'name': instance.name,
       'expiryDate': const CustomDateTimeConverter().toJson(instance.expiryDate),
       'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
+      'barcode': instance.barcode,
     };
 
 // **************************************************************************
@@ -96,6 +100,29 @@ class _ApiHttp implements ApiHttp {
     _data.addAll(item.toJson());
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
       method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/pantry',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> updatePantryItem(item) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(item.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
