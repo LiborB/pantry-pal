@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
@@ -43,10 +44,13 @@ class _MyAppState extends State {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
-        if (snapshot.data == null) {
+        final data = snapshot.data;
+        if (data == null) {
           return const LoginPage();
         } else {
-          snapshot.data?.getIdToken().then((token) => currentUserToken = token);
+          data.getIdToken().then((token) => currentUserToken = token);
+
+          FirebaseMessaging.instance.subscribeToTopic(data.uid);
           return Scaffold(
             body: const [
               HomePage(),
