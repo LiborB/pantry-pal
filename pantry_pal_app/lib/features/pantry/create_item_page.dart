@@ -190,8 +190,8 @@ class _CreateItemPageState extends State<CreateItemPage> {
               children: [
                 OutlinedButton(
                   onPressed: () async {
-                    // final barcode = await scanBarcode();
-                    final barcode = "3017620422003";
+                    final barcode = await _scanBarcode();
+                    // final barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);
@@ -248,7 +248,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     ),
                   ),
                 ),
-                Padding(
+                _barcode.isNotEmpty ? Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: SwitchListTile(
                     dense: true,
@@ -263,7 +263,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     subtitle: const Text(
                         "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
                   ),
-                ),
+                ) : const SizedBox.shrink(),
                 const Spacer(
                   flex: 1,
                 ),
@@ -275,7 +275,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     minimumSize: const Size.fromHeight(48),
                   ),
                   child: Text(widget.item == null ? "Add" : "Update"),
-                )
+                ),
               ],
             ),
           ),

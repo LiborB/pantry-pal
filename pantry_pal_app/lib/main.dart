@@ -38,7 +38,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State {
   int _currentIndex = 0;
-  final List<Widget> _pages = [const HomePage(), const PantryPage()];
 
   Widget _getLandingPage() {
     return StreamBuilder<User?>(
@@ -49,15 +48,18 @@ class _MyAppState extends State {
         } else {
           snapshot.data?.getIdToken().then((token) => currentUserToken = token);
           return Scaffold(
-            body: _pages[_currentIndex],
-            bottomNavigationBar: BottomNavigationBar(
-              onTap: (index) => setState(() {
+            body: const [
+              HomePage(),
+              PantryPage()
+            ][_currentIndex],
+            bottomNavigationBar: NavigationBar(
+              onDestinationSelected: (index) => setState(() {
                 _currentIndex = index;
               }),
-              currentIndex: _currentIndex,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.list), label: "Pantry")
+              selectedIndex: _currentIndex,
+              destinations: const [
+                NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+                NavigationDestination(icon: Icon(Icons.inventory), label: "Pantry")
               ],
             ),
           );

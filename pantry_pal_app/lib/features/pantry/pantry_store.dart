@@ -7,18 +7,18 @@ enum PageSort {
   dateAddedAsc,
   dateAddedDesc,
   nameAsc,
-  expiryDesc,
+  expiryAsc,
 }
 
 class PantryStore extends ChangeNotifier {
   PageSort _sort = PageSort.dateAddedDesc;
   PageSort get sort => _sort;
 
-  List<PantryItem> _pantryItems = [];
-  List<PantryItem> get pantryItems => _pantryItems;
+  List<PantryItem> _allPantryItems = [];
+  List<PantryItem> get allPantryItems => _allPantryItems;
 
   Future refreshPantryItems() async {
-    _pantryItems = await ApiHttp().getPantryItems();
+    _allPantryItems = await ApiHttp().getPantryItems();
     _sortItems();
 
     notifyListeners();
@@ -34,16 +34,16 @@ class PantryStore extends ChangeNotifier {
   _sortItems() {
     switch (sort) {
       case PageSort.dateAddedAsc:
-        _pantryItems.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        _allPantryItems.sort((a, b) => a.createdAt.compareTo(b.createdAt));
         break;
       case PageSort.dateAddedDesc:
-        _pantryItems.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        _allPantryItems.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         break;
       case PageSort.nameAsc:
-        _pantryItems.sort((a, b) => a.name.compareTo(b.name));
+        _allPantryItems.sort((a, b) => a.name.compareTo(b.name));
         break;
-      case PageSort.expiryDesc:
-        _pantryItems.sort((a, b) => b.expiryDate.compareTo(a.expiryDate));
+      case PageSort.expiryAsc:
+        _allPantryItems.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
         break;
     }
   }

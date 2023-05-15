@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/pantry/create_item_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/features/pantry/pantry_search_bar.dart';
 import 'package:pantry_pal/shared/date_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _PantryPageState extends State<PantryPage> {
           appBar: AppBar(
             title: const Text("Pantry"),
             actions: [
+              const PantrySearchBar(),
               PopupMenuButton<PageSort>(
                   initialValue: store.sort,
                   onSelected: (value) {
@@ -45,7 +47,7 @@ class _PantryPageState extends State<PantryPage> {
                           child: Text("Name"),
                         ),
                         const PopupMenuItem(
-                          value: PageSort.expiryDesc,
+                          value: PageSort.expiryAsc,
                           child: Text("Expiry Date"),
                         )
                       ],
@@ -63,11 +65,11 @@ class _PantryPageState extends State<PantryPage> {
             separatorBuilder: (context, i) {
               return const SizedBox();
             },
-            itemCount: store.pantryItems.length,
+            itemCount: store.allPantryItems.length,
             itemBuilder: (context, i) {
               return ItemCard(
                 key: ValueKey(i),
-                item: store.pantryItems[i],
+                item: store.allPantryItems[i],
               );
             },
           ),

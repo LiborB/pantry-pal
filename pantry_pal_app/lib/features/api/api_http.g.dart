@@ -69,7 +69,7 @@ class _ApiHttp implements ApiHttp {
   String? baseUrl;
 
   @override
-  Future<Product> getProductInformation(barcode) async {
+  Future<Product> getProductInformation(String barcode) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'barcode': barcode};
     final _headers = <String, dynamic>{};
@@ -92,7 +92,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> createPantryItem(item) async {
+  Future<dynamic> createPantryItem(UpdatePantryItem item) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -115,7 +115,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> updatePantryItem(item) async {
+  Future<dynamic> updatePantryItem(UpdatePantryItem item) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
