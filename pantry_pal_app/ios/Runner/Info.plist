@@ -49,5 +49,7 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need to use the camera to scan barcodes and retrieving product information for it</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
