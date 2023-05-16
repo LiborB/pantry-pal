@@ -52,6 +52,7 @@ dependencies:
   dev: ^1.0.0
   retrofit_generator: ^6.0.0+2
   intl: ^0.18.1
+  firebase_crashlytics: ^3.3.0
 
 dev_dependencies:
   flutter_test:
