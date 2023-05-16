@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pantry_pal/features/pantry/pantry_page.dart';
 
 import '../api/api_http.dart';
 

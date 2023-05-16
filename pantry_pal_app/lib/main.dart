@@ -52,10 +52,7 @@ class _MyAppState extends State {
 
           FirebaseMessaging.instance.subscribeToTopic(data.uid);
           return Scaffold(
-            body: const [
-              HomePage(),
-              PantryPage()
-            ][_currentIndex],
+            body: const [HomePage(), PantryPage()][_currentIndex],
             bottomNavigationBar: NavigationBar(
               onDestinationSelected: (index) => setState(() {
                 _currentIndex = index;
@@ -63,7 +60,8 @@ class _MyAppState extends State {
               selectedIndex: _currentIndex,
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-                NavigationDestination(icon: Icon(Icons.inventory), label: "Pantry")
+                NavigationDestination(
+                    icon: Icon(Icons.inventory), label: "Pantry")
               ],
             ),
           );
