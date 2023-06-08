@@ -31,6 +31,21 @@ abstract class ApiHttp {
 
   @GET("/pantry")
   Future<List<PantryItem>> getPantryItems();
+
+  @GET("/user/members")
+  Future<List<HouseholdMember>> getHouseholdMembers();
+
+  @POST("/user/members")
+  Future addMember(@Body() AddMember body);
+}
+
+@JsonSerializable()
+class AddMember {
+  String email;
+
+  AddMember({required this.email});
+
+  toJson() => _$AddMemberToJson(this);
 }
 
 @JsonSerializable()
@@ -84,4 +99,23 @@ class PantryItem {
       _$PantryItemFromJson(json);
 
   toJson() => _$PantryItemToJson(this);
+}
+
+enum MemberStatus {
+  pending,
+  accepted,
+}
+
+@JsonSerializable()
+class HouseholdMember {
+  String userId;
+  String email;
+  MemberStatus status;
+
+  HouseholdMember({required this.userId, required this.email, required this.status});
+
+  factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
+      _$HouseholdMemberFromJson(json);
+
+  toJson() => _$HouseholdMemberToJson(this);
 }

@@ -6,6 +6,14 @@ part of 'api_http.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AddMember _$AddMemberFromJson(Map<String, dynamic> json) => AddMember(
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$AddMemberToJson(AddMember instance) => <String, dynamic>{
+      'email': instance.email,
+    };
+
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       name: json['name'] as String,
     );
@@ -50,6 +58,36 @@ Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
       'expiryDate': const CustomDateTimeConverter().toJson(instance.expiryDate),
       'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
       'barcode': instance.barcode,
+    };
+
+HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
+    HouseholdMember(
+      userId: json['userId'] as String,
+      email: json['email'] as String,
+      status: $enumDecode(_$MemberStatusEnumMap, json['status']),
+    );
+
+Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'email': instance.email,
+      'status': _$MemberStatusEnumMap[instance.status]!,
+    };
+
+const _$MemberStatusEnumMap = {
+  MemberStatus.pending: 'pending',
+  MemberStatus.accepted: 'accepted',
+};
+
+UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) => UserSettings(
+      members: (json['members'] as List<dynamic>)
+          .map((e) => HouseholdMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$UserSettingsToJson(UserSettings instance) =>
+    <String, dynamic>{
+      'members': instance.members,
     };
 
 // **************************************************************************
@@ -159,6 +197,52 @@ class _ApiHttp implements ApiHttp {
     var value = _result.data!
         .map((dynamic i) => PantryItem.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<UserSettings> getUserSettings() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserSettings>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/settings',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserSettings.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> addMember(AddMember body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user/members',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
     return value;
   }
 

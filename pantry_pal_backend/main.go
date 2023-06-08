@@ -11,6 +11,7 @@ import (
 	"pantry_pal_backend/domain/database"
 	"pantry_pal_backend/domain/pantry"
 	"pantry_pal_backend/domain/product"
+	"pantry_pal_backend/domain/user/members"
 	"strings"
 )
 
@@ -35,6 +36,7 @@ func main() {
 
 	pantry.AddRoutes(r)
 	product.AddRoutes(r)
+	members.AddRoutes(r)
 
 	err = r.Run(os.Getenv("URL"))
 

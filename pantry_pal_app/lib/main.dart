@@ -9,6 +9,8 @@ import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/features/settings/settings_page.dart';
+import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:pantry_pal/shared/globals.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +34,8 @@ Future main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AppStore()),
-      ChangeNotifierProvider(create: (context) => PantryStore())
+      ChangeNotifierProvider(create: (context) => PantryStore()),
+      ChangeNotifierProvider(create: (context) => SettingsStore())
     ],
     child: MaterialApp(
       home: const MyApp(),
@@ -63,7 +66,7 @@ class _MyAppState extends State {
 
           FirebaseMessaging.instance.subscribeToTopic(data.uid);
           return Scaffold(
-            body: const [HomePage(), PantryPage()][_currentIndex],
+            body: const [HomePage(), PantryPage(), SettingsPage()][_currentIndex],
             bottomNavigationBar: NavigationBar(
               onDestinationSelected: (index) => setState(() {
                 _currentIndex = index;
@@ -72,7 +75,9 @@ class _MyAppState extends State {
               destinations: const [
                 NavigationDestination(icon: Icon(Icons.home), label: "Home"),
                 NavigationDestination(
-                    icon: Icon(Icons.inventory), label: "Pantry")
+                    icon: Icon(Icons.inventory), label: "Pantry"),
+                NavigationDestination(
+                    icon: Icon(Icons.settings), label: "Settings")
               ],
             ),
           );

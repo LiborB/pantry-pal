@@ -26,7 +26,7 @@ func InitDatabase() {
 		log.Fatal("Failed to initialise database connection")
 	}
 
-	err = dbContext.AutoMigrate(&PantryItem{}, &PantryItemCustomised{})
+	err = dbContext.AutoMigrate(&PantryItem{}, &PantryItemCustomised{}, &Household{}, &HouseholdMember{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database objects %s", err)
 	}
