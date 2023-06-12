@@ -79,17 +79,6 @@ const _$MemberStatusEnumMap = {
   MemberStatus.accepted: 'accepted',
 };
 
-UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) => UserSettings(
-      members: (json['members'] as List<dynamic>)
-          .map((e) => HouseholdMember.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$UserSettingsToJson(UserSettings instance) =>
-    <String, dynamic>{
-      'members': instance.members,
-    };
-
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -201,25 +190,49 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<UserSettings> getUserSettings() async {
+  Future<dynamic> addUser() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<List<HouseholdMember>> getHouseholdMembers() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserSettings>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<HouseholdMember>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/user/settings',
+              '/user/members',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserSettings.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) => HouseholdMember.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

@@ -31,8 +31,13 @@ type Household struct {
 
 type HouseholdMember struct {
 	OwnerUserId  string `gorm:"primaryKey;autoIncrement:false"`
-	OwnerEmail   string
 	MemberUserId string `gorm:"primaryKey;autoIncrement:false"`
-	MemberEmail  string
+	OwnerUser    User   `gorm:"foreignKey:OwnerUserId;references:UserId"`
+	MemberUser   User   `gorm:"foreignKey:MemberUserId;references:UserId"`
 	Status       string
+}
+
+type User struct {
+	UserId string `gorm:"primaryKey;autoIncrement:false;uniqueIndex"`
+	Email  string `gorm:"primaryKey;autoIncrement:false;uniqueIndex"`
 }

@@ -9,7 +9,7 @@ import (
 func AddRoutes(r *gin.Engine) {
 	group := r.Group("/user/members")
 
-	group.GET("/user/members", getHouseholdMembers)
+	group.GET("/user/members", getMembers)
 }
 
 type householdMember struct {
@@ -18,7 +18,7 @@ type householdMember struct {
 	Status string `json:"status"`
 }
 
-func getHouseholdMembers(c *gin.Context) {
+func getMembers(c *gin.Context) {
 	userId := c.GetString("userId")
 
 	var household database.Household
@@ -29,8 +29,8 @@ func getHouseholdMembers(c *gin.Context) {
 	var members []householdMember
 	for _, member := range household.Members {
 		members = append(members, householdMember{
-			UserId: member.MemberUserId,
-			Email:  member.MemberEmail,
+			UserId: member.MemberUser.UserId,
+			Email:  member.MemberUser.Email,
 			Status: member.Status,
 		})
 	}

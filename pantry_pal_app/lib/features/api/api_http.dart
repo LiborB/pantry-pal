@@ -32,6 +32,9 @@ abstract class ApiHttp {
   @GET("/pantry")
   Future<List<PantryItem>> getPantryItems();
 
+  @POST("/user")
+  Future addUser();
+
   @GET("/user/members")
   Future<List<HouseholdMember>> getHouseholdMembers();
 

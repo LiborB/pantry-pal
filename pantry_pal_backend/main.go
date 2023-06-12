@@ -1,16 +1,16 @@
 package main
 
 import (
-	"context"
-	firebase "firebase.google.com/go"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"os"
+	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
 	"pantry_pal_backend/domain/pantry"
 	"pantry_pal_backend/domain/product"
+	"pantry_pal_backend/domain/user"
 	"pantry_pal_backend/domain/user/members"
 	"strings"
 )
@@ -37,6 +37,7 @@ func main() {
 	pantry.AddRoutes(r)
 	product.AddRoutes(r)
 	members.AddRoutes(r)
+	user.AddRoutes(r)
 
 	err = r.Run(os.Getenv("URL"))
 
@@ -46,13 +47,10 @@ func main() {
 }
 
 func setupAuth(engine *gin.Engine) {
-	app, err := firebase.NewApp(context.Background(), nil)
-	if err != nil {
-		log.Fatalf("error initializing app: %v\n", err)
-	}
+	common.SetupFirebase()
 
 	engine.Use(func(c *gin.Context) {
-		client, err := app.Auth(c)
+		client, err := common.FirebaseApp.Auth(c)
 		if err != nil {
 			log.Fatalf("error getting Auth client: %v\n", err)
 		}

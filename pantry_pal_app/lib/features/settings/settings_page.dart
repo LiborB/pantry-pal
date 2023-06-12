@@ -48,7 +48,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 icon: const Icon(Icons.add),
               ),
             ),
-            ..._buildMemberList(store.householdMembers.members),
+            ..._buildMemberList(store.householdMembers),
           ],
         ),
       );
