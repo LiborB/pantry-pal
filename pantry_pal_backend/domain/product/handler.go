@@ -7,13 +7,14 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/product")
+	group := r.Group("/product", common.HouseholdValidator)
 
-	group.GET("/detail", productDetail)
+	group.GET("/:householdId/detail", productDetail)
 }
 
 type productResponse struct {
@@ -31,6 +32,7 @@ type productInfo struct {
 
 func productDetail(c *gin.Context) {
 	barcode, exists := c.GetQuery("barcode")
+	householdId := c.GetInt("householdId")
 
 	if !exists {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -59,21 +61,20 @@ func productDetail(c *gin.Context) {
 		return
 	}
 
-	customItem := database.PantryItemCustomised{
-		UserId:  c.GetString("userId"),
-		Barcode: barcode,
-	}
+	var customizedItem *database.PantryItemCustomised
 
-	result := database.DB.First(&customItem)
-	var info productInfo
+	database.DB.Where(&database.PantryItemCustomised{
+		HouseholdID: householdId,
+		PantryItem: database.PantryItem{
+			Barcode: barcode,
+		},
+	}).First(&customizedItem)
 
-	if result.Error == nil {
-		info = productInfo{Name: customItem.Name}
+	if customizedItem == nil {
+		c.JSON(200, productInfo{Name: body.Product.ProductName})
 	} else {
-		info = productInfo{Name: body.Product.ProductName}
+		c.JSON(200, productInfo{Name: customizedItem.Name})
 	}
-
-	c.JSON(http.StatusOK, info)
 }
 
 func getJson[T any](body io.ReadCloser) (*T, error) {

@@ -1,20 +1,20 @@
 package pantry
 
 import (
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm/clause"
 	"log"
 	"net/http"
+	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
-
-	"github.com/gin-gonic/gin"
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/pantry")
+	group := r.Group("/pantry", common.HouseholdValidator)
 
-	group.POST("", addItem)
-	group.GET("", getItems)
-	group.PATCH("", updateItem)
+	group.POST("/:householdId", addItem)
+	group.GET("/:householdId", getItems)
+	group.PATCH("/:householdId", updateItem)
 }
 
 type updateItemPayload struct {
@@ -23,6 +23,7 @@ type updateItemPayload struct {
 	ExpiryDate      int    `json:"expiryDate"`
 	Barcode         string `json:"barcode"`
 	UpdateLocalItem bool   `json:"updateLocalItem"`
+	HouseholdId     int    `json:"householdId"`
 }
 
 func addItem(c *gin.Context) {
@@ -39,17 +40,18 @@ func addItem(c *gin.Context) {
 	}
 
 	database.DB.Create(&database.PantryItem{
-		Name:       body.Name,
-		UserId:     c.GetString("userId"),
-		ExpiryDate: body.ExpiryDate,
-		Barcode:    body.Barcode,
+		Name:        body.Name,
+		ExpiryDate:  body.ExpiryDate,
+		Barcode:     body.Barcode,
+		HouseholdID: body.HouseholdId,
+		Quantity:    1,
 	})
 
 	if body.UpdateLocalItem && body.Barcode != "" {
 		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-			Barcode: body.Barcode,
-			UserId:  c.GetString("userId"),
-			Name:    body.Name,
+			ID:          body.Id,
+			Name:        body.Name,
+			HouseholdID: body.HouseholdId,
 		})
 	}
 
@@ -85,9 +87,9 @@ func updateItem(c *gin.Context) {
 
 	if body.UpdateLocalItem && body.Barcode != "" {
 		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-			Barcode: body.Barcode,
-			UserId:  c.GetString("userId"),
-			Name:    body.Name,
+			PantryItemID: body.Id,
+			HouseholdID:  body.HouseholdId,
+			Name:         body.Name,
 		})
 	}
 
@@ -103,21 +105,21 @@ type pantryItem struct {
 }
 
 func getItems(c *gin.Context) {
-	userId := c.GetString("userId")
+	householdId := c.GetInt("householdId")
 
 	var items []database.PantryItem
 	database.DB.Where(&database.PantryItem{
-		UserId: userId,
+		HouseholdID: householdId,
 	}).Find(&items)
 
 	output := []pantryItem{}
 	for _, item := range items {
 		output = append(output, pantryItem{
 			Name:       item.Name,
-			Id:         int(item.ID),
+			Id:         item.ID,
 			ExpiryDate: item.ExpiryDate,
 			Barcode:    item.Barcode,
-			CreatedAt:  int(item.CreatedAt.Unix()),
+			CreatedAt:  item.CreatedAt,
 		})
 	}
 

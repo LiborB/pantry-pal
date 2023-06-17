@@ -20,26 +20,26 @@ abstract class ApiHttp {
     return _ApiHttp(dio, baseUrl: dotenv.get("API_BASE_URL"));
   }
 
-  @GET("/product/detail")
-  Future<Product> getProductInformation(@Query("barcode") String barcode);
+  @GET("/product/{householdId}/detail")
+  Future<Product> getProductInformation(@Path() String householdId, @Query("barcode") String barcode);
 
-  @POST("/pantry")
-  Future createPantryItem(@Body() UpdatePantryItem item);
+  @POST("/pantry/{householdId}")
+  Future createPantryItem(@Path() String householdId, @Body() UpdatePantryItem item);
 
-  @PATCH("/pantry")
-  Future updatePantryItem(@Body() UpdatePantryItem item);
+  @PATCH("/pantry/{householdId}")
+  Future updatePantryItem(@Path() String householdId, @Body() UpdatePantryItem item);
 
-  @GET("/pantry")
-  Future<List<PantryItem>> getPantryItems();
+  @GET("/pantry/{householdId}")
+  Future<List<PantryItem>> getPantryItems(@Path() String householdId, );
 
-  @POST("/user")
-  Future addUser();
+  @POST("/user/{householdId}")
+  Future addUser(@Path() String householdId, );
 
-  @GET("/user/members")
-  Future<List<HouseholdMember>> getHouseholdMembers();
+  @GET("/user/{householdId}/members")
+  Future<List<HouseholdMember>> getHouseholdMembers(@Path() String householdId, );
 
-  @POST("/user/members")
-  Future addMember(@Body() AddMember body);
+  @POST("/user/{householdId}/members")
+  Future addMember(@Path() String householdId, @Body() AddMember body);
 }
 
 @JsonSerializable()

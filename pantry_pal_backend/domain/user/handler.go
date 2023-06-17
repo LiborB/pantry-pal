@@ -9,14 +9,9 @@ import (
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/user")
+	group := r.Group("/user/:householdId", common.HouseholdValidator)
 
-	group.POST("/user", addUser)
-}
-
-type User struct {
-	UserId string `json:"userId"`
-	Email  string `json:"email"`
+	group.POST("", addUser)
 }
 
 func addUser(c *gin.Context) {
@@ -34,8 +29,8 @@ func addUser(c *gin.Context) {
 	}
 
 	database.DB.Create(&database.User{
-		UserId: userId,
-		Email:  user.Email,
+		ID:    userId,
+		Email: user.Email,
 	})
 
 	c.Status(http.StatusOK)

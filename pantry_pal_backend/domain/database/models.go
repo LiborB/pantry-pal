@@ -1,43 +1,46 @@
 package database
 
-import (
-	"gorm.io/gorm"
-	"time"
-)
-
 type PantryItem struct {
-	gorm.Model
-	Name       string
-	UserId     string
-	Barcode    string
-	ExpiryDate int
+	ID          int `gorm:"primaryKey"`
+	Name        string
+	Barcode     string
+	ExpiryDate  int
+	Household   Household
+	HouseholdID int
+	Quantity    int
+	CreatedAt   int
 }
 
 type PantryItemCustomised struct {
-	Barcode   string `gorm:"primaryKey;autoIncrement:false"`
-	Name      string
-	UserId    string    `gorm:"primaryKey;autoIncrement:false"`
-	CreatedAt time.Time `gorm:"default:current_timestamp"`
-	UpdatedAt time.Time `gorm:"default:current_timestamp"`
+	ID           int `gorm:"primaryKey"`
+	Name         string
+	Household    Household
+	HouseholdID  int `gorm:"uniqueIndex:idx_pantry_item_customised"`
+	PantryItem   PantryItem
+	PantryItemID int `gorm:"uniqueIndex:idx_pantry_item_customised"`
 }
 
 type Household struct {
-	OwnerUserId string `gorm:"primaryKey;autoIncrement:false"`
-	Name        string
-	CreatedAt   time.Time         `gorm:"default:current_timestamp"`
-	UpdatedAt   time.Time         `gorm:"default:current_timestamp"`
-	Members     []HouseholdMember `gorm:"foreignKey:MemberUserId"`
+	ID      int `gorm:"primaryKey"`
+	Name    string
+	UserID  string
+	User    User
+	Members []HouseholdMember
 }
 
 type HouseholdMember struct {
-	OwnerUserId  string `gorm:"primaryKey;autoIncrement:false"`
-	MemberUserId string `gorm:"primaryKey;autoIncrement:false"`
-	OwnerUser    User   `gorm:"foreignKey:OwnerUserId;references:UserId"`
-	MemberUser   User   `gorm:"foreignKey:MemberUserId;references:UserId"`
-	Status       string
+	ID          int `gorm:"primaryKey"`
+	User        User
+	UserID      string `gorm:"uniqueIndex:idx_household_member"`
+	HouseholdID int    `gorm:"uniqueIndex:idx_household_member"`
+	Household   Household
+	// Status can be "pending", "accepted"
+	Status  string
+	IsOwner bool
 }
 
 type User struct {
-	UserId string `gorm:"primaryKey;autoIncrement:false;uniqueIndex"`
-	Email  string `gorm:"primaryKey;autoIncrement:false;uniqueIndex"`
+	// This is the user's ID from firebase
+	ID    string `gorm:"primaryKey"`
+	Email string
 }

@@ -96,7 +96,10 @@ class _ApiHttp implements ApiHttp {
   String? baseUrl;
 
   @override
-  Future<Product> getProductInformation(String barcode) async {
+  Future<Product> getProductInformation(
+    String householdId,
+    String barcode,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'barcode': barcode};
     final _headers = <String, dynamic>{};
@@ -109,7 +112,7 @@ class _ApiHttp implements ApiHttp {
     )
             .compose(
               _dio.options,
-              '/product/detail',
+              '/product/${householdId}/detail',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -119,7 +122,10 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> createPantryItem(UpdatePantryItem item) async {
+  Future<dynamic> createPantryItem(
+    String householdId,
+    UpdatePantryItem item,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -132,7 +138,7 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/pantry',
+          '/pantry/${householdId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -142,7 +148,10 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> updatePantryItem(UpdatePantryItem item) async {
+  Future<dynamic> updatePantryItem(
+    String householdId,
+    UpdatePantryItem item,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -155,7 +164,7 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/pantry',
+          '/pantry/${householdId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -165,7 +174,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<List<PantryItem>> getPantryItems() async {
+  Future<List<PantryItem>> getPantryItems(String householdId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -178,7 +187,7 @@ class _ApiHttp implements ApiHttp {
     )
             .compose(
               _dio.options,
-              '/pantry',
+              '/pantry/${householdId}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -190,7 +199,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> addUser() async {
+  Future<dynamic> addUser(String householdId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -202,7 +211,7 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/user',
+          '/user/${householdId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -212,7 +221,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<List<HouseholdMember>> getHouseholdMembers() async {
+  Future<List<HouseholdMember>> getHouseholdMembers(String householdId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -225,7 +234,7 @@ class _ApiHttp implements ApiHttp {
     )
             .compose(
               _dio.options,
-              '/user/members',
+              '/user/${householdId}/members',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -237,7 +246,10 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> addMember(AddMember body) async {
+  Future<dynamic> addMember(
+    String householdId,
+    AddMember body,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -250,7 +262,7 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/user/members',
+          '/user/${householdId}/members',
           queryParameters: queryParameters,
           data: _data,
         )
