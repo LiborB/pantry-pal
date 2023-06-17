@@ -6,6 +6,28 @@ part of 'api_http.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Household _$HouseholdFromJson(Map<String, dynamic> json) => Household(
+      id: json['id'] as int,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$HouseholdToJson(Household instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+CreateHouseholdPayload _$CreateHouseholdPayloadFromJson(
+        Map<String, dynamic> json) =>
+    CreateHouseholdPayload(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$CreateHouseholdPayloadToJson(
+        CreateHouseholdPayload instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
 AddMember _$AddMemberFromJson(Map<String, dynamic> json) => AddMember(
       email: json['email'] as String,
     );
@@ -65,12 +87,14 @@ HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       email: json['email'] as String,
       status: $enumDecode(_$MemberStatusEnumMap, json['status']),
+      isOwner: json['isOwner'] as bool,
     );
 
 Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'email': instance.email,
+      'isOwner': instance.isOwner,
       'status': _$MemberStatusEnumMap[instance.status]!,
     };
 
@@ -199,7 +223,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> addUser(String householdId) async {
+  Future<dynamic> createUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -211,7 +235,7 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/user/${householdId}',
+          '/user',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -234,7 +258,7 @@ class _ApiHttp implements ApiHttp {
     )
             .compose(
               _dio.options,
-              '/user/${householdId}/members',
+              '/household/${householdId}/members',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -246,7 +270,7 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
-  Future<dynamic> addMember(
+  Future<dynamic> addHouseholdMember(
     String householdId,
     AddMember body,
   ) async {
@@ -262,12 +286,60 @@ class _ApiHttp implements ApiHttp {
     )
         .compose(
           _dio.options,
-          '/user/${householdId}/members',
+          '/household/${householdId}/members',
           queryParameters: queryParameters,
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> createHousehold(CreateHouseholdPayload body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/household',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<List<Household>> getHouseholds() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Household>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/household',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => Household.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

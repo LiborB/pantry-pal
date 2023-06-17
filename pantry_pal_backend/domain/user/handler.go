@@ -9,7 +9,7 @@ import (
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/user/:householdId", common.HouseholdValidator)
+	group := r.Group("/user")
 
 	group.POST("", addUser)
 }

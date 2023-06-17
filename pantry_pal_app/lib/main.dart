@@ -33,9 +33,15 @@ Future main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => AppStore()),
-      ChangeNotifierProvider(create: (context) => PantryStore()),
-      ChangeNotifierProvider(create: (context) => SettingsStore())
+      ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
+      ChangeNotifierProxyProvider<AppStore, PantryStore>(
+          create: (context) =>
+              PantryStore(Provider.of<AppStore>(context, listen: false)),
+          update: (context, appStore, pantryStore) => pantryStore!..appStore = appStore),
+      ChangeNotifierProxyProvider<AppStore, SettingsStore>(
+          create: (context) =>
+              SettingsStore(Provider.of<AppStore>(context, listen: false)),
+          update: (context, appStore, settingsStore) => settingsStore!..appStore = appStore),
     ],
     child: MaterialApp(
       home: const MyApp(),
@@ -62,24 +68,31 @@ class _MyAppState extends State {
         if (data == null) {
           return const LoginPage();
         } else {
-          data.getIdToken().then((token) => currentUserToken = token);
-
-          FirebaseMessaging.instance.subscribeToTopic(data.uid);
-          return Scaffold(
-            body: const [HomePage(), PantryPage(), SettingsPage()][_currentIndex],
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected: (index) => setState(() {
-                _currentIndex = index;
-              }),
-              selectedIndex: _currentIndex,
-              destinations: const [
-                NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-                NavigationDestination(
-                    icon: Icon(Icons.inventory), label: "Pantry"),
-                NavigationDestination(
-                    icon: Icon(Icons.settings), label: "Settings")
-              ],
-            ),
+          return FutureBuilder(
+            future: Provider.of<AppStore>(context, listen: false).handleAuth(data),
+            builder: (context, snapshot) {
+              return Scaffold(
+                body: const [
+                  HomePage(),
+                  PantryPage(),
+                  SettingsPage()
+                ][_currentIndex],
+                bottomNavigationBar: NavigationBar(
+                  onDestinationSelected: (index) => setState(() {
+                    _currentIndex = index;
+                  }),
+                  selectedIndex: _currentIndex,
+                  destinations: const [
+                    NavigationDestination(
+                        icon: Icon(Icons.home), label: "Home"),
+                    NavigationDestination(
+                        icon: Icon(Icons.inventory), label: "Pantry"),
+                    NavigationDestination(
+                        icon: Icon(Icons.settings), label: "Settings")
+                  ],
+                ),
+              );
+            },
           );
         }
       },

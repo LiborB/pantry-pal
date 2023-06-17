@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -60,7 +61,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
       setState(() {
         _isLoadingItem = true;
       });
-      final info = await ApiHttp().getProductInformation(barcode);
+      final info = await Provider.of<PantryStore>(context, listen: false).getProductInformation(barcode);
 
       setState(() {
         _nameController.text = info.name;
@@ -99,16 +100,19 @@ class _CreateItemPageState extends State<CreateItemPage> {
     if (_formKey.currentState!.validate()) {
       try {
         if (widget.item == null) {
-          await ApiHttp().createPantryItem(UpdatePantryItem(
-            id: 0,
-            name: _nameController.text,
-            expiryDate: _expiryDate,
-            updateLocalItem: _updateLocalItem,
-            barcode: _barcode,
-          ));
+          await ApiHttp().createPantryItem(
+            Provider.of<AppStore>(context, listen: false).householdId,
+            UpdatePantryItem(
+              id: 0,
+              name: _nameController.text,
+              expiryDate: _expiryDate,
+              updateLocalItem: _updateLocalItem,
+              barcode: _barcode,
+            ),
+          );
         } else {
           final item = widget.item!;
-          await ApiHttp().updatePantryItem(
+          await Provider.of<PantryStore>(context, listen: false).updatePantryItem(
             UpdatePantryItem(
               id: item.id,
               name: _nameController.text,
@@ -248,22 +252,24 @@ class _CreateItemPageState extends State<CreateItemPage> {
                     ),
                   ),
                 ),
-                _barcode.isNotEmpty ? Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: SwitchListTile(
-                    dense: true,
-                    contentPadding: const EdgeInsets.all(0),
-                    value: _updateLocalItem,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _updateLocalItem = newValue;
-                      });
-                    },
-                    title: const Text("Update barcode information"),
-                    subtitle: const Text(
-                        "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
-                  ),
-                ) : const SizedBox.shrink(),
+                _barcode.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: SwitchListTile(
+                          dense: true,
+                          contentPadding: const EdgeInsets.all(0),
+                          value: _updateLocalItem,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _updateLocalItem = newValue;
+                            });
+                          },
+                          title: const Text("Update barcode information"),
+                          subtitle: const Text(
+                              "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 const Spacer(
                   flex: 1,
                 ),

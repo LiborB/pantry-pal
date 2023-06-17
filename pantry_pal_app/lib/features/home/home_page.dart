@@ -14,10 +14,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Home"),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [Text("Home works!")],
+          children: [Text("Home works!")],
         ),
       ),
     );

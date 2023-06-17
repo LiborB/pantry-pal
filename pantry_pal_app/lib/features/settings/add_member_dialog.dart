@@ -46,7 +46,7 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
           FilledButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Provider.of<SettingsStore>(context).addMember(_emailController.text);
+                Provider.of<SettingsStore>(context, listen: false).addMember(_emailController.text);
                 Navigator.of(context).pop();
               }
             },

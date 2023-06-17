@@ -30,16 +30,42 @@ abstract class ApiHttp {
   Future updatePantryItem(@Path() String householdId, @Body() UpdatePantryItem item);
 
   @GET("/pantry/{householdId}")
-  Future<List<PantryItem>> getPantryItems(@Path() String householdId, );
+  Future<List<PantryItem>> getPantryItems(@Path() String householdId);
 
-  @POST("/user/{householdId}")
-  Future addUser(@Path() String householdId, );
+  @POST("/user")
+  Future createUser();
 
-  @GET("/user/{householdId}/members")
-  Future<List<HouseholdMember>> getHouseholdMembers(@Path() String householdId, );
+  @GET("/household/{householdId}/members")
+  Future<List<HouseholdMember>> getHouseholdMembers(@Path() String householdId);
 
-  @POST("/user/{householdId}/members")
-  Future addMember(@Path() String householdId, @Body() AddMember body);
+  @POST("/household/{householdId}/members")
+  Future addHouseholdMember(@Path() String householdId, @Body() AddMember body);
+
+  @POST("/household")
+  Future createHousehold(@Body() CreateHouseholdPayload body);
+
+  @GET("/household")
+  Future<List<Household>> getHouseholds();
+}
+
+@JsonSerializable()
+class Household {
+  int id;
+  String name;
+
+  Household({required this.id, required this.name});
+
+  factory Household.fromJson(Map<String, dynamic> json) =>
+      _$HouseholdFromJson(json);
+}
+
+@JsonSerializable()
+class CreateHouseholdPayload {
+  String name;
+
+  CreateHouseholdPayload({required this.name});
+
+  toJson() => _$CreateHouseholdPayloadToJson(this);
 }
 
 @JsonSerializable()
@@ -113,9 +139,10 @@ enum MemberStatus {
 class HouseholdMember {
   String userId;
   String email;
+  bool isOwner;
   MemberStatus status;
 
-  HouseholdMember({required this.userId, required this.email, required this.status});
+  HouseholdMember({required this.userId, required this.email, required this.status, required this.isOwner});
 
   factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
       _$HouseholdMemberFromJson(json);

@@ -16,13 +16,19 @@ class _SettingsPageState extends State<SettingsPage> {
     return [
       for (var member in members)
         ListTile(
-          title: Text(member.email),
-          trailing: Chip(
+          title: Text(member.isOwner ? "${member.email} (Me)" : member.email),
+          trailing: member.status == MemberStatus.pending ? Chip(
             label: Text(member.status.name),
-          ),
+          ) : null,
           leading: const Icon(Icons.person),
         ),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<SettingsStore>(context, listen: false).refreshSettings();
   }
 
   @override
@@ -49,6 +55,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ..._buildMemberList(store.householdMembers),
+            ElevatedButton(
+              onPressed: () async {
+                await store.signOut();
+              },
+              child: const Text("Sign Out"),
+            )
           ],
         ),
       );

@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
+import 'package:pantry_pal/features/home/home_page.dart';
+import 'package:pantry_pal/store/app_store.dart';
+import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -36,9 +39,7 @@ class _SignupPageState extends State<SignupPage> {
     }
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
-      await ApiHttp().addUser();
+      await Provider.of<AppStore>(context, listen: false).handleSignup(_emailController.text, _passwordController.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {
