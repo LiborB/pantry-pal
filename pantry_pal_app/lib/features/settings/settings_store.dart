@@ -17,6 +17,7 @@ class SettingsStore with ChangeNotifier {
 
   Future refreshSettings() async {
       _householdMembers = await ApiHttp().getHouseholdMembers(appStore.householdId);
+      _householdMembers.sort((a, b) => a.createdAt.compareTo(b.createdAt));
       notifyListeners();
   }
 

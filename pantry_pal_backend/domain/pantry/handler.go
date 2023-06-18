@@ -119,7 +119,7 @@ func getItems(c *gin.Context) {
 			Id:         item.ID,
 			ExpiryDate: item.ExpiryDate,
 			Barcode:    item.Barcode,
-			CreatedAt:  item.CreatedAt,
+			CreatedAt:  int(item.CreatedAt.UnixMilli()),
 		})
 	}
 

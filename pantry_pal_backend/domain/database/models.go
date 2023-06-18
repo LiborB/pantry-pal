@@ -1,18 +1,23 @@
 package database
 
+import "time"
+
 type PantryItem struct {
 	ID          int `gorm:"primaryKey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	Name        string
 	Barcode     string
 	ExpiryDate  int
 	Household   Household
 	HouseholdID int
 	Quantity    int
-	CreatedAt   int
 }
 
 type PantryItemCustomised struct {
 	ID           int `gorm:"primaryKey"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 	Name         string
 	Household    Household
 	HouseholdID  int `gorm:"uniqueIndex:idx_pantry_item_customised"`
@@ -21,15 +26,19 @@ type PantryItemCustomised struct {
 }
 
 type Household struct {
-	ID      int `gorm:"primaryKey"`
-	Name    string
-	UserID  string
-	User    User
-	Members []HouseholdMember
+	ID        int `gorm:"primaryKey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string
+	UserID    string
+	User      User
+	Members   []HouseholdMember
 }
 
 type HouseholdMember struct {
 	ID          int `gorm:"primaryKey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	User        User
 	UserID      string `gorm:"uniqueIndex:idx_household_member"`
 	HouseholdID int    `gorm:"uniqueIndex:idx_household_member"`
@@ -41,6 +50,8 @@ type HouseholdMember struct {
 
 type User struct {
 	// This is the user's ID from firebase
-	ID    string `gorm:"primaryKey"`
-	Email string
+	ID        string `gorm:"primaryKey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Email     string
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pantry_pal/shared/globals.dart';
 import 'package:retrofit/http.dart';
 
 import 'converter.dart';
@@ -11,9 +11,10 @@ part "api_http.g.dart";
 @RestApi()
 abstract class ApiHttp {
   factory ApiHttp() {
+    final token = FirebaseAuth.instance.currentUser?.getIdToken();
     var dio = Dio(
       BaseOptions(
-        headers: {"Authorization": "Bearer $currentUserToken"},
+        headers: {"Authorization": "Bearer $token"},
       ),
     );
 
@@ -49,11 +50,13 @@ abstract class ApiHttp {
 }
 
 @JsonSerializable()
+@CustomDateTimeConverter()
 class Household {
   int id;
   String name;
+  DateTime createdAt;
 
-  Household({required this.id, required this.name});
+  Household({required this.id, required this.name, required this.createdAt});
 
   factory Household.fromJson(Map<String, dynamic> json) =>
       _$HouseholdFromJson(json);
@@ -136,13 +139,15 @@ enum MemberStatus {
 }
 
 @JsonSerializable()
+@CustomDateTimeConverter()
 class HouseholdMember {
   String userId;
   String email;
   bool isOwner;
   MemberStatus status;
+  DateTime createdAt;
 
-  HouseholdMember({required this.userId, required this.email, required this.status, required this.isOwner});
+  HouseholdMember({required this.userId, required this.email, required this.status, required this.isOwner, required this.createdAt});
 
   factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
       _$HouseholdMemberFromJson(json);

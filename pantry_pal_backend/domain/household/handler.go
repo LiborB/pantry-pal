@@ -20,10 +20,11 @@ func AddRoutes(r *gin.Engine) {
 }
 
 type householdMember struct {
-	UserId  string `json:"userId"`
-	Email   string `json:"email"`
-	Status  string `json:"status"`
-	IsOwner bool   `json:"isOwner"`
+	UserId    string `json:"userId"`
+	Email     string `json:"email"`
+	Status    string `json:"status"`
+	IsOwner   bool   `json:"isOwner"`
+	CreatedAt int    `json:"createdAt"`
 }
 
 func getMembers(c *gin.Context) {
@@ -36,10 +37,11 @@ func getMembers(c *gin.Context) {
 	output := []householdMember{}
 	for _, member := range dbMembers {
 		output = append(output, householdMember{
-			UserId:  member.UserID,
-			Email:   member.User.Email,
-			Status:  member.Status,
-			IsOwner: member.IsOwner,
+			UserId:    member.UserID,
+			Email:     member.User.Email,
+			Status:    member.Status,
+			IsOwner:   member.IsOwner,
+			CreatedAt: int(member.CreatedAt.UnixMilli()),
 		})
 	}
 
@@ -114,8 +116,9 @@ func createHousehold(c *gin.Context) {
 }
 
 type household struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	CreatedAt int    `json:"createdAt"`
 }
 
 func getHouseholds(c *gin.Context) {

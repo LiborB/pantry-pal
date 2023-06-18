@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
@@ -39,7 +40,7 @@ class _SignupPageState extends State<SignupPage> {
     }
 
     try {
-      await Provider.of<AppStore>(context, listen: false).handleSignup(_emailController.text, _passwordController.text);
+      await Provider.of<AppStore>(context, listen: false).handleUserPassSignup(_emailController.text, _passwordController.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {
@@ -136,6 +137,17 @@ class _SignupPageState extends State<SignupPage> {
                     "Login",
                     style: TextStyle(fontSize: 16),
                   ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: SignInButton(
+                  Buttons.Google,
+                  text: "Sign up with Google",
+                  onPressed: () {
+                    Provider.of<AppStore>(context, listen: false)
+                        .handleSignInGoogle();
+                  }
                 ),
               )
             ],

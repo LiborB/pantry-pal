@@ -5,9 +5,9 @@ class CustomDateTimeConverter implements JsonConverter<DateTime, int> {
 
   @override
   DateTime fromJson(int json) {
-    return DateTime.fromMillisecondsSinceEpoch(json, isUtc: true);
+    return DateTime.fromMillisecondsSinceEpoch(json * Duration.millisecondsPerSecond, isUtc: true);
   }
 
   @override
-  int toJson(DateTime json) => json.millisecondsSinceEpoch;
+  int toJson(DateTime date) => date.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond;
 }

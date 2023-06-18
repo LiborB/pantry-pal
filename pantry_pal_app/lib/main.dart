@@ -22,6 +22,8 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // await FirebaseAuth.instance.signOut();
+
   if (dotenv.get("LOCAL") != "true") {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
@@ -62,37 +64,49 @@ class _MyAppState extends State {
 
   Widget _getLandingPage() {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuth.instance.userChanges(),
       builder: (BuildContext context, snapshot) {
         final data = snapshot.data;
+
+        Provider.of<AppStore>(context, listen: false).handleAuth(data);
+        print("data: $data");
+
         if (data == null) {
           return const LoginPage();
         } else {
-          return FutureBuilder(
-            future: Provider.of<AppStore>(context, listen: false).handleAuth(data),
-            builder: (context, snapshot) {
-              return Scaffold(
-                body: const [
-                  HomePage(),
-                  PantryPage(),
-                  SettingsPage()
-                ][_currentIndex],
-                bottomNavigationBar: NavigationBar(
-                  onDestinationSelected: (index) => setState(() {
-                    _currentIndex = index;
-                  }),
-                  selectedIndex: _currentIndex,
-                  destinations: const [
-                    NavigationDestination(
-                        icon: Icon(Icons.home), label: "Home"),
-                    NavigationDestination(
-                        icon: Icon(Icons.inventory), label: "Pantry"),
-                    NavigationDestination(
-                        icon: Icon(Icons.settings), label: "Settings")
-                  ],
-                ),
-              );
+          return Consumer<AppStore>(
+            builder: (context, value, child) {
+              if (value.households.isNotEmpty) {
+                return child!;
+              } else {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
             },
+            child: Scaffold(
+              body: const [
+                HomePage(),
+                PantryPage(),
+                SettingsPage()
+              ][_currentIndex],
+              bottomNavigationBar: NavigationBar(
+                onDestinationSelected: (index) => setState(() {
+                  _currentIndex = index;
+                }),
+                selectedIndex: _currentIndex,
+                destinations: const [
+                  NavigationDestination(
+                      icon: Icon(Icons.home), label: "Home"),
+                  NavigationDestination(
+                      icon: Icon(Icons.inventory), label: "Pantry"),
+                  NavigationDestination(
+                      icon: Icon(Icons.settings), label: "Settings")
+                ],
+              ),
+            ),
           );
         }
       },

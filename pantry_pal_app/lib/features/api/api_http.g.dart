@@ -9,11 +9,14 @@ part of 'api_http.dart';
 Household _$HouseholdFromJson(Map<String, dynamic> json) => Household(
       id: json['id'] as int,
       name: json['name'] as String,
+      createdAt:
+          const CustomDateTimeConverter().fromJson(json['createdAt'] as int),
     );
 
 Map<String, dynamic> _$HouseholdToJson(Household instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
     };
 
 CreateHouseholdPayload _$CreateHouseholdPayloadFromJson(
@@ -88,6 +91,8 @@ HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       status: $enumDecode(_$MemberStatusEnumMap, json['status']),
       isOwner: json['isOwner'] as bool,
+      createdAt:
+          const CustomDateTimeConverter().fromJson(json['createdAt'] as int),
     );
 
 Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
@@ -96,6 +101,7 @@ Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
       'email': instance.email,
       'isOwner': instance.isOwner,
       'status': _$MemberStatusEnumMap[instance.status]!,
+      'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
     };
 
 const _$MemberStatusEnumMap = {
