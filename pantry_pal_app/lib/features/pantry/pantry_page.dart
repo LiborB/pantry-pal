@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/pantry/create_item_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/features/pantry/pantry_search_bar.dart';
-import 'package:pantry_pal/shared/date_extension.dart';
 import 'package:provider/provider.dart';
 
 import 'item_card.dart';

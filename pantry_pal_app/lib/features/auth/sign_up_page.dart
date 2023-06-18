@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
-import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 

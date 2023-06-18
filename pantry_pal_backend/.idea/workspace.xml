@@ -5,23 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/ios/Runner/Runner.entitlements" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/ios/Runner/Runner.entitlements" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/converter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/converter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/android/app/google-services.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/auth/sign_up_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/auth/sign_up_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/settings_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/settings_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_search_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_search_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/store/app_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/store/app_store.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/household/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/household/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pantry/handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +27,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../../../Program Files/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -47,44 +39,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "configurable..is.expanded": "false",
-    "configurable.GoLibrariesConfigurable.is.expanded": "true",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/Users/personal",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;configurable..is.expanded&quot;: &quot;false&quot;,
+    &quot;configurable.GoLibrariesConfigurable.is.expanded&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Traqz&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/domain/household" />
       <recent name="C:\Users\Traqz\Documents\Programming\Personal\pantry-pal\pantry_pal_backend\domain\user\members" />
       <recent name="$PROJECT_DIR$/domain" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build pantry_pal_backend">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="pantry_pal_backend" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
     <configuration name="go build pantry_pal_backend" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="pantry_pal_backend" />
       <working_directory value="$PROJECT_DIR$" />
@@ -92,15 +75,6 @@
       <package value="pantry_pal_backend" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="pantry_pal_backend" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <configuration name="All in api" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/api.http">

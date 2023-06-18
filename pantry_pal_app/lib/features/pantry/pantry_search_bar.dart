@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
-import 'package:pantry_pal/features/pantry/util/expiry.dart';
 import 'package:provider/provider.dart';
 
 import 'create_item_page.dart';

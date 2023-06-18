@@ -3,7 +3,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
-import 'package:pantry_pal/shared/globals.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppStore extends ChangeNotifier {
