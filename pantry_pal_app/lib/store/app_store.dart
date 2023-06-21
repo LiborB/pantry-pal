@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +8,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppStore extends ChangeNotifier {
   Household? _selectedHousehold;
-
   Household get selectedHousehold => _selectedHousehold!;
 
   String get householdId => _selectedHousehold!.id.toString();
 
   List<Household> _households = [];
-
   List<Household> get households => _households;
+
+  AppUser? _user;
+  AppUser get user => _user!;
 
   setSelectedHousehold(Household household) {
     _selectedHousehold = household;
@@ -24,6 +26,17 @@ class AppStore extends ChangeNotifier {
   Future handleUnAuth() async {
     _households = [];
     _selectedHousehold = null;
+    _user = null;
+    notifyListeners();
+  }
+
+  Future refreshHouseholds() async {
+    _households = await ApiHttp().getHouseholds();
+    notifyListeners();
+  }
+
+  Future refreshUser() async {
+    _user = await ApiHttp().getUser();
     notifyListeners();
   }
 
@@ -33,25 +46,35 @@ class AppStore extends ChangeNotifier {
       return;
     }
 
-    FirebaseMessaging.instance.subscribeToTopic(user.uid);
+    _user = await ApiHttp().getUser();
 
-    _households = await ApiHttp().getHouseholds();
+    await FirebaseMessaging.instance.subscribeToTopic(user.uid);
+
+    await refreshHouseholds();
 
     setSelectedHousehold(_households.first);
   }
 
-  Future handleSignup(UserCredential userCredential) async {
-    await ApiHttp().createUser();
-    await ApiHttp().createHousehold(CreateHouseholdPayload(name: "My House"));
+  Future handleLogin(UserCredential userCredential) async {
+    try {
+      _user = await ApiHttp().getUser();
+    } catch (err) {
+      switch (err.runtimeType) {
+        case DioException:
+          final res = (err as DioException).response;
+          if (res?.statusCode == 404) {
+            await ApiHttp().createUser();
+            await ApiHttp().createHousehold(CreateHouseholdPayload(name: "My House"));
+            _user = await ApiHttp().getUser();
+            break;
+          }
+      }
+    }
 
-    await handleAuth(userCredential.user!);
-  }
-
-  Future handleUserPassSignup(String email, String password) async {
-    final userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
-
-    await handleSignup(userCredential);
+    if (_user != null) {
+      await handleAuth(userCredential.user!);
+      return;
+    }
   }
 
   Future handleSignInGoogle() async {
@@ -70,7 +93,7 @@ class AppStore extends ChangeNotifier {
     // Once signed in, return the UserCredential
     final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
-    await handleSignup(userCredential);
+    await handleLogin(userCredential);
   }
 
   Future handleSignupApple() async {
@@ -83,6 +106,6 @@ class AppStore extends ChangeNotifier {
       credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
     }
 
-    await handleSignup(credential);
+    await handleLogin(credential);
   }
 }

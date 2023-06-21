@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
+import 'package:pantry_pal/features/home/home_store.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/features/settings/settings_page.dart';
@@ -20,7 +21,13 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // await FirebaseAuth.instance.signOut();
+  if (FirebaseAuth.instance.currentUser != null) {
+    try {
+      await FirebaseAuth.instance.currentUser?.reload();
+    } catch (e) {
+      await FirebaseAuth.instance.signOut();
+    }
+  }
 
   if (dotenv.get("LOCAL") != "true") {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -37,11 +44,18 @@ Future main() async {
       ChangeNotifierProxyProvider<AppStore, PantryStore>(
           create: (context) =>
               PantryStore(Provider.of<AppStore>(context, listen: false)),
-          update: (context, appStore, pantryStore) => pantryStore!..appStore = appStore),
+          update: (context, appStore, pantryStore) =>
+              pantryStore!..appStore = appStore),
       ChangeNotifierProxyProvider<AppStore, SettingsStore>(
           create: (context) =>
               SettingsStore(Provider.of<AppStore>(context, listen: false)),
-          update: (context, appStore, settingsStore) => settingsStore!..appStore = appStore),
+          update: (context, appStore, settingsStore) =>
+              settingsStore!..appStore = appStore),
+      ChangeNotifierProxyProvider<AppStore, HomeStore>(
+          create: (context) =>
+              HomeStore(Provider.of<AppStore>(context, listen: false)),
+          update: (context, appStore, homeStore) =>
+          homeStore!..appStore = appStore),
     ],
     child: MaterialApp(
       home: const MyApp(),
@@ -60,54 +74,53 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State {
   int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<AppStore>(context, listen: false)
+        .handleAuth(FirebaseAuth.instance.currentUser);
+
+  }
+
   Widget _getLandingPage() {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.userChanges(),
-      builder: (BuildContext context, snapshot) {
-        final data = snapshot.data;
-
-        Provider.of<AppStore>(context, listen: false).handleAuth(data);
-
-        if (data == null) {
-          return const LoginPage();
-        } else {
-          return Consumer<AppStore>(
-            builder: (context, value, child) {
-              if (value.households.isNotEmpty) {
-                return child!;
-              } else {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-            },
-            child: Scaffold(
-              body: const [
-                HomePage(),
-                PantryPage(),
-                SettingsPage()
-              ][_currentIndex],
-              bottomNavigationBar: NavigationBar(
-                onDestinationSelected: (index) => setState(() {
-                  _currentIndex = index;
-                }),
-                selectedIndex: _currentIndex,
-                destinations: const [
-                  NavigationDestination(
-                      icon: Icon(Icons.home), label: "Home"),
-                  NavigationDestination(
-                      icon: Icon(Icons.inventory), label: "Pantry"),
-                  NavigationDestination(
-                      icon: Icon(Icons.settings), label: "Settings")
-                ],
-              ),
+    return StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
+      if (!snapshot.hasData) {
+        return const LoginPage();
+      } else {
+        Navigator.of(context).popUntil((route) => true);
+        return Consumer<AppStore>(
+          builder: (context, value, child) {
+            if (value.households.isNotEmpty) {
+              return child!;
+            } else {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
+          child: Scaffold(
+            body: const [HomePage(), PantryPage(), SettingsPage()][_currentIndex],
+            bottomNavigationBar: NavigationBar(
+              onDestinationSelected: (index) => setState(() {
+                _currentIndex = index;
+              }),
+              selectedIndex: _currentIndex,
+              destinations: const [
+                NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+                NavigationDestination(
+                    icon: Icon(Icons.inventory), label: "Pantry"),
+                NavigationDestination(
+                    icon: Icon(Icons.settings), label: "Settings")
+              ],
             ),
-          );
-        }
-      },
-    );
+          ),
+        );
+      }
+    });
+
   }
 
   @override

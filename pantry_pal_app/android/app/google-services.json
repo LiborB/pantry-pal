@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "135361706279-k7mc07sqaf89o39clg9iac73qdog4m0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.furionsoftware.pantry_pal_app",
+            "certificate_hash": "1b71161659b97cabaea1a9c7fca11299252e5085"
+          }
+        },
+        {
           "client_id": "135361706279-gbfh47b22ss34obirglhbn7mfjh7jgg8.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -13,10 +13,12 @@ func AddRoutes(r *gin.Engine) {
 	r.POST("/household", createHousehold)
 	r.GET("/household", getHouseholds)
 
-	group := r.Group("/household/:householdId/members", common.HouseholdValidator)
+	householdGroup := r.Group("/household/:householdId", common.HouseholdValidator)
+	householdGroup.POST("", updateHousehold)
 
-	group.GET("", getMembers)
-	group.POST("", addMember)
+	memberGroup := r.Group("/household/:householdId/members", common.HouseholdValidator)
+	memberGroup.GET("", getMembers)
+	memberGroup.POST("", addMember)
 }
 
 type householdMember struct {
@@ -138,4 +140,22 @@ func getHouseholds(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, output)
+}
+
+type updateHouseholdPayload struct {
+	Name string `json:"name"`
+}
+
+func updateHousehold(c *gin.Context) {
+	householdId := c.GetInt("householdId")
+
+	var body updateHouseholdPayload
+	common.GetJson(c, &body)
+
+	database.DB.Updates(database.Household{
+		ID:   householdId,
+		Name: body.Name,
+	})
+
+	c.Status(http.StatusNoContent)
 }

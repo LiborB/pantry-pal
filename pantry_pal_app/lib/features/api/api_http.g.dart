@@ -6,6 +6,32 @@ part of 'api_http.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+UpdateHouseholdPayload _$UpdateHouseholdPayloadFromJson(
+        Map<String, dynamic> json) =>
+    UpdateHouseholdPayload(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$UpdateHouseholdPayloadToJson(
+        UpdateHouseholdPayload instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };
+
+UpdateUserPayload _$UpdateUserPayloadFromJson(Map<String, dynamic> json) =>
+    UpdateUserPayload(
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      onboardedVersion: json['onboardedVersion'] as int,
+    );
+
+Map<String, dynamic> _$UpdateUserPayloadToJson(UpdateUserPayload instance) =>
+    <String, dynamic>{
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'onboardedVersion': instance.onboardedVersion,
+    };
+
 Household _$HouseholdFromJson(Map<String, dynamic> json) => Household(
       id: json['id'] as int,
       name: json['name'] as String,
@@ -108,6 +134,22 @@ const _$MemberStatusEnumMap = {
   MemberStatus.pending: 'pending',
   MemberStatus.accepted: 'accepted',
 };
+
+AppUser _$AppUserFromJson(Map<String, dynamic> json) => AppUser(
+      id: json['id'] as String,
+      email: json['email'] as String,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      onboardedVersion: json['onboardedVersion'] as int,
+    );
+
+Map<String, dynamic> _$AppUserToJson(AppUser instance) => <String, dynamic>{
+      'id': instance.id,
+      'email': instance.email,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'onboardedVersion': instance.onboardedVersion,
+    };
 
 // **************************************************************************
 // RetrofitGenerator
@@ -251,6 +293,52 @@ class _ApiHttp implements ApiHttp {
   }
 
   @override
+  Future<AppUser> getUser() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<AppUser>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AppUser.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> updateUser(UpdateUserPayload body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   Future<List<HouseholdMember>> getHouseholdMembers(String householdId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -316,6 +404,32 @@ class _ApiHttp implements ApiHttp {
         .compose(
           _dio.options,
           '/household',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> updateHousehold(
+    String householdId,
+    UpdateHouseholdPayload body,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/household/${householdId}',
           queryParameters: queryParameters,
           data: _data,
         )

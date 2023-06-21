@@ -50,8 +50,11 @@ type HouseholdMember struct {
 
 type User struct {
 	// This is the user's ID from firebase
-	ID        string `gorm:"primaryKey"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Email     string
+	ID               string `gorm:"primaryKey"`
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
+	Email            string
+	FirstName        string
+	LastName         string
+	OnboardedVersion int
 }

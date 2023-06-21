@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pantry_pal/features/auth/sign_up_page.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:provider/provider.dart';
+
+import '../../store/app_store.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,14 +35,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void onSignupClick() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SignupPage(),
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,50 +46,13 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 24),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: "Email",
-                    errorText: emailError.isNotEmpty ? emailError : null,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Password",
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: ElevatedButton(
-                  onPressed: () => onLoginClick(),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(56),
-                  ),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: TextButton(
-                  onPressed: () => onSignupClick(),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(56),
-                  ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 16),
-                  ),
+                child: SignInButton(
+                  Buttons.Google,
+                  text: "Sign in with Google",
+                  onPressed: () async {
+                    await Provider.of<AppStore>(context, listen: false)
+                        .handleSignInGoogle();
+                  },
                 ),
               )
             ],
