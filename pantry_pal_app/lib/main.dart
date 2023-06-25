@@ -13,6 +13,7 @@ import 'package:pantry_pal/features/settings/settings_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -38,30 +39,41 @@ Future main() async {
     };
   }
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
-      ChangeNotifierProxyProvider<AppStore, PantryStore>(
-          create: (context) =>
-              PantryStore(Provider.of<AppStore>(context, listen: false)),
-          update: (context, appStore, pantryStore) =>
-              pantryStore!..appStore = appStore),
-      ChangeNotifierProxyProvider<AppStore, SettingsStore>(
-          create: (context) =>
-              SettingsStore(Provider.of<AppStore>(context, listen: false)),
-          update: (context, appStore, settingsStore) =>
-              settingsStore!..appStore = appStore),
-      ChangeNotifierProxyProvider<AppStore, HomeStore>(
-          create: (context) =>
-              HomeStore(Provider.of<AppStore>(context, listen: false)),
-          update: (context, appStore, homeStore) =>
-          homeStore!..appStore = appStore),
-    ],
-    child: MaterialApp(
-      home: const MyApp(),
-      theme: ThemeData(useMaterial3: true),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://9f0352e73aa74b79b5cfaeab272568ee@o4505418746757120.ingest.sentry.io/4505418752196608';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
+          ChangeNotifierProxyProvider<AppStore, PantryStore>(
+              create: (context) =>
+                  PantryStore(Provider.of<AppStore>(context, listen: false)),
+              update: (context, appStore, pantryStore) =>
+                  pantryStore!..appStore = appStore),
+          ChangeNotifierProxyProvider<AppStore, SettingsStore>(
+              create: (context) =>
+                  SettingsStore(Provider.of<AppStore>(context, listen: false)),
+              update: (context, appStore, settingsStore) =>
+                  settingsStore!..appStore = appStore),
+          ChangeNotifierProxyProvider<AppStore, HomeStore>(
+              create: (context) =>
+                  HomeStore(Provider.of<AppStore>(context, listen: false)),
+              update: (context, appStore, homeStore) =>
+                  homeStore!..appStore = appStore),
+        ],
+        child: MaterialApp(
+          home: const MyApp(),
+          theme: ThemeData(useMaterial3: true),
+        ),
+      ),
     ),
-  ));
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -80,47 +92,52 @@ class _MyAppState extends State {
 
     Provider.of<AppStore>(context, listen: false)
         .handleAuth(FirebaseAuth.instance.currentUser);
-
   }
 
   Widget _getLandingPage() {
-    return StreamBuilder(stream: FirebaseAuth.instance.userChanges(), builder: (context, snapshot) {
-      if (!snapshot.hasData) {
-        return const LoginPage();
-      } else {
-        Navigator.of(context).popUntil((route) => true);
-        return Consumer<AppStore>(
-          builder: (context, value, child) {
-            if (value.households.value.isNotEmpty) {
-              return child!;
-            } else {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const LoginPage();
+          } else {
+            Navigator.of(context).popUntil((route) => true);
+            return Consumer<AppStore>(
+              builder: (context, value, child) {
+                if (value.households.value.isNotEmpty) {
+                  return child!;
+                } else {
+                  return const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
+              child: Scaffold(
+                body: const [
+                  HomePage(),
+                  PantryPage(),
+                  SettingsPage()
+                ][_currentIndex],
+                bottomNavigationBar: NavigationBar(
+                  onDestinationSelected: (index) => setState(() {
+                    _currentIndex = index;
+                  }),
+                  selectedIndex: _currentIndex,
+                  destinations: const [
+                    NavigationDestination(
+                        icon: Icon(Icons.home), label: "Home"),
+                    NavigationDestination(
+                        icon: Icon(Icons.inventory), label: "Pantry"),
+                    NavigationDestination(
+                        icon: Icon(Icons.settings), label: "Settings")
+                  ],
                 ),
-              );
-            }
-          },
-          child: Scaffold(
-            body: const [HomePage(), PantryPage(), SettingsPage()][_currentIndex],
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected: (index) => setState(() {
-                _currentIndex = index;
-              }),
-              selectedIndex: _currentIndex,
-              destinations: const [
-                NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-                NavigationDestination(
-                    icon: Icon(Icons.inventory), label: "Pantry"),
-                NavigationDestination(
-                    icon: Icon(Icons.settings), label: "Settings")
-              ],
-            ),
-          ),
-        );
-      }
-    });
-
+              ),
+            );
+          }
+        });
   }
 
   @override

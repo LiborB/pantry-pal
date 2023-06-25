@@ -218,7 +218,7 @@ func respondInvite(c *gin.Context) {
 	householdId, _ := strconv.Atoi(c.Query("householdId"))
 	userId := c.GetString("userId")
 	accept := c.Query("accept")
-	
+
 	var member database.HouseholdMember
 	database.DB.Where(&database.HouseholdMember{
 		HouseholdID: householdId,
