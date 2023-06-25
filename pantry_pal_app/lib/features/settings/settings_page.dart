@@ -39,18 +39,19 @@ class _SettingsPageState extends State<SettingsPage> {
 
       tiles.add(
         ListTile(
-            title: Text(household.name),
-            leading: const Icon(Icons.home),
-            trailing: isSelected ? const Icon(Icons.check) : null,
-            onTap: () async {
-              await context.read<AppStore>().setSelectedHousehold(household);
-            },
-            selected: isSelected,
-            selectedTileColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            )),
+          title: Text(household.name),
+          leading: const Icon(Icons.home),
+          trailing: isSelected ? const Icon(Icons.check) : null,
+          onTap: () async {
+            await context.read<AppStore>().setSelectedHousehold(household);
+          },
+          selected: isSelected,
+          selectedTileColor:
+              Theme.of(context).colorScheme.primary.withOpacity(0.1),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+        ),
       );
     }
 

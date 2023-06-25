@@ -11,7 +11,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
       child: InkWell(
         child: ListTile(
           onTap: () {

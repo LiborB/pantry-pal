@@ -39,7 +39,6 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   flutter_speed_dial: ^7.0.0
   http: ^1.0.0
-  flutter_dotenv: ^5.0.2
   firebase_auth: ^4.1.5
   provider: ^6.0.4
   firebase_core: ^2.10.0
@@ -80,8 +79,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - .env
+  # assets:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

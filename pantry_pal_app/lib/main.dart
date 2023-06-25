@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/home/home_store.dart';
@@ -19,7 +16,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'firebase_options.dart';
 
 Future main() async {
-  await dotenv.load(mergeWith: Platform.environment);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -32,7 +28,7 @@ Future main() async {
     }
   }
 
-  if (dotenv.get("LOCAL") != "true") {
+  if (const String.fromEnvironment("LOCAL") != "true") {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
     PlatformDispatcher.instance.onError = (error, stack) {

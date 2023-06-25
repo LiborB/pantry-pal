@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pantry_pal/features/api/token_interceptor.dart';
+import 'package:pantry_pal/shared/environment.dart' as env;
 import 'package:retrofit/http.dart';
 
 import 'converter.dart';
@@ -16,7 +15,7 @@ abstract class ApiHttp {
 
     dio.interceptors.add(TokenInterceptor());
 
-    return _ApiHttp(dio, baseUrl: dotenv.get("API_BASE_URL"));
+    return _ApiHttp(dio, baseUrl: env.apiBaseUrl);
   }
 
   @GET("/product/{householdId}/detail")
