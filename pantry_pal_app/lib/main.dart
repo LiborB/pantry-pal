@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,7 +19,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'firebase_options.dart';
 
 Future main() async {
-  await dotenv.load();
+  await dotenv.load(mergeWith: Platform.environment);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
