@@ -20,6 +20,7 @@ func HouseholdValidator(c *gin.Context) {
 	database.DB.Where(&database.HouseholdMember{
 		HouseholdID: householdId,
 		UserID:      userId,
+		Status:      "accepted",
 	}).First(&member)
 
 	if member == nil {

@@ -22,7 +22,7 @@ UpdateUserPayload _$UpdateUserPayloadFromJson(Map<String, dynamic> json) =>
     UpdateUserPayload(
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
-      onboardedVersion: json['onboardedVersion'] as int,
+      onboardedVersion: json['onboardedVersion'] as int? ?? 1,
     );
 
 Map<String, dynamic> _$UpdateUserPayloadToJson(UpdateUserPayload instance) =>
@@ -119,6 +119,7 @@ HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
       isOwner: json['isOwner'] as bool,
       createdAt:
           const CustomDateTimeConverter().fromJson(json['createdAt'] as int),
+      householdId: json['householdId'] as int,
     );
 
 Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
@@ -128,6 +129,7 @@ Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
       'isOwner': instance.isOwner,
       'status': _$MemberStatusEnumMap[instance.status]!,
       'createdAt': const CustomDateTimeConverter().toJson(instance.createdAt),
+      'householdId': instance.householdId,
     };
 
 const _$MemberStatusEnumMap = {
@@ -381,6 +383,59 @@ class _ApiHttp implements ApiHttp {
         .compose(
           _dio.options,
           '/household/${householdId}/members',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<List<HouseholdMember>> getPendingInvites() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<HouseholdMember>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/household/invites',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => HouseholdMember.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<dynamic> respondInvite(
+    String householdId,
+    bool accept,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'householdId': householdId,
+      r'accept': accept,
+    };
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/household/invites/respond',
           queryParameters: queryParameters,
           data: _data,
         )

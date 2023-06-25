@@ -36,7 +36,7 @@ abstract class ApiHttp {
 
   @POST("/user")
   Future createUser();
-  
+
   @GET("/user")
   Future<AppUser> getUser();
 
@@ -49,11 +49,18 @@ abstract class ApiHttp {
   @POST("/household/{householdId}/members")
   Future addHouseholdMember(@Path() String householdId, @Body() AddMember body);
 
+  @GET("/household/invites")
+  Future<List<HouseholdMember>> getPendingInvites();
+
+  @POST("/household/invites/respond")
+  Future respondInvite(@Query("householdId") String householdId, @Query("accept") bool accept);
+
   @POST("/household")
   Future createHousehold(@Body() CreateHouseholdPayload body);
 
   @POST("/household/{householdId}")
-  Future updateHousehold(@Path() String householdId, @Body() UpdateHouseholdPayload body);
+  Future updateHousehold(
+      @Path() String householdId, @Body() UpdateHouseholdPayload body);
 
   @GET("/household")
   Future<List<Household>> getHouseholds();
@@ -74,7 +81,10 @@ class UpdateUserPayload {
   String lastName;
   int onboardedVersion;
 
-  UpdateUserPayload({required this.firstName, required this.lastName, this.onboardedVersion = 1});
+  UpdateUserPayload(
+      {required this.firstName,
+      required this.lastName,
+      this.onboardedVersion = 1});
 
   toJson() => _$UpdateUserPayloadToJson(this);
 }
@@ -176,13 +186,16 @@ class HouseholdMember {
   bool isOwner;
   MemberStatus status;
   DateTime createdAt;
+  int householdId;
 
-  HouseholdMember(
-      {required this.userId,
-      required this.email,
-      required this.status,
-      required this.isOwner,
-      required this.createdAt});
+  HouseholdMember({
+    required this.userId,
+    required this.email,
+    required this.status,
+    required this.isOwner,
+    required this.createdAt,
+    required this.householdId,
+  });
 
   factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
       _$HouseholdMemberFromJson(json);

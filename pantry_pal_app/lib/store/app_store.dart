@@ -18,6 +18,9 @@ class AppStore extends ChangeNotifier {
   AppUser? _user;
   AppUser get user => _user!;
 
+  List<HouseholdMember> _pendingInvites = [];
+  List<HouseholdMember> get pendingInvites => _pendingInvites;
+
   setSelectedHousehold(Household household) {
     _selectedHousehold = household;
     notifyListeners();
@@ -45,6 +48,8 @@ class AppStore extends ChangeNotifier {
       await handleUnAuth();
       return;
     }
+
+    _pendingInvites = await ApiHttp().getPendingInvites();
 
     _user = await ApiHttp().getUser();
 
@@ -96,7 +101,7 @@ class AppStore extends ChangeNotifier {
     await handleLogin(userCredential);
   }
 
-  Future handleSignupApple() async {
+  Future handleSigninApple() async {
     final appleProvider = AppleAuthProvider();
 
     UserCredential credential;

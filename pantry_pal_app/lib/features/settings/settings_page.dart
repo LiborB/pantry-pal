@@ -17,9 +17,11 @@ class _SettingsPageState extends State<SettingsPage> {
       for (var member in members)
         ListTile(
           title: Text(member.isOwner ? "${member.email} (Me)" : member.email),
-          trailing: member.status == MemberStatus.pending ? Chip(
-            label: Text(member.status.name),
-          ) : null,
+          trailing: member.status == MemberStatus.pending
+              ? Chip(
+                  label: Text(member.status.name),
+                )
+              : null,
           leading: const Icon(Icons.person),
         ),
     ];
@@ -55,10 +57,14 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             ..._buildMemberList(store.householdMembers),
-            ElevatedButton(
+            FilledButton(
               onPressed: () async {
                 await store.signOut();
               },
+              style: FilledButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).buttonTheme.colorScheme!.error,
+              ),
               child: const Text("Sign Out"),
             )
           ],

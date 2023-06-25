@@ -19,4 +19,9 @@ class HomeStore extends ChangeNotifier {
     await appStore.refreshUser();
     await appStore.refreshHouseholds();
   }
+
+  Future<void> respondInvite(HouseholdMember member, bool accept) async {
+    await ApiHttp().respondInvite(member.householdId.toString(), accept);
+    await appStore.refreshHouseholds();
+  }
 }

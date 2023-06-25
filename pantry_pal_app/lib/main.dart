@@ -84,7 +84,7 @@ class _MyAppState extends State {
   }
 
   Widget _getLandingPage() {
-    return StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
+    return StreamBuilder(stream: FirebaseAuth.instance.userChanges(), builder: (context, snapshot) {
       if (!snapshot.hasData) {
         return const LoginPage();
       } else {

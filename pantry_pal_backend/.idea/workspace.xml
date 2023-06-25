@@ -5,21 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/token_interceptor.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/home_store.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/onboard_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/android/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/accept_invite_dialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/auth/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/auth/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/auth/sign_up_page.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/home_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/home/home_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/add_member_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/add_member_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/settings_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/settings/settings_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/store/app_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/store/app_store.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/common/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/common/middleware.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/domain/household/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/household/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/user/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/user/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pantry/handler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

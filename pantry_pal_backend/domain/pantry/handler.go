@@ -10,11 +10,11 @@ import (
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/pantry", common.HouseholdValidator)
+	group := r.Group("/pantry/:householdId", common.HouseholdValidator)
 
-	group.POST("/:householdId", addItem)
-	group.GET("/:householdId", getItems)
-	group.PATCH("/:householdId", updateItem)
+	group.POST("", addItem)
+	group.GET("", getItems)
+	group.PATCH("", updateItem)
 }
 
 type updateItemPayload struct {
@@ -23,11 +23,11 @@ type updateItemPayload struct {
 	ExpiryDate      int    `json:"expiryDate"`
 	Barcode         string `json:"barcode"`
 	UpdateLocalItem bool   `json:"updateLocalItem"`
-	HouseholdId     int    `json:"householdId"`
 }
 
 func addItem(c *gin.Context) {
 	var body updateItemPayload
+	householdId := c.GetInt("householdId")
 
 	log.Println(body)
 
@@ -43,7 +43,7 @@ func addItem(c *gin.Context) {
 		Name:        body.Name,
 		ExpiryDate:  body.ExpiryDate,
 		Barcode:     body.Barcode,
-		HouseholdID: body.HouseholdId,
+		HouseholdID: householdId,
 		Quantity:    1,
 	})
 
@@ -51,7 +51,7 @@ func addItem(c *gin.Context) {
 		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
 			ID:          body.Id,
 			Name:        body.Name,
-			HouseholdID: body.HouseholdId,
+			HouseholdID: householdId,
 		})
 	}
 
@@ -88,7 +88,7 @@ func updateItem(c *gin.Context) {
 	if body.UpdateLocalItem && body.Barcode != "" {
 		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
 			PantryItemID: body.Id,
-			HouseholdID:  body.HouseholdId,
+			HouseholdID:  c.GetInt("householdId"),
 			Name:         body.Name,
 		})
 	}
