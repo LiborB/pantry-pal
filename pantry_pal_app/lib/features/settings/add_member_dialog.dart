@@ -54,7 +54,7 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
           ],
         ),
         actions: [
-          ElevatedButton(
+          FilledButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 try {
