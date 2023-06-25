@@ -10,12 +10,15 @@ import 'package:pantry_pal/features/pantry/pantry_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/features/settings/settings_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
+import 'package:pantry_pal/shared/environment.dart' as env;
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'firebase_options.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -28,7 +31,7 @@ Future main() async {
     }
   }
 
-  if (const String.fromEnvironment("LOCAL") != "true") {
+  if (env.isLocal) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
     PlatformDispatcher.instance.onError = (error, stack) {
