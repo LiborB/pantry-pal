@@ -7,34 +7,34 @@ import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AppStore extends ChangeNotifier {
-  Household? _selectedHousehold;
-  Household get selectedHousehold => _selectedHousehold!;
+  ValueNotifier<Household?> selectedHousehold = ValueNotifier(null);
 
-  String get householdId => _selectedHousehold!.id.toString();
+  String get householdId => selectedHousehold.value!.id.toString();
 
-  List<Household> _households = [];
-  List<Household> get households => _households;
+  ValueNotifier<List<Household>> households = ValueNotifier([]);
 
   AppUser? _user;
+
   AppUser get user => _user!;
 
   List<HouseholdMember> _pendingInvites = [];
+
   List<HouseholdMember> get pendingInvites => _pendingInvites;
 
   setSelectedHousehold(Household household) {
-    _selectedHousehold = household;
+    selectedHousehold.value = household;
     notifyListeners();
   }
 
   Future handleUnAuth() async {
-    _households = [];
-    _selectedHousehold = null;
+    households.value = [];
+    selectedHousehold.value = null;
     _user = null;
     notifyListeners();
   }
 
   Future refreshHouseholds() async {
-    _households = await ApiHttp().getHouseholds();
+    households.value = await ApiHttp().getHouseholds();
     notifyListeners();
   }
 
@@ -57,7 +57,7 @@ class AppStore extends ChangeNotifier {
 
     await refreshHouseholds();
 
-    setSelectedHousehold(_households.first);
+    setSelectedHousehold(households.value.first);
   }
 
   Future handleLogin(UserCredential userCredential) async {
@@ -69,7 +69,8 @@ class AppStore extends ChangeNotifier {
           final res = (err as DioException).response;
           if (res?.statusCode == 404) {
             await ApiHttp().createUser();
-            await ApiHttp().createHousehold(CreateHouseholdPayload(name: "My House"));
+            await ApiHttp()
+                .createHousehold(CreateHouseholdPayload(name: "My House"));
             _user = await ApiHttp().getUser();
             break;
           }
@@ -87,7 +88,8 @@ class AppStore extends ChangeNotifier {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -96,7 +98,8 @@ class AppStore extends ChangeNotifier {
     );
 
     // Once signed in, return the UserCredential
-    final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    final userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     await handleLogin(userCredential);
   }
@@ -108,7 +111,8 @@ class AppStore extends ChangeNotifier {
     if (kIsWeb) {
       credential = await FirebaseAuth.instance.signInWithPopup(appleProvider);
     } else {
-      credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
+      credential =
+          await FirebaseAuth.instance.signInWithProvider(appleProvider);
     }
 
     await handleLogin(credential);

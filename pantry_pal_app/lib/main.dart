@@ -91,7 +91,7 @@ class _MyAppState extends State {
         Navigator.of(context).popUntil((route) => true);
         return Consumer<AppStore>(
           builder: (context, value, child) {
-            if (value.households.isNotEmpty) {
+            if (value.households.value.isNotEmpty) {
               return child!;
             } else {
               return const Scaffold(

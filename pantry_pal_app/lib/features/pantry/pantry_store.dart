@@ -11,17 +11,23 @@ enum PageSort {
 }
 
 class PantryStore extends ChangeNotifier {
-  PantryStore(this.appStore);
-
   PageSort _sort = PageSort.dateAddedDesc;
-
   PageSort get sort => _sort;
 
   List<PantryItem> _allPantryItems = [];
-
   List<PantryItem> get allPantryItems => _allPantryItems;
 
-   AppStore appStore;
+  AppStore appStore;
+
+  PantryStore(this.appStore) {
+      appStore.selectedHousehold.addListener(refreshPantryItems);
+  }
+
+  @override
+  void dispose() {
+    appStore.selectedHousehold.removeListener(refreshPantryItems);
+    super.dispose();
+  }
 
   Future refreshPantryItems() async {
     _allPantryItems = await ApiHttp().getPantryItems(appStore.householdId);

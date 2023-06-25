@@ -4,6 +4,8 @@ import 'package:pantry_pal/features/settings/add_member_dialog.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 
+import '../../store/app_store.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -27,6 +29,34 @@ class _SettingsPageState extends State<SettingsPage> {
     ];
   }
 
+  List<ListTile> _buildHouseholdList() {
+    List<ListTile> tiles = [];
+    final households = context.read<AppStore>().households.value;
+    final householdId = context.read<AppStore>().householdId;
+
+    for (var household in households) {
+      final isSelected = household.id.toString() == householdId;
+
+      tiles.add(
+        ListTile(
+            title: Text(household.name),
+            leading: const Icon(Icons.home),
+            trailing: isSelected ? const Icon(Icons.check) : null,
+            onTap: () async {
+              await context.read<AppStore>().setSelectedHousehold(household);
+            },
+            selected: isSelected,
+            selectedTileColor:
+                Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            )),
+      );
+    }
+
+    return tiles;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
         body: ListView(
           padding: const EdgeInsets.only(left: 16, right: 16),
           children: [
+            ..._buildHouseholdList(),
             ListTile(
               title: const Text("Your Household"),
               contentPadding: EdgeInsets.zero,

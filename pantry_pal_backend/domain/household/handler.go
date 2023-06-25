@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"log"
 	"net/http"
 	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
@@ -219,9 +218,7 @@ func respondInvite(c *gin.Context) {
 	householdId, _ := strconv.Atoi(c.Query("householdId"))
 	userId := c.GetString("userId")
 	accept := c.Query("accept")
-
-	log.Println(c.Query("householdId"))
-
+	
 	var member database.HouseholdMember
 	database.DB.Where(&database.HouseholdMember{
 		HouseholdID: householdId,

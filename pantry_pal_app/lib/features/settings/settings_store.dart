@@ -6,15 +6,25 @@ import '../../store/app_store.dart';
 import '../api/api_http.dart';
 
 class SettingsStore with ChangeNotifier {
+  AppStore appStore;
+  List<HouseholdMember> _householdMembers = [];
+  List<HouseholdMember> get householdMembers => _householdMembers;
+
   SettingsStore(this.appStore) {
     refreshSettings();
+
+    appStore.selectedHousehold.addListener(householdChanged);
   }
 
-  AppStore appStore;
+  @override
+  void dispose() {
+    appStore.selectedHousehold.removeListener(householdChanged);
+    super.dispose();
+  }
 
-  List<HouseholdMember> _householdMembers = [];
-
-  List<HouseholdMember> get householdMembers => _householdMembers;
+  void householdChanged() {
+    refreshSettings();
+  }
 
   Future refreshSettings() async {
       _householdMembers = await ApiHttp().getHouseholdMembers(appStore.householdId);
