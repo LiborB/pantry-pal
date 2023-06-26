@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/shared/environment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/shared/environment.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/common/firebase.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/common/firebase.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pantry_pal_backend.exe" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go File" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>

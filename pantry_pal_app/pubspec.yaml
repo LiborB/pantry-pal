@@ -56,6 +56,9 @@ dependencies:
   flutter_signin_button: ^2.0.0
   sign_in_with_apple: ^5.0.0
   sentry_flutter: ^7.8.0
+  newrelic_mobile: ^1.0.1
+  sentry_logging: ^7.8.0
+  logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:

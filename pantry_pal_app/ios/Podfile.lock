@@ -116,6 +116,10 @@ PODS:
     - nanopb/encode (= 2.30909.0)
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
+  - newrelic_mobile (1.0.0):
+    - Flutter
+    - NewRelicAgent (= 7.4.5)
+  - NewRelicAgent (7.4.5)
   - package_info_plus (0.4.5):
     - Flutter
   - PromisesObjC (2.2.0)
@@ -139,6 +143,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
+  - newrelic_mobile (from `.symlinks/plugins/newrelic_mobile/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
@@ -162,6 +167,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - nanopb
+    - NewRelicAgent
     - PromisesObjC
     - PromisesSwift
     - Sentry
@@ -182,6 +188,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
+  newrelic_mobile:
+    :path: ".symlinks/plugins/newrelic_mobile/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   sentry_flutter:
@@ -214,6 +222,8 @@ SPEC CHECKSUMS:
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
+  newrelic_mobile: c45cab7bc9855dafe7f2a1f7eb2d860de3eae842
+  NewRelicAgent: ac619f4d5719d2fe1f95245b77cbacd4a63a1dac
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959

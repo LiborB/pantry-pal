@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pantry_pal/features/api/logging_interceptor.dart';
 import 'package:pantry_pal/features/api/token_interceptor.dart';
 import 'package:pantry_pal/shared/environment.dart' as env;
 import 'package:retrofit/http.dart';
@@ -14,6 +15,7 @@ abstract class ApiHttp {
     var dio = Dio();
 
     dio.interceptors.add(TokenInterceptor());
+    dio.interceptors.add(LoggingInterceptor());
 
     return _ApiHttp(dio, baseUrl: env.apiBaseUrl);
   }

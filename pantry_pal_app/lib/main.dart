@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
+import 'package:newrelic_mobile/config.dart';
+import 'package:newrelic_mobile/newrelic_mobile.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/home/home_store.dart';
@@ -11,14 +16,16 @@ import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/features/settings/settings_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:pantry_pal/shared/environment.dart' as env;
+import 'package:pantry_pal/shared/logger.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sentry_logging/sentry_logging.dart';
 import 'firebase_options.dart';
+import "dart:io" show Platform;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -32,46 +39,68 @@ Future main() async {
   }
 
   if (!env.isLocal) {
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FlutterError.onError = (error) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(error);
+      Sentry.captureException(error);
+    };
 
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      Sentry.captureException(error, stackTrace: stack);
       return true;
     };
-  }
 
-  await SentryFlutter.init(
-    (options) {
+    Sentry.configureScope((scope) => scope.level = SentryLevel.info);
+
+    Logger.root.onRecord.listen((event) async {
+      if (event.level == Level.INFO) {
+        await Sentry.addBreadcrumb(Breadcrumb(
+          level: SentryLevel.info,
+          message: event.message,
+          category: event.loggerName,
+          data: event.object as Map<String, dynamic>?,
+        ));
+      }
+    });
+
+    await SentryFlutter.init((options) {
       options.dsn =
           'https://9f0352e73aa74b79b5cfaeab272568ee@o4505418746757120.ingest.sentry.io/4505418752196608';
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
-          ChangeNotifierProxyProvider<AppStore, PantryStore>(
-              create: (context) =>
-                  PantryStore(Provider.of<AppStore>(context, listen: false)),
-              update: (context, appStore, pantryStore) =>
-                  pantryStore!..appStore = appStore),
-          ChangeNotifierProxyProvider<AppStore, SettingsStore>(
-              create: (context) =>
-                  SettingsStore(Provider.of<AppStore>(context, listen: false)),
-              update: (context, appStore, settingsStore) =>
-                  settingsStore!..appStore = appStore),
-          ChangeNotifierProxyProvider<AppStore, HomeStore>(
-              create: (context) =>
-                  HomeStore(Provider.of<AppStore>(context, listen: false)),
-              update: (context, appStore, homeStore) =>
-                  homeStore!..appStore = appStore),
-        ],
-        child: MaterialApp(
-          home: const MyApp(),
-          theme: ThemeData(useMaterial3: true),
-        ),
+      options.addIntegration(LoggingIntegration());
+      options.environment = "production";
+    }, appRunner: runMainApp);
+  } else {
+    runMainApp();
+  }
+}
+
+void runMainApp() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
+        ChangeNotifierProxyProvider<AppStore, PantryStore>(
+            create: (context) =>
+                PantryStore(Provider.of<AppStore>(context, listen: false)),
+            update: (context, appStore, pantryStore) =>
+                pantryStore!..appStore = appStore),
+        ChangeNotifierProxyProvider<AppStore, SettingsStore>(
+            create: (context) =>
+                SettingsStore(Provider.of<AppStore>(context, listen: false)),
+            update: (context, appStore, settingsStore) =>
+                settingsStore!..appStore = appStore),
+        ChangeNotifierProxyProvider<AppStore, HomeStore>(
+            create: (context) =>
+                HomeStore(Provider.of<AppStore>(context, listen: false)),
+            update: (context, appStore, homeStore) =>
+                homeStore!..appStore = appStore),
+      ],
+      child: MaterialApp(
+        home: const MyApp(),
+        theme: ThemeData(useMaterial3: true),
       ),
     ),
   );

@@ -545,7 +545,7 @@ packages:
     source: hosted
     version: "2.1.1"
   logging:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logging
       sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
@@ -592,6 +592,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  newrelic_mobile:
+    dependency: "direct main"
+    description:
+      name: newrelic_mobile
+      sha256: "64aa003a38759b3e8e400d63d8f21f87570c84c53d9b9fe3bb58019119e35db3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   package_config:
     dependency: transitive
     description:
@@ -701,6 +709,14 @@ packages:
     description:
       name: sentry_flutter
       sha256: bbc1048558cf8ae65c1e27b1249357298cfca50e5843ad0367387f5c873b8e42
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.8.0"
+  sentry_logging:
+    dependency: "direct main"
+    description:
+      name: sentry_logging
+      sha256: "30554b65282aaca37977d8ad4d7af6eb7e31ac09e949e9acece4d8ffeaa2b3b3"
       url: "https://pub.dev"
     source: hosted
     version: "7.8.0"
