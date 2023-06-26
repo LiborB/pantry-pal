@@ -25,6 +25,12 @@ func main() {
 	r := gin.Default()
 	r.Use(errorHandler)
 
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+
 	setupAuth(r)
 
 	err = r.SetTrustedProxies(nil)

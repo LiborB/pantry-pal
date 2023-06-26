@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da3b6254-47ee-4eaf-ad87-8166a3b0458a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/api_http.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/logging_interceptor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/api/logging_interceptor.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/create_item_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../pantry_pal_app/lib/features/pantry/pantry_store.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/common/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/common/middleware.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/database/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/database/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/pantry/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/pantry/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/product/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/product/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +65,7 @@
     <configuration name="go build pantry_pal_backend" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="pantry_pal_backend" />
       <working_directory value="$PROJECT_DIR$" />
+      <sudo value="true" />
       <kind value="PACKAGE" />
       <package value="pantry_pal_backend" />
       <directory value="$PROJECT_DIR$" />
@@ -87,6 +78,11 @@
     <configuration name="api | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api.http" requestIdentifier="#1" runType="Run single request">
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Go Build.go build pantry_pal_backend" />
+      <item itemvalue="HTTP Request.All in api" />
+      <item itemvalue="HTTP Request.api | #1" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="HTTP Request.api | #1" />
