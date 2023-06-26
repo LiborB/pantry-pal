@@ -2,8 +2,11 @@ package product
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"io"
 	"log"
 	"net/http"
@@ -14,7 +17,7 @@ import (
 func AddRoutes(r *gin.Engine) {
 	group := r.Group("/product", common.HouseholdValidator)
 
-	group.GET("/:householdId/detail", productDetail)
+	group.POST("/:householdId/detail", productDetail)
 }
 
 type productResponse struct {
@@ -61,16 +64,21 @@ func productDetail(c *gin.Context) {
 		return
 	}
 
-	var customizedItem *database.PantryItemCustomised
+	database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Save(&database.Product{
+		Barcode: barcode,
+		Name:    body.Product.ProductName,
+	})
 
-	database.DB.Where(&database.PantryItemCustomised{
+	var customizedItem database.PantryItemCustomised
+
+	tx := database.DB.Where(&database.PantryItemCustomised{
 		HouseholdID: householdId,
-		PantryItem: database.PantryItem{
+		PantryItemDetail: database.Product{
 			Barcode: barcode,
 		},
 	}).First(&customizedItem)
 
-	if customizedItem == nil {
+	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
 		c.JSON(200, productInfo{Name: body.Product.ProductName})
 	} else {
 		c.JSON(200, productInfo{Name: customizedItem.Name})

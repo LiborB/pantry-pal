@@ -62,7 +62,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
         _isLoadingItem = true;
       });
       final info = await Provider.of<PantryStore>(context, listen: false).getProductInformation(barcode);
-
+print(info.name);
       setState(() {
         _nameController.text = info.name;
         _barcode = barcode;
@@ -194,8 +194,8 @@ class _CreateItemPageState extends State<CreateItemPage> {
               children: [
                 OutlinedButton(
                   onPressed: () async {
-                    final barcode = await _scanBarcode();
-                    // final barcode = "3017620422003";
+                    // final barcode = await _scanBarcode();
+                    final barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);

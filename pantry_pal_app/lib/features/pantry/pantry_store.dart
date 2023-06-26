@@ -60,7 +60,7 @@ class PantryStore extends ChangeNotifier {
     }
   }
 
-  getProductInformation(String barcode) async {
+  Future<Product> getProductInformation(String barcode) async {
     return await ApiHttp().getProductInformation(
       appStore.householdId,
       barcode,

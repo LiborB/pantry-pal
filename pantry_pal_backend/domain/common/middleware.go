@@ -1,7 +1,9 @@
 package common
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"pantry_pal_backend/domain/database"
 	"strconv"
 )
@@ -15,15 +17,15 @@ func HouseholdValidator(c *gin.Context) {
 		return
 	}
 
-	var member *database.HouseholdMember
+	var member database.HouseholdMember
 
-	database.DB.Where(&database.HouseholdMember{
+	tx := database.DB.Where(&database.HouseholdMember{
 		HouseholdID: householdId,
 		UserID:      userId,
 		Status:      "accepted",
 	}).First(&member)
 
-	if member == nil {
+	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
 		c.AbortWithStatus(403)
 		return
 	}

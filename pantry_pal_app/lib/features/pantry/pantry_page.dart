@@ -58,17 +58,22 @@ class _PantryPageState extends State<PantryPage> {
                   )),
             ],
           ),
-          body: ListView.separated(
-            separatorBuilder: (context, i) {
-              return const SizedBox();
+          body: RefreshIndicator(
+            onRefresh: () {
+              return store.refreshPantryItems();
             },
-            itemCount: store.allPantryItems.length,
-            itemBuilder: (context, i) {
-              return ItemCard(
-                key: ValueKey(i),
-                item: store.allPantryItems[i],
-              );
-            },
+            child: ListView.separated(
+              separatorBuilder: (context, i) {
+                return const SizedBox();
+              },
+              itemCount: store.allPantryItems.length,
+              itemBuilder: (context, i) {
+                return ItemCard(
+                  key: ValueKey(i),
+                  item: store.allPantryItems[i],
+                );
+              },
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

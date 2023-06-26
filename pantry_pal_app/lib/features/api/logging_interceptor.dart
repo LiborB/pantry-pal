@@ -19,6 +19,7 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
     logger.info({
+      "url": response.requestOptions.uri.toString(),
       "message": "Response from api",
       "statusCode": response.statusCode,
       "statusMessage": response.statusMessage,

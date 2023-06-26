@@ -48,11 +48,24 @@ func addItem(c *gin.Context) {
 	})
 
 	if body.UpdateLocalItem && body.Barcode != "" {
-		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-			ID:          body.Id,
-			Name:        body.Name,
-			HouseholdID: householdId,
-		})
+		var pantryItemDetail database.Product
+
+		tx := database.DB.Where(&database.Product{
+			Barcode: body.Barcode,
+		}).Find(&pantryItemDetail)
+
+		if tx.Error == nil {
+			database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
+				ID:                 body.Id,
+				Name:               body.Name,
+				HouseholdID:        householdId,
+				PantryItemDetailID: pantryItemDetail.ID,
+			})
+		} else {
+			database.DB.Create(&database.Product{
+				Barcode: body.Barcode,
+			})
+		}
 	}
 
 	c.Status(http.StatusNoContent)
@@ -86,11 +99,19 @@ func updateItem(c *gin.Context) {
 	database.DB.Save(&pantryItem)
 
 	if body.UpdateLocalItem && body.Barcode != "" {
-		database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-			PantryItemID: body.Id,
-			HouseholdID:  c.GetInt("householdId"),
-			Name:         body.Name,
-		})
+		var itemDetail database.Product
+
+		err := database.DB.Where(&database.Product{
+			Barcode: body.Barcode,
+		}).First(&itemDetail)
+
+		if err.Error == nil {
+			database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
+				PantryItemDetailID: itemDetail.ID,
+				HouseholdID:        c.GetInt("householdId"),
+				Name:               body.Name,
+			})
+		}
 	}
 
 	c.Status(http.StatusNoContent)

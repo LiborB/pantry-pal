@@ -2,27 +2,39 @@ package database
 
 import "time"
 
+type Product struct {
+	ID        int `gorm:"primaryKey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string
+	Barcode   string `gorm:"uniqueIndex:idx_product"`
+}
+
 type PantryItem struct {
-	ID          int `gorm:"primaryKey"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	Name        string
-	Barcode     string
-	ExpiryDate  int
-	Household   Household
-	HouseholdID int
-	Quantity    int
+	ID                 int `gorm:"primaryKey"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+	Name               string
+	Barcode            string
+	ExpiryDate         int
+	Household          Household
+	HouseholdID        int
+	Quantity           int
+	ConsumedAt         *time.Time
+	DeletedAt          *time.Time
+	PantryItemDetail   *Product
+	PantryItemDetailID *int
 }
 
 type PantryItemCustomised struct {
-	ID           int `gorm:"primaryKey"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	Name         string
-	Household    Household
-	HouseholdID  int `gorm:"uniqueIndex:idx_pantry_item_customised"`
-	PantryItem   PantryItem
-	PantryItemID int `gorm:"uniqueIndex:idx_pantry_item_customised"`
+	ID                 int `gorm:"primaryKey"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+	Name               string
+	Household          Household
+	HouseholdID        int `gorm:"uniqueIndex:idx_pantry_item_customised"`
+	PantryItemDetail   Product
+	PantryItemDetailID int `gorm:"uniqueIndex:idx_pantry_item_customised"`
 }
 
 type Household struct {

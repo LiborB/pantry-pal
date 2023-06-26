@@ -20,7 +20,7 @@ abstract class ApiHttp {
     return _ApiHttp(dio, baseUrl: env.apiBaseUrl);
   }
 
-  @GET("/product/{householdId}/detail")
+  @POST("/product/{householdId}/detail")
   Future<Product> getProductInformation(
       @Path() String householdId, @Query("barcode") String barcode);
 
