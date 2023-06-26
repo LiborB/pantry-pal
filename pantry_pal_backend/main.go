@@ -5,7 +5,6 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
-	"os"
 	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
 	"pantry_pal_backend/domain/household"
@@ -39,7 +38,7 @@ func main() {
 	household.AddRoutes(r)
 	user.AddRoutes(r)
 
-	err = r.Run(os.Getenv("URL"))
+	err = r.Run(":80")
 
 	if err != nil {
 		log.Fatal(err)
