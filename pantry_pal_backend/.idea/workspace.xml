@@ -60,14 +60,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build pantry_pal_backend">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="pantry_pal_backend" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
     <configuration name="go build pantry_pal_backend" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="pantry_pal_backend" />
       <working_directory value="$PROJECT_DIR$" />
@@ -75,15 +67,6 @@
       <package value="pantry_pal_backend" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="pantry_pal_backend" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <configuration name="All in api" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/api.http">

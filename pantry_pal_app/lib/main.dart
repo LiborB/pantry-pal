@@ -31,7 +31,7 @@ Future main() async {
     }
   }
 
-  if (env.isLocal) {
+  if (!env.isLocal) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
     PlatformDispatcher.instance.onError = (error, stack) {
