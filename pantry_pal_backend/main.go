@@ -44,7 +44,7 @@ func main() {
 	household.AddRoutes(r)
 	user.AddRoutes(r)
 
-	err = r.Run(":80")
+	err = r.Run(":8080")
 
 	if err != nil {
 		log.Fatal(err)
