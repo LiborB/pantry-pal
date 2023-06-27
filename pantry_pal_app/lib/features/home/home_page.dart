@@ -30,26 +30,12 @@ class _HomePageState extends State<HomePage> {
           });
         } else if (value.pendingInvites.isNotEmpty) {
           final invitedMember = value.pendingInvites[0];
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            showDialog(
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            await showDialog(
               context: context,
               builder: (context) {
                 return AcceptInviteDialog(
                   member: invitedMember,
-                  onAccept: () async {
-                    await Provider.of<HomeStore>(context, listen: false).respondInvite(invitedMember, true);
-
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  onDecline: () async {
-                    await Provider.of<HomeStore>(context, listen: false).respondInvite(invitedMember, false);
-
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
                 );
               },
               barrierDismissible: false,

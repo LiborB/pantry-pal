@@ -20,4 +20,4 @@ firebase-admin-sdk.json
 # CDK asset staging directory
 .cdk.staging
 cdk.out
-.idea
+.idea/
