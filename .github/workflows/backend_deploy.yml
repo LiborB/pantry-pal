@@ -61,4 +61,4 @@ jobs:
           export DB_PORT=$DB_PORT
           export DB_NAME=$DB_NAME
           cd pantry-pal/pantry_pal_backend
-          pm2 delete app 2> /dev/null || true && pm2 start app --name "app" --update-env
+          pm2 delete app 2> /dev/null || true && pm2 start app --name "app"
