@@ -41,6 +41,7 @@ jobs:
 
     - name: Start Server
       uses: appleboy/ssh-action@v0.1.6
+      timeout-minutes: 1
       with:
         host: ${{ secrets.SSH_SERVER }}
         username: ${{ secrets.SSH_USERNAME }}
