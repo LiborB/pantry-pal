@@ -36,7 +36,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         server: ${{ secrets.SSH_SERVER }}
         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        local_path: ./pantry_pal_backend/pantry_pal_backend
+        local_path: ./pantry_pal_backend/app
         remote_path: pantry-pal/pantry_pal_backend/
 
     - name: Start Server
