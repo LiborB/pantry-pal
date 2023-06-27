@@ -55,6 +55,11 @@ jobs:
         port: 22
         envs: DB_USERNAME,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME
         script: |
+          export DB_USERNAME=$DB_USERNAME
+          export DB_PASSWORD=$DB_PASSWORD
+          export DB_HOST=$DB_HOST
+          export DB_PORT=$DB_PORT
+          export DB_NAME=$DB_NAME
+          export GOOGLE_APPLICATION_CREDENTIALS=firebase-admin-sdk.json
           cd pantry-pal/pantry_pal_backend
-          pm2 delete app 2> /dev/null || true
-          pm2 start app --name "app" --update-env
+          pm2 delete app 2> /dev/null || true && pm2 start app --name "app"
