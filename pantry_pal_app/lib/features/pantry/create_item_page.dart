@@ -194,8 +194,8 @@ print(info.name);
               children: [
                 OutlinedButton(
                   onPressed: () async {
-                    // final barcode = await _scanBarcode();
-                    final barcode = "3017620422003";
+                    final barcode = await _scanBarcode();
+                    // final barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);
