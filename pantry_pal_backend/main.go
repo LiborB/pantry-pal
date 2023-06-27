@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	godotenv.Load()
+	err := godotenv.Load()
 
 	database.InitDatabase()
 
