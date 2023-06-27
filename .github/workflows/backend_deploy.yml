@@ -55,5 +55,4 @@ jobs:
         port: 22
         envs: DB_USERNAME,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME
         script: |
-          cd pantry-pal/pantry_pal_backend
-          pm2 delete pantry-pal-backend 2>/dev/null & pm2 start app --name pantry-pal-backend --update-env
+          pm2 restart app --update-env
