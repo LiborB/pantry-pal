@@ -31,6 +31,8 @@ type PantryItem struct {
 	DeletedAt     *time.Time
 	Product       *Product
 	ProductID     *int
+	CreatedBy     User `gorm:"foreignKey:CreatedByID"`
+	CreatedByID   string
 }
 
 type PantryItemCustomised struct {

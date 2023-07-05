@@ -32,6 +32,7 @@ type updateItemPayload struct {
 func addItem(c *gin.Context) {
 	var body updateItemPayload
 	householdId := c.GetInt("householdId")
+	userId := c.GetString("userId")
 
 	log.Println(body)
 
@@ -51,6 +52,7 @@ func addItem(c *gin.Context) {
 		Quantity:      body.Quantity,
 		QuantityUnit:  body.QuantityUnit,
 		EnergyPer100g: body.EnergyPer100g,
+		CreatedByID:   userId,
 	}
 
 	var product database.Product
