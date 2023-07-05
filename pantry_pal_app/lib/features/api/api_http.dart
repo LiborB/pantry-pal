@@ -123,9 +123,13 @@ class AddMember {
 
 @JsonSerializable()
 class Product {
-  String name;
+  String productName;
+  String brand;
+  double quantity;
+  String quantityUnit;
+  double energyPer100g;
 
-  Product({required this.name});
+  Product({required this.productName, required this.brand, required this.quantity, required this.quantityUnit, required this.energyPer100g});
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
@@ -135,14 +139,18 @@ class Product {
 @CustomDateTimeConverter()
 class UpdatePantryItem {
   int id;
-  String name;
+  String productName;
   DateTime expiryDate;
   String barcode;
   bool updateLocalItem;
+  String? brand;
+  double? quantity;
+  String? quantityUnit;
+  double? energyPer100g;
 
   UpdatePantryItem({
     required this.id,
-    required this.name,
+    required this.productName,
     required this.expiryDate,
     required this.barcode,
     required this.updateLocalItem,
@@ -155,17 +163,25 @@ class UpdatePantryItem {
 @CustomDateTimeConverter()
 class PantryItem {
   int id;
-  String name;
+  String productName;
   DateTime expiryDate;
   DateTime createdAt;
   String barcode;
+  String? brand;
+  double? quantity;
+  String? quantityUnit;
+  double? energyPer100g;
 
   PantryItem({
     required this.id,
-    required this.name,
+    required this.productName,
     required this.expiryDate,
     required this.createdAt,
     required this.barcode,
+    required this.brand,
+    required this.quantity,
+    required this.quantityUnit,
+    required this.energyPer100g,
   });
 
   factory PantryItem.fromJson(Map<String, dynamic> json) =>

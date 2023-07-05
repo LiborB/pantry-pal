@@ -17,6 +17,9 @@ class PantryStore extends ChangeNotifier {
   List<PantryItem> _allPantryItems = [];
   List<PantryItem> get allPantryItems => _allPantryItems;
 
+  Product? _product;
+  Product? get product => _product;
+
   AppStore appStore;
 
   PantryStore(this.appStore) {
@@ -52,7 +55,7 @@ class PantryStore extends ChangeNotifier {
         _allPantryItems.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         break;
       case PageSort.nameAsc:
-        _allPantryItems.sort((a, b) => a.name.compareTo(b.name));
+        _allPantryItems.sort((a, b) => a.productName.compareTo(b.productName));
         break;
       case PageSort.expiryAsc:
         _allPantryItems.sort((a, b) => a.expiryDate.compareTo(b.expiryDate));
@@ -61,14 +64,28 @@ class PantryStore extends ChangeNotifier {
   }
 
   Future<Product> getProductInformation(String barcode) async {
-    return await ApiHttp().getProductInformation(
+    final info = await ApiHttp().getProductInformation(
       appStore.householdId,
       barcode,
     );
+    _product = info;
+
+    return info;
   }
 
   updatePantryItem(UpdatePantryItem item) async {
     await ApiHttp().updatePantryItem(appStore.householdId, item);
+    await refreshPantryItems();
+  }
+
+  createPantryItem(UpdatePantryItem item) async {
+    if (_product != null) {
+      item.quantity = _product!.quantity;
+      item.quantityUnit = _product!.quantityUnit;
+      item.energyPer100g = _product!.energyPer100g;
+    }
+
+    await ApiHttp().createPantryItem(appStore.householdId, item);
     await refreshPantryItems();
   }
 }

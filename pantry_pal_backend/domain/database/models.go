@@ -3,38 +3,49 @@ package database
 import "time"
 
 type Product struct {
-	ID        int `gorm:"primaryKey"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Name      string
-	Barcode   string `gorm:"uniqueIndex:idx_product"`
+	ID            int `gorm:"primaryKey"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	ProductName   string
+	Barcode       string `gorm:"uniqueIndex:idx_product"`
+	Brand         string
+	Quantity      float64
+	QuantityUnit  string
+	EnergyPer100g float64
 }
 
 type PantryItem struct {
-	ID                 int `gorm:"primaryKey"`
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
-	Name               string
-	Barcode            string
-	ExpiryDate         int
-	Household          Household
-	HouseholdID        int
-	Quantity           int
-	ConsumedAt         *time.Time
-	DeletedAt          *time.Time
-	PantryItemDetail   *Product
-	PantryItemDetailID *int
+	ID            int `gorm:"primaryKey"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	ProductName   string
+	Brand         *string
+	Quantity      *float64
+	QuantityUnit  *string
+	EnergyPer100g *float64
+	Barcode       string
+	ExpiryDate    int
+	Household     Household
+	HouseholdID   int
+	ConsumedAt    *time.Time
+	DeletedAt     *time.Time
+	Product       *Product
+	ProductID     *int
 }
 
 type PantryItemCustomised struct {
-	ID                 int `gorm:"primaryKey"`
-	CreatedAt          time.Time
-	UpdatedAt          time.Time
-	Name               string
-	Household          Household
-	HouseholdID        int `gorm:"uniqueIndex:idx_pantry_item_customised"`
-	PantryItemDetail   Product
-	PantryItemDetailID int `gorm:"uniqueIndex:idx_pantry_item_customised"`
+	ID            int `gorm:"primaryKey"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	ProductName   string
+	Brand         *string
+	Quantity      *float64
+	QuantityUnit  *string
+	EnergyPer100g *float64
+	Household     Household
+	HouseholdID   int `gorm:"uniqueIndex:idx_pantry_item_customised"`
+	Product       Product
+	ProductID     int `gorm:"uniqueIndex:idx_pantry_item_customised"`
 }
 
 type Household struct {

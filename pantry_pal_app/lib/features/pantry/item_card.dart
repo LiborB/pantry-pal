@@ -24,7 +24,7 @@ class ItemCard extends StatelessWidget {
           },
           tileColor: Theme.of(context).colorScheme.secondaryContainer,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          title: Text(item.name),
+          title: Text(item.productName),
           trailing: getExpiryText(item),
         ),
       ),

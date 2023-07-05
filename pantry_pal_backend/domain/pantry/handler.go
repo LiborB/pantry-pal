@@ -18,11 +18,15 @@ func AddRoutes(r *gin.Engine) {
 }
 
 type updateItemPayload struct {
-	Id              int    `json:"id"`
-	Name            string `json:"name"`
-	ExpiryDate      int    `json:"expiryDate"`
-	Barcode         string `json:"barcode"`
-	UpdateLocalItem bool   `json:"updateLocalItem"`
+	Id              int      `json:"id"`
+	ProductName     string   `json:"productName"`
+	ExpiryDate      int      `json:"expiryDate"`
+	Barcode         string   `json:"barcode"`
+	UpdateLocalItem bool     `json:"updateLocalItem"`
+	Brand           *string  `json:"brand"`
+	Quantity        *float64 `json:"quantity"`
+	QuantityUnit    *string  `json:"quantityUnit"`
+	EnergyPer100g   *float64 `json:"energyPer100g"`
 }
 
 func addItem(c *gin.Context) {
@@ -39,13 +43,26 @@ func addItem(c *gin.Context) {
 		return
 	}
 
-	database.DB.Create(&database.PantryItem{
-		Name:        body.Name,
-		ExpiryDate:  body.ExpiryDate,
-		Barcode:     body.Barcode,
-		HouseholdID: householdId,
-		Quantity:    1,
-	})
+	pantryItem := database.PantryItem{
+		ProductName:   body.ProductName,
+		ExpiryDate:    body.ExpiryDate,
+		Barcode:       body.Barcode,
+		HouseholdID:   householdId,
+		Quantity:      body.Quantity,
+		QuantityUnit:  body.QuantityUnit,
+		EnergyPer100g: body.EnergyPer100g,
+	}
+
+	var product database.Product
+	tx := database.DB.Where(&database.Product{
+		Barcode: body.Barcode,
+	}).First(&product)
+
+	if tx.Error == nil {
+		pantryItem.ProductID = &product.ID
+	}
+
+	database.DB.Create(&pantryItem)
 
 	if body.UpdateLocalItem && body.Barcode != "" {
 		var pantryItemDetail database.Product
@@ -56,14 +73,14 @@ func addItem(c *gin.Context) {
 
 		if tx.Error == nil {
 			database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-				ID:                 body.Id,
-				Name:               body.Name,
-				HouseholdID:        householdId,
-				PantryItemDetailID: pantryItemDetail.ID,
-			})
-		} else {
-			database.DB.Create(&database.Product{
-				Barcode: body.Barcode,
+				ID:            body.Id,
+				ProductName:   body.ProductName,
+				Brand:         body.Brand,
+				HouseholdID:   householdId,
+				ProductID:     pantryItemDetail.ID,
+				Quantity:      body.Quantity,
+				QuantityUnit:  body.QuantityUnit,
+				EnergyPer100g: body.EnergyPer100g,
 			})
 		}
 	}
@@ -92,7 +109,8 @@ func updateItem(c *gin.Context) {
 		return
 	}
 
-	pantryItem.Name = body.Name
+	pantryItem.ProductName = body.ProductName
+	pantryItem.Brand = body.Brand
 	pantryItem.ExpiryDate = body.ExpiryDate
 	pantryItem.Barcode = body.Barcode
 
@@ -107,9 +125,10 @@ func updateItem(c *gin.Context) {
 
 		if err.Error == nil {
 			database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Create(&database.PantryItemCustomised{
-				PantryItemDetailID: itemDetail.ID,
-				HouseholdID:        c.GetInt("householdId"),
-				Name:               body.Name,
+				ProductID:   itemDetail.ID,
+				HouseholdID: c.GetInt("householdId"),
+				ProductName: body.ProductName,
+				Brand:       body.Brand,
 			})
 		}
 	}
@@ -118,11 +137,16 @@ func updateItem(c *gin.Context) {
 }
 
 type pantryItem struct {
-	Id         int    `json:"id"`
-	Name       string `json:"name"`
-	ExpiryDate int    `json:"expiryDate"`
-	Barcode    string `json:"barcode"`
-	CreatedAt  int    `json:"createdAt"`
+	Id            int      `json:"id"`
+	ProductName   string   `json:"productName"`
+	Brand         *string  `json:"brand"`
+	ExpiryDate    int      `json:"expiryDate"`
+	Barcode       string   `json:"barcode"`
+	CreatedAt     int64    `json:"createdAt"`
+	DeletedAt     *int64   `json:"deletedAt"`
+	Quantity      *float64 `json:"quantity"`
+	QuanityUnit   *string  `json:"quantityUnit"`
+	EnergyPer100g *float64 `json:"energyPer100g"`
 }
 
 func getItems(c *gin.Context) {
@@ -135,12 +159,23 @@ func getItems(c *gin.Context) {
 
 	output := []pantryItem{}
 	for _, item := range items {
+		var deletedAt *int64 = nil
+		if item.DeletedAt != nil {
+			d := item.DeletedAt.UnixMilli()
+			deletedAt = &d
+		}
+
 		output = append(output, pantryItem{
-			Name:       item.Name,
-			Id:         item.ID,
-			ExpiryDate: item.ExpiryDate,
-			Barcode:    item.Barcode,
-			CreatedAt:  int(item.CreatedAt.UnixMilli()),
+			ProductName:   item.ProductName,
+			Brand:         item.Brand,
+			Id:            item.ID,
+			ExpiryDate:    item.ExpiryDate,
+			Barcode:       item.Barcode,
+			CreatedAt:     item.CreatedAt.UnixMilli(),
+			DeletedAt:     deletedAt,
+			Quantity:      item.Quantity,
+			QuanityUnit:   item.QuantityUnit,
+			EnergyPer100g: item.EnergyPer100g,
 		})
 	}
 

@@ -37,7 +37,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
     if (widget.item != null) {
       _expiryDateController.text = _formatDate(widget.item!.expiryDate);
       _expiryDate = widget.item!.expiryDate;
-      _nameController.text = widget.item!.name;
+      _nameController.text = widget.item!.productName;
       _barcode = widget.item!.barcode;
     } else {
       _expiryDateController.text = _formatDate(plusSevenDays);
@@ -62,9 +62,9 @@ class _CreateItemPageState extends State<CreateItemPage> {
         _isLoadingItem = true;
       });
       final info = await Provider.of<PantryStore>(context, listen: false).getProductInformation(barcode);
-print(info.name);
+
       setState(() {
-        _nameController.text = info.name;
+        _nameController.text = info.productName;
         _barcode = barcode;
       });
     } catch (error) {
@@ -100,11 +100,10 @@ print(info.name);
     if (_formKey.currentState!.validate()) {
       try {
         if (widget.item == null) {
-          await ApiHttp().createPantryItem(
-            Provider.of<AppStore>(context, listen: false).householdId,
+          await Provider.of<PantryStore>(context, listen: false).createPantryItem(
             UpdatePantryItem(
               id: 0,
-              name: _nameController.text,
+              productName: _nameController.text,
               expiryDate: _expiryDate,
               updateLocalItem: _updateLocalItem,
               barcode: _barcode,
@@ -115,7 +114,7 @@ print(info.name);
           await Provider.of<PantryStore>(context, listen: false).updatePantryItem(
             UpdatePantryItem(
               id: item.id,
-              name: _nameController.text,
+              productName: _nameController.text,
               expiryDate: _expiryDate,
               barcode: _barcode,
               updateLocalItem: _updateLocalItem,
@@ -194,8 +193,8 @@ print(info.name);
               children: [
                 OutlinedButton(
                   onPressed: () async {
-                    final barcode = await _scanBarcode();
-                    // final barcode = "3017620422003";
+                    // final barcode = await _scanBarcode();
+                    final barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);

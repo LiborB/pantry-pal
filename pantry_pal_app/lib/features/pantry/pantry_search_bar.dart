@@ -37,14 +37,14 @@ class _PantrySearchBarState extends State<PantrySearchBar> {
             );
           },
           suggestionsBuilder: (context, controller) {
-            final filteredItems = store.allPantryItems.where((item) => item.name
+            final filteredItems = store.allPantryItems.where((item) => item.productName
                 .toLowerCase()
                 .contains(searchController.text.toLowerCase()));
 
             return filteredItems.map(
               (item) => ListTile(
                 key: Key(item.id.toString()),
-                title: Text(item.name),
+                title: Text(item.productName),
                 onTap: () {
                   Navigator.push(
                     context,

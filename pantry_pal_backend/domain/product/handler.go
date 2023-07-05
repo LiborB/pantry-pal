@@ -1,14 +1,10 @@
 package product
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
+	"github.com/openfoodfacts/openfoodfacts-go"
 	"gorm.io/gorm/clause"
-	"io"
-	"log"
 	"net/http"
 	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
@@ -20,17 +16,12 @@ func AddRoutes(r *gin.Engine) {
 	group.POST("/:householdId/detail", productDetail)
 }
 
-type productResponse struct {
-	Product struct {
-		ProductName string `json:"product_name"`
-		ImageUrl    string `json:"image_url"`
-	} `json:"product"`
-	Barcode string `json:"code"`
-	Status  int    `json:"status"`
-}
-
 type productInfo struct {
-	Name string `json:"name"`
+	ProductName   string  `json:"productName"`
+	Brand         string  `json:"brand"`
+	Quantity      float64 `json:"quantity"`
+	QuantityUnit  string  `json:"quantityUnit"`
+	EnergyPer100g float64 `json:"energyPer100g"`
 }
 
 func productDetail(c *gin.Context) {
@@ -44,56 +35,55 @@ func productDetail(c *gin.Context) {
 		return
 	}
 
-	resp, err := http.Get(fmt.Sprintf("https://world.openfoodfacts.org/api/v0/product/%s.json", barcode))
+	api := openfoodfacts.NewClient("world", "", "")
+
+	product, err := api.Product(barcode)
+
+	if errors.Is(err, openfoodfacts.ErrNoProduct) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Product not found",
+		})
+		return
+	}
 
 	if err != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Internal server error",
+		})
 		return
 	}
 
-	body, err := getJson[productResponse](resp.Body)
-
-	if err != nil {
-		log.Printf("Failed to parse response body %#v", body)
-		c.AbortWithStatus(http.StatusInternalServerError)
-		return
-	}
-
-	if body.Status == 0 {
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
+	qtyAmount, qtyUnit := GetUnitAmountParts(product.Quantity)
 
 	database.DB.Clauses(clause.OnConflict{UpdateAll: true}).Save(&database.Product{
-		Barcode: barcode,
-		Name:    body.Product.ProductName,
+		Barcode:       barcode,
+		ProductName:   product.ProductName,
+		Brand:         product.Brands,
+		EnergyPer100g: product.Nutriments.Energy100G,
+		Quantity:      qtyAmount,
+		QuantityUnit:  qtyUnit,
 	})
 
 	var customizedItem database.PantryItemCustomised
 
 	tx := database.DB.Where(&database.PantryItemCustomised{
 		HouseholdID: householdId,
-		PantryItemDetail: database.Product{
+		Product: database.Product{
 			Barcode: barcode,
 		},
 	}).First(&customizedItem)
 
-	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-		c.JSON(200, productInfo{Name: body.Product.ProductName})
-	} else {
-		c.JSON(200, productInfo{Name: customizedItem.Name})
-	}
-}
-
-func getJson[T any](body io.ReadCloser) (*T, error) {
-	defer body.Close()
-
-	var target T
-	err := json.NewDecoder(body).Decode(&target)
-
-	if err != nil {
-		return nil, err
+	response := productInfo{
+		Quantity:      qtyAmount,
+		QuantityUnit:  qtyUnit,
+		EnergyPer100g: product.Nutriments.Energy100G,
+		Brand:         product.Brands,
+		ProductName:   product.ProductName,
 	}
 
-	return &target, nil
+	if tx.Error == nil {
+		response.ProductName = customizedItem.ProductName
+	}
+
+	c.JSON(200, response)
 }
