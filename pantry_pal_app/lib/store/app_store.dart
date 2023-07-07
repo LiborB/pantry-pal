@@ -23,6 +23,15 @@ class AppStore extends ChangeNotifier {
 
   setSelectedHousehold(Household household) {
     selectedHousehold.value = household;
+
+    for (var element in households.value) {
+      if (element.id != household.id) {
+        FirebaseMessaging.instance.unsubscribeFromTopic(element.id.toString());
+      }
+    }
+
+    FirebaseMessaging.instance.subscribeToTopic(household.id.toString());
+
     notifyListeners();
   }
 
@@ -56,7 +65,6 @@ class AppStore extends ChangeNotifier {
     await refreshHouseholds();
 
     setSelectedHousehold(households.value.first);
-    await FirebaseMessaging.instance.subscribeToTopic(households.value.first.id.toString());
   }
 
   Future handleLogin(UserCredential userCredential) async {
