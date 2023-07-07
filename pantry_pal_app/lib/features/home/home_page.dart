@@ -1,10 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/home/accept_invite_dialog.dart';
 import 'package:pantry_pal/features/home/onboard_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/app_store.dart';
-import 'home_store.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    FirebaseMessaging.instance.requestPermission();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStore>(

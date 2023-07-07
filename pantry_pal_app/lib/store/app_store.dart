@@ -53,11 +53,10 @@ class AppStore extends ChangeNotifier {
 
     _user = await ApiHttp().getUser();
 
-    await FirebaseMessaging.instance.subscribeToTopic(user.uid);
-
     await refreshHouseholds();
 
     setSelectedHousehold(households.value.first);
+    await FirebaseMessaging.instance.subscribeToTopic(households.value.first.id.toString());
   }
 
   Future handleLogin(UserCredential userCredential) async {

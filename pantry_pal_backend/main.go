@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-co-op/gocron"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"pantry_pal_backend/domain/product"
 	"pantry_pal_backend/domain/user"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -41,11 +43,25 @@ func main() {
 	household.AddRoutes(r)
 	user.AddRoutes(r)
 
+	setupCron()
+
 	err = r.Run(":8080")
 
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func setupCron() {
+	s := gocron.NewScheduler(time.UTC)
+
+	_, err := s.Every(5).Minutes().Do(pantry.HandleExpiryNotifications)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	s.StartAsync()
 }
 
 func setupAuth(engine *gin.Engine) {

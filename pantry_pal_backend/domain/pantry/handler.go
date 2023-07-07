@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
+	"time"
 )
 
 func AddRoutes(r *gin.Engine) {
@@ -46,7 +47,7 @@ func addItem(c *gin.Context) {
 
 	pantryItem := database.PantryItem{
 		ProductName:   body.ProductName,
-		ExpiryDate:    body.ExpiryDate,
+		ExpiryDate:    time.Unix(int64(body.ExpiryDate), 0).UTC(),
 		Barcode:       body.Barcode,
 		HouseholdID:   householdId,
 		Quantity:      body.Quantity,
@@ -113,7 +114,7 @@ func updateItem(c *gin.Context) {
 
 	pantryItem.ProductName = body.ProductName
 	pantryItem.Brand = body.Brand
-	pantryItem.ExpiryDate = body.ExpiryDate
+	pantryItem.ExpiryDate = time.Unix(int64(body.ExpiryDate), 0).UTC()
 	pantryItem.Barcode = body.Barcode
 
 	database.DB.Save(&pantryItem)
@@ -142,7 +143,7 @@ type pantryItem struct {
 	Id            int      `json:"id"`
 	ProductName   string   `json:"productName"`
 	Brand         *string  `json:"brand"`
-	ExpiryDate    int      `json:"expiryDate"`
+	ExpiryDate    int64    `json:"expiryDate"`
 	Barcode       string   `json:"barcode"`
 	CreatedAt     int64    `json:"createdAt"`
 	DeletedAt     *int64   `json:"deletedAt"`
@@ -171,7 +172,7 @@ func getItems(c *gin.Context) {
 			ProductName:   item.ProductName,
 			Brand:         item.Brand,
 			Id:            item.ID,
-			ExpiryDate:    item.ExpiryDate,
+			ExpiryDate:    item.ExpiryDate.Unix(),
 			Barcode:       item.Barcode,
 			CreatedAt:     item.CreatedAt.UnixMilli(),
 			DeletedAt:     deletedAt,

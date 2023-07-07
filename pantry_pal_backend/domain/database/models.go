@@ -15,24 +15,25 @@ type Product struct {
 }
 
 type PantryItem struct {
-	ID            int `gorm:"primaryKey"`
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	ProductName   string
-	Brand         *string
-	Quantity      *float64
-	QuantityUnit  *string
-	EnergyPer100g *float64
-	Barcode       string
-	ExpiryDate    int
-	Household     Household
-	HouseholdID   int
-	ConsumedAt    *time.Time
-	DeletedAt     *time.Time
-	Product       *Product
-	ProductID     *int
-	CreatedBy     User `gorm:"foreignKey:CreatedByID"`
-	CreatedByID   string
+	ID             int `gorm:"primaryKey"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	ProductName    string
+	Brand          *string
+	Quantity       *float64
+	QuantityUnit   *string
+	EnergyPer100g  *float64
+	Barcode        string
+	ExpiryDate     time.Time
+	Household      Household
+	HouseholdID    int
+	ConsumedAt     *time.Time
+	DeletedAt      *time.Time
+	Product        *Product
+	ProductID      *int
+	CreatedBy      User `gorm:"foreignKey:CreatedByID"`
+	CreatedByID    string
+	ExpiryNotified bool
 }
 
 type PantryItemCustomised struct {
