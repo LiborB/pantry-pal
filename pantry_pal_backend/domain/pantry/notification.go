@@ -30,6 +30,10 @@ func processItem(item database.PantryItem) {
 
 	message := &messaging.Message{
 		Topic: strconv.Itoa(item.HouseholdID),
+		Notification: &messaging.Notification{
+			Title: "Expiry Notification",
+			Body:  "Your " + item.ProductName + " is expiring soon!",
+		},
 	}
 
 	_, err = client.Send(ctx, message)
