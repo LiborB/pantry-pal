@@ -29,7 +29,6 @@ func processItem(item database.PantryItem) {
 	}
 
 	message := &messaging.Message{
-		Data:  map[string]string{},
 		Topic: strconv.Itoa(item.HouseholdID),
 	}
 
