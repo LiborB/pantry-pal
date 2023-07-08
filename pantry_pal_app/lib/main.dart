@@ -3,12 +3,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:newrelic_mobile/config.dart';
-import 'package:newrelic_mobile/newrelic_mobile.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/home/home_store.dart';
@@ -17,13 +14,11 @@ import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:pantry_pal/features/settings/settings_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:pantry_pal/shared/environment.dart' as env;
-import 'package:pantry_pal/shared/logger.dart';
 import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'firebase_options.dart';
-import "dart:io" show Platform;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

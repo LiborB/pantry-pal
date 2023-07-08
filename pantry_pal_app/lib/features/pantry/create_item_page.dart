@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
-import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -194,7 +193,7 @@ class _CreateItemPageState extends State<CreateItemPage> {
                 OutlinedButton(
                   onPressed: () async {
                     // final barcode = await _scanBarcode();
-                    final barcode = "3017620422003";
+                    const barcode = "3017620422003";
 
                     if (barcode != "-1") {
                       await _fetchProductInformation(barcode);

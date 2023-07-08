@@ -22,7 +22,7 @@ class _AcceptInviteDialogState extends State<AcceptInviteDialog> {
         .respondInvite(widget.member, accept);
 
     if (mounted) {
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
     }
   }
 

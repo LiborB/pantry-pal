@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/api/helper.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';

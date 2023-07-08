@@ -1,9 +1,6 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/go-co-op/gocron"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"pantry_pal_backend/domain/common"
@@ -14,6 +11,10 @@ import (
 	"pantry_pal_backend/domain/user"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-co-op/gocron"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -55,7 +56,7 @@ func main() {
 func setupCron() {
 	s := gocron.NewScheduler(time.UTC)
 
-	_, err := s.Every(5).Minutes().Do(pantry.HandleExpiryNotifications)
+	_, err := s.Every(1).Hour().Do(pantry.HandleExpiryNotifications)
 
 	if err != nil {
 		log.Fatal(err)

@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:newrelic_mobile/newrelic_mobile.dart';
 import 'package:pantry_pal/shared/logger.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 class LoggingInterceptor extends Interceptor {
   @override
