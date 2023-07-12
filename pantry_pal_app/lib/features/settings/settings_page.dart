@@ -4,6 +4,7 @@ import 'package:pantry_pal/features/settings/add_member_dialog.dart';
 import 'package:pantry_pal/features/settings/edit_profile_page.dart';
 import 'package:pantry_pal/features/settings/notification_preferences_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
+import 'package:pantry_pal/shared/widgets/app_list_tile.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/app_store.dart';
@@ -60,41 +61,6 @@ class _SettingsPageState extends State<SettingsPage> {
     return tiles;
   }
 
-  ListTile _createMenuItem(
-      {required String label, required ValueGetter<Widget> pageBuilder}) {
-    return ListTile(
-      title: Text(label),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return pageBuilder();
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  List<ListTile> _settingsList() {
-    return [
-      _createMenuItem(
-        label: "Profile",
-        pageBuilder: () {
-          return const EditProfilePage();
-        },
-      ),
-      _createMenuItem(
-        label: "Notifications",
-        pageBuilder: () {
-          return const NotificationPreferencesPage();
-        },
-      )
-    ];
-  }
-
   @override
   void initState() {
     super.initState();
@@ -111,7 +77,15 @@ class _SettingsPageState extends State<SettingsPage> {
         body: ListView(
           padding: const EdgeInsets.only(left: 16, right: 16),
           children: [
-            ..._settingsList(),
+            AppListTile(
+              label: "Profile",
+              onTap: () {
+                Navigator.pushNamed(context, "/settings/profile");
+              },
+            ),
+            AppListTile(label: "Notifications", onTap: () {
+              Navigator.pushNamed(context, "/settings/notifications");
+            }),
             ..._buildHouseholdList(),
             ListTile(
               title: const Text("Your Household"),

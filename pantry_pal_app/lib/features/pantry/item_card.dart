@@ -15,11 +15,10 @@ class ItemCard extends StatelessWidget {
       child: InkWell(
         child: ListTile(
           onTap: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (context) => CreateItemPage(item: item),
-              ),
+              "/pantry/item",
+              arguments: item
             );
           },
           tileColor: Theme.of(context).colorScheme.secondaryContainer,

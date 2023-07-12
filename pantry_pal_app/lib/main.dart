@@ -9,8 +9,11 @@ import 'package:logging/logging.dart';
 import 'package:pantry_pal/features/auth/login_page.dart';
 import 'package:pantry_pal/features/home/home_page.dart';
 import 'package:pantry_pal/features/home/home_store.dart';
+import 'package:pantry_pal/features/pantry/create_item_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_page.dart';
 import 'package:pantry_pal/features/pantry/pantry_store.dart';
+import 'package:pantry_pal/features/settings/edit_profile_page.dart';
+import 'package:pantry_pal/features/settings/notification_preferences_page.dart';
 import 'package:pantry_pal/features/settings/settings_page.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:pantry_pal/shared/environment.dart' as env;
@@ -18,6 +21,7 @@ import 'package:pantry_pal/store/app_store.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sentry_logging/sentry_logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -73,11 +77,12 @@ Future main() async {
   }
 }
 
-void runMainApp() {
+Future runMainApp() async {
+  final preferences = await SharedPreferences.getInstance();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<AppStore>(create: (context) => AppStore()),
+        ChangeNotifierProvider<AppStore>(create: (context) => AppStore(prefs: preferences)),
         ChangeNotifierProxyProvider<AppStore, PantryStore>(
             create: (context) =>
                 PantryStore(Provider.of<AppStore>(context, listen: false)),
@@ -97,6 +102,13 @@ void runMainApp() {
       child: MaterialApp(
         home: const MyApp(),
         theme: ThemeData(useMaterial3: true),
+        initialRoute: "/",
+        routes: {
+          "/login": (context) => const LoginPage(),
+          "/pantry/add-item": (context) => const CreateItemPage(),
+          "/settings/profile": (context) => const EditProfilePage(),
+          "/settings/notifications": (context) => const NotificationPreferencesPage(),
+        },
       ),
     ),
   );
@@ -147,9 +159,11 @@ class _MyAppState extends State {
                   SettingsPage()
                 ][_currentIndex],
                 bottomNavigationBar: NavigationBar(
-                  onDestinationSelected: (index) => setState(() {
-                    _currentIndex = index;
-                  }),
+                  onDestinationSelected: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
                   selectedIndex: _currentIndex,
                   destinations: const [
                     NavigationDestination(
@@ -168,11 +182,6 @@ class _MyAppState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          useMaterial3: true,
-        ),
-        home: _getLandingPage());
+    return _getLandingPage();
   }
 }

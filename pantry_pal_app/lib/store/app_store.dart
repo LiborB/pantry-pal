@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 class AppStore extends ChangeNotifier {
   ValueNotifier<Household?> selectedHousehold = ValueNotifier(null);
@@ -21,6 +23,10 @@ class AppStore extends ChangeNotifier {
 
   List<HouseholdMember> get pendingInvites => _pendingInvites;
 
+  SharedPreferences prefs;
+
+  AppStore({required this.prefs});
+
   setSelectedHousehold(Household household) {
     selectedHousehold.value = household;
 
@@ -31,6 +37,8 @@ class AppStore extends ChangeNotifier {
     }
 
     FirebaseMessaging.instance.subscribeToTopic(household.id.toString());
+
+    prefs.setInt("selectedHouseholdId", household.id);
 
     notifyListeners();
   }
@@ -64,7 +72,13 @@ class AppStore extends ChangeNotifier {
 
     await refreshHouseholds();
 
-    setSelectedHousehold(households.value.first);
+    final storedHouseholdId = prefs.getInt("selectedHouseholdId");
+
+    final household = households.value.firstWhere(
+        (x) => x.id == storedHouseholdId,
+        orElse: () => households.value.first);
+
+    setSelectedHousehold(household);
   }
 
   Future handleLogin(UserCredential userCredential) async {

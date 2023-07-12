@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pantry_pal/features/settings/edit_profile_page.dart';
 import 'package:pantry_pal/shared/widgets/app_list_tile.dart';
+import 'package:pantry_pal/shared/widgets/app_switch_list_tile.dart';
 
 class NotificationPreferencesPage extends StatefulWidget {
   const NotificationPreferencesPage({super.key});
@@ -22,18 +23,13 @@ class _NotificationPreferencesPageState
       ),
       body: ListView(
         children: [
-          AppListTile(
-            label: "Profile",
-            pageBuilder: () {
-              return const EditProfilePage();
+          AppSwitchListTile(
+            label: "Expiry Notifications",
+            value: true,
+            onChanged: (value) {
+              //
             },
           ),
-          AppListTile(
-            label: "Notifications",
-            pageBuilder: () {
-              return const NotificationPreferencesPage();
-            },
-          )
         ],
       ),
     );

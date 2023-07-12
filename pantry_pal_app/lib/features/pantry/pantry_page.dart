@@ -77,11 +77,9 @@ class _PantryPageState extends State<PantryPage> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const CreateItemPage(),
-                ),
+                "/pantry/add-item",
               );
             },
             child: const Icon(Icons.add),

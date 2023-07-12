@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AppListTile extends StatefulWidget {
-  final ValueGetter<Widget> pageBuilder;
+  final VoidCallback onTap;
   final String label;
 
   const AppListTile(
-      {super.key, required this.label, required this.pageBuilder});
+      {super.key, required this.label, required this.onTap});
 
   @override
   State<AppListTile> createState() => _AppListTileState();
@@ -18,17 +18,9 @@ class _AppListTileState extends State<AppListTile> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(widget.label),
-      trailing: const Icon(Icons.arrow_right_rounded),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return widget.pageBuilder();
-            },
-          ),
-        );
-      },
+      trailing: const Icon(Icons.chevron_right),
+      onTap: widget.onTap,
+      shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(8)),
     );
   }
 }

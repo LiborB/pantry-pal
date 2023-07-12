@@ -46,11 +46,10 @@ class _PantrySearchBarState extends State<PantrySearchBar> {
                 key: Key(item.id.toString()),
                 title: Text(item.productName),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateItemPage(item: item),
-                    ),
+                    "/pantry/add-item",
+                    arguments: item
                   );
                 },
               ),

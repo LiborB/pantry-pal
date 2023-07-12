@@ -59,6 +59,8 @@ dependencies:
   newrelic_mobile: ^1.0.1
   sentry_logging: ^7.8.0
   logging: ^1.2.0
+  shared_preferences: ^2.2.0
+  collection: ^1.17.1
 
 dev_dependencies:
   flutter_test:
