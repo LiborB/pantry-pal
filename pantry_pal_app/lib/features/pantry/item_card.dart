@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pantry_pal/features/pantry/create_item_page.dart';
 import 'package:pantry_pal/shared/date_extension.dart';
 import '../api/models/pantry.dart';
 
@@ -31,8 +32,8 @@ class ItemCard extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(
               context,
-              "/pantry.dart/item",
-              arguments: item
+              "/pantry/item",
+              arguments: CreateItemPageArguments(item)
             );
           },
           tileColor: Theme.of(context).colorScheme.secondaryContainer,

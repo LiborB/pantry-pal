@@ -8,7 +8,36 @@ import '../api/models/user.dart';
 class HomeStore extends ChangeNotifier {
   AppStore appStore;
 
-  HomeStore(this.appStore);
+  List<HouseholdMember> _householdMembers = [];
+  List<HouseholdMember> get householdMembers => _householdMembers;
+
+  List<HouseholdMember> _pendingInvites = [];
+  List<HouseholdMember> get pendingInvites => _pendingInvites;
+
+  HomeStore(this.appStore) {
+    refreshMembers();
+
+    appStore.selectedHousehold.addListener(refreshMembers);
+  }
+
+  @override
+  void dispose() {
+    appStore.selectedHousehold.removeListener(refreshMembers);
+    super.dispose();
+  }
+
+  Future refreshMembers() async {
+    _householdMembers = await ApiHttp().getHouseholdMembers(appStore.householdId);
+    _householdMembers.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    _pendingInvites = await ApiHttp().getPendingInvites();
+
+    notifyListeners();
+  }
+
+  Future addMember(String email) async {
+    await ApiHttp().addHouseholdMember(appStore.householdId, AddMember(email: email));
+    refreshMembers();
+  }
 
   Future<void> finishOnboarding({
     required String firstName,

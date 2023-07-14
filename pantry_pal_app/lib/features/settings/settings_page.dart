@@ -18,54 +18,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<ListTile> _buildMemberList(List<HouseholdMember> members) {
-    return [
-      for (var member in members)
-        ListTile(
-          title: Text(member.isOwner ? "${member.email} (Me)" : member.email),
-          trailing: member.status == MemberStatus.pending
-              ? Chip(
-                  label: Text(member.status.name),
-                )
-              : null,
-          leading: const Icon(Icons.person),
-        ),
-    ];
-  }
-
-  List<ListTile> _buildHouseholdList() {
-    List<ListTile> tiles = [];
-    final households = context.read<AppStore>().households.value;
-    final householdId = context.read<AppStore>().householdId;
-
-    for (var household in households) {
-      final isSelected = household.id.toString() == householdId;
-
-      tiles.add(
-        ListTile(
-          title: Text(household.name),
-          leading: const Icon(Icons.home),
-          trailing: isSelected ? const Icon(Icons.check) : null,
-          onTap: () async {
-            await context.read<AppStore>().setSelectedHousehold(household);
-          },
-          selected: isSelected,
-          selectedTileColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.1),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-        ),
-      );
-    }
-
-    return tiles;
-  }
-
   @override
   void initState() {
     super.initState();
-    Provider.of<SettingsStore>(context, listen: false).refreshSettings();
   }
 
   @override
@@ -76,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
           title: const Text("Settings"),
         ),
         body: ListView(
-          padding: const EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 8, right: 8),
           children: [
             AppListTile(
               label: "Profile",
@@ -87,21 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
             AppListTile(label: "Notifications", onTap: () {
               Navigator.pushNamed(context, "/settings/notifications");
             }),
-            ..._buildHouseholdList(),
-            ListTile(
-              title: const Text("Your Household"),
-              contentPadding: EdgeInsets.zero,
-              trailing: IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const AddMemberDialog(),
-                  );
-                },
-                icon: const Icon(Icons.add),
-              ),
-            ),
-            ..._buildMemberList(store.householdMembers),
+
             FilledButton(
               onPressed: () async {
                 await store.signOut();

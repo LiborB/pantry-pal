@@ -110,7 +110,7 @@ class _ApiHttp implements ApiHttp {
     )
             .compose(
               _dio.options,
-              '/pantry.dart/${householdId}',
+              '/pantry/${householdId}',
               queryParameters: queryParameters,
               data: _data,
             )

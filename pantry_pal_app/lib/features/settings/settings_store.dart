@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pantry_pal/shared/firebase.dart';
 
 import '../../store/app_store.dart';
 import '../api/api_http.dart';
@@ -16,31 +18,7 @@ class SettingsStore with ChangeNotifier {
   UserSettings? get userSettings => _userSettings;
 
   SettingsStore(this.appStore) {
-    refreshSettings();
     refreshUserSettings();
-
-    appStore.selectedHousehold.addListener(householdChanged);
-  }
-
-  @override
-  void dispose() {
-    appStore.selectedHousehold.removeListener(householdChanged);
-    super.dispose();
-  }
-
-  void householdChanged() {
-    refreshSettings();
-  }
-
-  Future refreshSettings() async {
-      _householdMembers = await ApiHttp().getHouseholdMembers(appStore.householdId);
-      _householdMembers.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-      notifyListeners();
-  }
-
-  Future addMember(String email) async {
-    await ApiHttp().addHouseholdMember(appStore.householdId, AddMember(email: email));
-    refreshSettings();
   }
 
   Future signOut() async {
@@ -58,6 +36,8 @@ class SettingsStore with ChangeNotifier {
     _userSettings = newSettings;
 
     notifyListeners();
+
+    await FirebaseManager(FirebaseMessaging.instance).unsubscribeToExpiryNotifications(this.appStore.householdId);
 
     await ApiHttp().updateUserSettings(newSettings);
     refreshUserSettings();

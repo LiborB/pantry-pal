@@ -75,7 +75,8 @@ func addUser(c *gin.Context) {
 	})
 
 	database.DB.Create(&database.UserSettings{
-		UserID: userId,
+		UserID:                    userId,
+		NotificationExpiryEnabled: true,
 	})
 
 	c.Status(http.StatusOK)

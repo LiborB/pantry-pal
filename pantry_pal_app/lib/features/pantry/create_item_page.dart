@@ -9,16 +9,37 @@ import 'package:intl/intl.dart';
 
 import '../api/models/pantry.dart';
 
-class CreateItemPage extends StatefulWidget {
+class CreateItemPageArguments {
   final PantryItem? item;
 
-  const CreateItemPage({super.key, this.item});
-
-  @override
-  State<StatefulWidget> createState() => _CreateItemPageState();
+  CreateItemPageArguments(this.item);
 }
 
-class _CreateItemPageState extends State<CreateItemPage> {
+class CreateItemPage extends StatelessWidget {
+  const CreateItemPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as CreateItemPageArguments?;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(args?.item != null ? "Edit Item" : "Add Item"),
+      ),
+      body: CreateItemPageContent(item: args?.item),
+    );
+  }
+}
+
+class CreateItemPageContent extends StatefulWidget {
+  final PantryItem? item;
+
+  const CreateItemPageContent({super.key, this.item});
+
+  @override
+  State<StatefulWidget> createState() => _CreateItemPageContentState();
+}
+
+class _CreateItemPageContentState extends State<CreateItemPageContent> {
   final _nameController = TextEditingController();
   final _formatter = DateFormat("dd/MM/yyyy");
   final _expiryDateController = TextEditingController();
@@ -181,109 +202,104 @@ class _CreateItemPageState extends State<CreateItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.item == null ? "Add Item" : "Edit Item"),
-      ),
-      body: Container(
-        margin: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Center(
-            child: Column(
-              children: [
-                OutlinedButton(
-                  onPressed: () async {
-                    // final barcode = await _scanBarcode();
-                    const barcode = "3017620422003";
+    return Container(
+      margin: const EdgeInsets.all(24),
+      child: Form(
+        key: _formKey,
+        child: Center(
+          child: Column(
+            children: [
+              OutlinedButton(
+                onPressed: () async {
+                  // final barcode = await _scanBarcode();
+                  const barcode = "3017620422003";
 
-                    if (barcode != "-1") {
-                      await _fetchProductInformation(barcode);
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (_isLoadingItem)
-                        const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ))
-                      else
-                        const Icon(
-                          Icons.photo_camera,
-                          size: 20,
-                        ),
-                      const SizedBox(width: 6),
-                      const Text("Scan Item"),
-                    ],
-                  ),
+                  if (barcode != "-1") {
+                    await _fetchProductInformation(barcode);
+                  }
+                },
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
                 ),
-                const SizedBox(
-                  height: 24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (_isLoadingItem)
+                      const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ))
+                    else
+                      const Icon(
+                        Icons.photo_camera,
+                        size: 20,
+                      ),
+                    const SizedBox(width: 6),
+                    const Text("Scan Item"),
+                  ],
                 ),
-                TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter a name";
-                    }
-                    return null;
-                  },
-                  controller: _nameController,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter a name";
+                  }
+                  return null;
+                },
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Name",
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: TextFormField(
+                  readOnly: true,
+                  controller: _expiryDateController,
+                  onTap: _expiryDateClick,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Name",
+                    labelText: "Expiry Date",
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: TextFormField(
-                    readOnly: true,
-                    controller: _expiryDateController,
-                    onTap: _expiryDateClick,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Expiry Date",
-                    ),
-                  ),
-                ),
-                _barcode.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: SwitchListTile(
-                          dense: true,
-                          contentPadding: const EdgeInsets.all(0),
-                          value: _updateLocalItem,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _updateLocalItem = newValue;
-                            });
-                          },
-                          title: const Text("Update barcode information"),
-                          subtitle: const Text(
-                              "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-                const Spacer(
-                  flex: 1,
-                ),
-                FilledButton(
-                  onPressed: () {
-                    _createItemClick();
+              ),
+              _barcode.isNotEmpty
+                  ? Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: SwitchListTile(
+                  dense: true,
+                  contentPadding: const EdgeInsets.all(0),
+                  value: _updateLocalItem,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _updateLocalItem = newValue;
+                    });
                   },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                  ),
-                  child: Text(widget.item == null ? "Add" : "Update"),
+                  title: const Text("Update barcode information"),
+                  subtitle: const Text(
+                      "Attach the updated details to this barcode for next time (this affects all items with this barcode)"),
                 ),
-              ],
-            ),
+              )
+                  : const SizedBox.shrink(),
+              const Spacer(
+                flex: 1,
+              ),
+              FilledButton(
+                onPressed: () {
+                  _createItemClick();
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
+                child: Text(widget.item == null ? "Add" : "Update"),
+              ),
+            ],
           ),
         ),
       ),

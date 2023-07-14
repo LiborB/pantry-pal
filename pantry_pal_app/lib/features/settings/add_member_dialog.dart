@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/api/helper.dart';
+import 'package:pantry_pal/features/home/home_store.dart';
 import 'package:pantry_pal/features/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              "Add a member to your household. Your pantry.dart will be editable by all members.",
+              "Add a member to your household. Your pantry will be editable by all members.",
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -57,7 +58,7 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 try {
-                  await Provider.of<SettingsStore>(context, listen: false)
+                  await Provider.of<HomeStore>(context, listen: false)
                       .addMember(_emailController.text);
                   if (mounted) {
                     Navigator.of(context).pop();

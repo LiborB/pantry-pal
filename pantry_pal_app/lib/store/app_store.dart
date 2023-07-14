@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:pantry_pal/shared/firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collection/collection.dart';
 
 import '../features/api/models/household.dart';
 import '../features/api/models/user.dart';
@@ -22,10 +22,6 @@ class AppStore extends ChangeNotifier {
 
   AppUser get user => _user!;
 
-  List<HouseholdMember> _pendingInvites = [];
-
-  List<HouseholdMember> get pendingInvites => _pendingInvites;
-
   SharedPreferences prefs;
 
   AppStore({required this.prefs});
@@ -35,11 +31,11 @@ class AppStore extends ChangeNotifier {
 
     for (var element in households.value) {
       if (element.id != household.id) {
-        FirebaseMessaging.instance.unsubscribeFromTopic(element.id.toString());
+        FirebaseManager(FirebaseMessaging.instance).unsubscribeToExpiryNotifications(element.id.toString());
       }
     }
 
-    FirebaseMessaging.instance.subscribeToTopic(household.id.toString());
+    FirebaseManager(FirebaseMessaging.instance).subscribeToExpiryNotifications(household.id.toString());
 
     prefs.setInt("selectedHouseholdId", household.id);
 
@@ -68,8 +64,6 @@ class AppStore extends ChangeNotifier {
       await handleUnAuth();
       return;
     }
-
-    _pendingInvites = await ApiHttp().getPendingInvites();
 
     _user = await ApiHttp().getUser();
 

@@ -3,6 +3,7 @@ package pantry
 import (
 	"context"
 	"firebase.google.com/go/messaging"
+	"fmt"
 	"log"
 	"pantry_pal_backend/domain/common"
 	"pantry_pal_backend/domain/database"
@@ -29,7 +30,7 @@ func processItem(item database.PantryItem) {
 	}
 
 	message := &messaging.Message{
-		Topic: strconv.Itoa(item.HouseholdID),
+		Topic: fmt.Sprintf("notification.expiry.%d", item.HouseholdID),
 		Data: map[string]string{
 			"item_id":      strconv.Itoa(item.ID),
 			"household_id": strconv.Itoa(item.HouseholdID),
