@@ -79,7 +79,7 @@ class _PantryPageState extends State<PantryPage> {
             onPressed: () {
               Navigator.pushNamed(
                 context,
-                "/pantry/add-item",
+                "/pantry.dart/add-item",
               );
             },
             child: const Icon(Icons.add),

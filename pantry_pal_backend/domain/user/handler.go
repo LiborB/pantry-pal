@@ -14,8 +14,45 @@ func AddRoutes(r *gin.Engine) {
 	group := r.Group("/user")
 
 	group.POST("", addUser)
-	group.PATCH("", updateUser)
+	group.POST("/update", updateUser)
 	group.GET("", getUser)
+	group.GET("/settings", getSettings)
+	group.POST("/settings/update", updateSettings)
+}
+
+type userSettings struct {
+	UserId                    string `json:"userId"`
+	NotificationExpiryEnabled bool   `json:"notificationExpiryEnabled"`
+}
+
+func getSettings(c *gin.Context) {
+	userId := c.GetString("userId")
+
+	settings := database.UserSettings{UserID: userId}
+	tx := database.DB.First(&settings)
+
+	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+		c.Status(http.StatusNotFound)
+		return
+	}
+
+	c.JSON(http.StatusOK, userSettings{
+		UserId:                    userId,
+		NotificationExpiryEnabled: settings.NotificationExpiryEnabled,
+	})
+}
+
+func updateSettings(c *gin.Context) {
+	userId := c.GetString("userId")
+
+	var body userSettings
+	common.GetJson(c, &body)
+
+	settings := database.UserSettings{UserID: userId,
+		NotificationExpiryEnabled: body.NotificationExpiryEnabled}
+	database.DB.Save(&settings)
+
+	c.Status(http.StatusNoContent)
 }
 
 func addUser(c *gin.Context) {
@@ -35,6 +72,10 @@ func addUser(c *gin.Context) {
 	database.DB.Create(&database.User{
 		ID:    userId,
 		Email: user.Email,
+	})
+
+	database.DB.Create(&database.UserSettings{
+		UserID: userId,
 	})
 
 	c.Status(http.StatusOK)

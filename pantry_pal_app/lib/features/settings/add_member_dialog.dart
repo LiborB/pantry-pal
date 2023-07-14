@@ -25,7 +25,7 @@ class _AddMemberDialogState extends State<AddMemberDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              "Add a member to your household. Your pantry will be editable by all members.",
+              "Add a member to your household. Your pantry.dart will be editable by all members.",
             ),
             const SizedBox(height: 16),
             TextFormField(

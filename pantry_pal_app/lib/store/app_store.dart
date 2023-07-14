@@ -8,6 +8,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
+import '../features/api/models/household.dart';
+import '../features/api/models/user.dart';
+
 class AppStore extends ChangeNotifier {
   ValueNotifier<Household?> selectedHousehold = ValueNotifier(null);
 

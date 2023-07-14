@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pantry_pal/features/api/api_http.dart';
 import 'package:provider/provider.dart';
 
+import '../api/models/household.dart';
 import 'home_store.dart';
 
 class AcceptInviteDialog extends StatefulWidget {

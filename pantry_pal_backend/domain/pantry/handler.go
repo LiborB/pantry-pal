@@ -15,7 +15,7 @@ func AddRoutes(r *gin.Engine) {
 
 	group.POST("", addItem)
 	group.GET("", getItems)
-	group.PATCH("", updateItem)
+	group.POST("/update", updateItem)
 }
 
 type updateItemPayload struct {

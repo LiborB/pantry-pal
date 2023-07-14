@@ -7,6 +7,8 @@ import 'package:pantry_pal/features/pantry/pantry_store.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../api/models/pantry.dart';
+
 class CreateItemPage extends StatefulWidget {
   final PantryItem? item;
 

@@ -6,6 +6,9 @@ import 'package:pantry_pal/shared/environment.dart' as env;
 import 'package:retrofit/http.dart';
 
 import 'converter.dart';
+import 'models/household.dart';
+import 'models/pantry.dart';
+import 'models/user.dart';
 
 part "api_http.g.dart";
 
@@ -28,7 +31,7 @@ abstract class ApiHttp {
   Future createPantryItem(
       @Path() String householdId, @Body() UpdatePantryItem item);
 
-  @PATCH("/pantry/{householdId}")
+  @POST("/pantry/{householdId}/update")
   Future updatePantryItem(
       @Path() String householdId, @Body() UpdatePantryItem item);
 
@@ -41,8 +44,14 @@ abstract class ApiHttp {
   @GET("/user")
   Future<AppUser> getUser();
 
-  @PATCH("/user")
+  @POST("/user/update")
   Future updateUser(@Body() UpdateUserPayload body);
+
+  @GET("/user/settings")
+  Future<UserSettings> getUserSettings();
+
+  @POST("/user/settings/update")
+  Future updateUserSettings(@Body() UserSettings body);
 
   @GET("/household/{householdId}/members")
   Future<List<HouseholdMember>> getHouseholdMembers(@Path() String householdId);
@@ -65,178 +74,4 @@ abstract class ApiHttp {
 
   @GET("/household")
   Future<List<Household>> getHouseholds();
-}
-
-@JsonSerializable()
-class UpdateHouseholdPayload {
-  String name;
-
-  UpdateHouseholdPayload({required this.name});
-
-  toJson() => _$UpdateHouseholdPayloadToJson(this);
-}
-
-@JsonSerializable()
-class UpdateUserPayload {
-  String firstName;
-  String lastName;
-  int onboardedVersion;
-
-  UpdateUserPayload(
-      {required this.firstName,
-      required this.lastName,
-      this.onboardedVersion = 1});
-
-  toJson() => _$UpdateUserPayloadToJson(this);
-}
-
-@JsonSerializable()
-@CustomDateTimeConverter()
-class Household {
-  int id;
-  String name;
-  DateTime createdAt;
-
-  Household({required this.id, required this.name, required this.createdAt});
-
-  factory Household.fromJson(Map<String, dynamic> json) =>
-      _$HouseholdFromJson(json);
-}
-
-@JsonSerializable()
-class CreateHouseholdPayload {
-  String name;
-
-  CreateHouseholdPayload({required this.name});
-
-  toJson() => _$CreateHouseholdPayloadToJson(this);
-}
-
-@JsonSerializable()
-class AddMember {
-  String email;
-
-  AddMember({required this.email});
-
-  toJson() => _$AddMemberToJson(this);
-}
-
-@JsonSerializable()
-class Product {
-  String productName;
-  String brand;
-  double quantity;
-  String quantityUnit;
-  double energyPer100g;
-
-  Product({required this.productName, required this.brand, required this.quantity, required this.quantityUnit, required this.energyPer100g});
-
-  factory Product.fromJson(Map<String, dynamic> json) =>
-      _$ProductFromJson(json);
-}
-
-@JsonSerializable()
-@CustomDateTimeConverter()
-class UpdatePantryItem {
-  int id;
-  String productName;
-  DateTime expiryDate;
-  String barcode;
-  bool updateLocalItem;
-  String? brand;
-  double? quantity;
-  String? quantityUnit;
-  double? energyPer100g;
-
-  UpdatePantryItem({
-    required this.id,
-    required this.productName,
-    required this.expiryDate,
-    required this.barcode,
-    required this.updateLocalItem,
-  });
-
-  toJson() => _$UpdatePantryItemToJson(this);
-}
-
-@JsonSerializable()
-@CustomDateTimeConverter()
-class PantryItem {
-  int id;
-  String productName;
-  DateTime expiryDate;
-  DateTime createdAt;
-  String barcode;
-  String? brand;
-  double? quantity;
-  String? quantityUnit;
-  double? energyPer100g;
-
-  PantryItem({
-    required this.id,
-    required this.productName,
-    required this.expiryDate,
-    required this.createdAt,
-    required this.barcode,
-    required this.brand,
-    required this.quantity,
-    required this.quantityUnit,
-    required this.energyPer100g,
-  });
-
-  factory PantryItem.fromJson(Map<String, dynamic> json) =>
-      _$PantryItemFromJson(json);
-
-  toJson() => _$PantryItemToJson(this);
-}
-
-enum MemberStatus {
-  pending,
-  accepted,
-}
-
-@JsonSerializable()
-@CustomDateTimeConverter()
-class HouseholdMember {
-  String userId;
-  String email;
-  bool isOwner;
-  MemberStatus status;
-  DateTime createdAt;
-  int householdId;
-
-  HouseholdMember({
-    required this.userId,
-    required this.email,
-    required this.status,
-    required this.isOwner,
-    required this.createdAt,
-    required this.householdId,
-  });
-
-  factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
-      _$HouseholdMemberFromJson(json);
-
-  toJson() => _$HouseholdMemberToJson(this);
-}
-
-@JsonSerializable()
-class AppUser {
-  String id;
-  String email;
-  String firstName;
-  String lastName;
-  int onboardedVersion;
-
-  AppUser(
-      {required this.id,
-      required this.email,
-      required this.firstName,
-      required this.lastName,
-      required this.onboardedVersion});
-
-  factory AppUser.fromJson(Map<String, dynamic> json) =>
-      _$AppUserFromJson(json);
-
-  toJson() => _$AppUserToJson(this);
 }

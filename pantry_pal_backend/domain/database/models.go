@@ -84,3 +84,9 @@ type User struct {
 	LastName         string
 	OnboardedVersion int
 }
+
+type UserSettings struct {
+	UserID                    string `gorm:"primaryKey"`
+	User                      User   `gorm:"foreignKey:UserID"`
+	NotificationExpiryEnabled bool
+}

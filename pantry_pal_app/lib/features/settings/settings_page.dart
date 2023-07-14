@@ -8,6 +8,7 @@ import 'package:pantry_pal/shared/widgets/app_list_tile.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/app_store.dart';
+import '../api/models/household.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

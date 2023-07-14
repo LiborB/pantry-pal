@@ -105,7 +105,7 @@ Future runMainApp() async {
         initialRoute: "/",
         routes: {
           "/login": (context) => const LoginPage(),
-          "/pantry/add-item": (context) => const CreateItemPage(),
+          "/pantry.dart/add-item": (context) => const CreateItemPage(),
           "/settings/profile": (context) => const EditProfilePage(),
           "/settings/notifications": (context) => const NotificationPreferencesPage(),
         },

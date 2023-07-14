@@ -48,7 +48,7 @@ class _PantrySearchBarState extends State<PantrySearchBar> {
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    "/pantry/add-item",
+                    "/pantry.dart/add-item",
                     arguments: item
                   );
                 },

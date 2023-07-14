@@ -2,6 +2,8 @@
 import 'package:pantry_pal/features/api/api_http.dart';
 
 import '../../store/app_store.dart';
+import '../api/models/household.dart';
+import '../api/models/user.dart';
 
 class HomeStore extends ChangeNotifier {
   AppStore appStore;

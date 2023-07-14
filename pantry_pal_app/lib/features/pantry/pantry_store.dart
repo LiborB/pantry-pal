@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pantry_pal/store/app_store.dart';
 
 import '../api/api_http.dart';
+import '../api/models/pantry.dart';
 
 enum PageSort {
   dateAddedAsc,
