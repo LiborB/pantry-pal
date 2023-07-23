@@ -61,6 +61,7 @@ dependencies:
   logging: ^1.2.0
   shared_preferences: ^2.2.0
   collection: ^1.17.1
+  flutter_slidable: ^3.0.0
 
 dev_dependencies:
   flutter_test:

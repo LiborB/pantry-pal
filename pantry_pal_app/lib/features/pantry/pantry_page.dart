@@ -68,9 +68,13 @@ class _PantryPageState extends State<PantryPage> {
               },
               itemCount: store.allPantryItems.length,
               itemBuilder: (context, i) {
+                final item = store.allPantryItems[i];
                 return ItemCard(
                   key: ValueKey(i),
-                  item: store.allPantryItems[i],
+                  item: item,
+                  onMarkAsEaten: () {
+                    store.markItemAsEaten(item);
+                  },
                 );
               },
             ),

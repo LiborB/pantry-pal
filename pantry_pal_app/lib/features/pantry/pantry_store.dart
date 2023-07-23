@@ -89,4 +89,9 @@ class PantryStore extends ChangeNotifier {
     await ApiHttp().createPantryItem(appStore.householdId, item);
     await refreshPantryItems();
   }
+
+  markItemAsEaten(PantryItem item) async {
+    await ApiHttp().markPantryItemEaten(appStore.householdId, item.id);
+    await refreshPantryItems();
+  }
 }

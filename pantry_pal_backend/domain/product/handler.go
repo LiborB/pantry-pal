@@ -40,9 +40,7 @@ func productDetail(c *gin.Context) {
 	product, err := api.Product(barcode)
 
 	if errors.Is(err, openfoodfacts.ErrNoProduct) {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Product not found",
-		})
+		common.ForbiddenError(c, common.RESOURCE_NOT_FOUND)
 		return
 	}
 

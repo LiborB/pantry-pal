@@ -27,15 +27,19 @@ abstract class ApiHttp {
   Future<Product> getProductInformation(
       @Path() String householdId, @Query("barcode") String barcode);
 
-  @POST("/pantry/{householdId}")
+  @POST("/pantry/{householdId}/items")
   Future createPantryItem(
       @Path() String householdId, @Body() UpdatePantryItem item);
 
-  @POST("/pantry/{householdId}/update")
+  @POST("/pantry/{householdId}/items/{pantryItemId}/update")
   Future updatePantryItem(
       @Path() String householdId, @Body() UpdatePantryItem item);
 
-  @GET("/pantry/{householdId}")
+  @POST("/pantry/{householdId}/items/{pantryItemId}/mark-eaten")
+  Future markPantryItemEaten(
+      @Path() String householdId, @Path() int pantryItemId);
+
+  @GET("/pantry/{householdId}/items")
   Future<List<PantryItem>> getPantryItems(@Path() String householdId);
 
   @POST("/user")

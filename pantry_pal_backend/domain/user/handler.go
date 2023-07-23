@@ -65,7 +65,7 @@ func addUser(c *gin.Context) {
 
 	user, err := client.GetUser(c, userId)
 	if err != nil {
-		c.Status(http.StatusForbidden)
+		common.ForbiddenError(c, common.RESOURCE_NOT_FOUND)
 		return
 	}
 
@@ -121,7 +121,7 @@ func getUser(c *gin.Context) {
 	tx := database.DB.First(&dbUser)
 
 	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
-		c.Status(http.StatusNotFound)
+		common.ForbiddenError(c, common.RESOURCE_NOT_FOUND)
 		return
 	}
 

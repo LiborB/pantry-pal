@@ -1,7 +1,9 @@
 package pantry
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"log"
 	"net/http"
@@ -11,11 +13,12 @@ import (
 )
 
 func AddRoutes(r *gin.Engine) {
-	group := r.Group("/pantry/:householdId", common.HouseholdValidator)
+	group := r.Group("/pantry/:householdId/items", common.HouseholdValidator)
 
 	group.POST("", addItem)
 	group.GET("", getItems)
-	group.POST("/update", updateItem)
+	group.POST("/:itemId/update", updateItem)
+	group.POST("/:itemId/mark-eaten", markItemAsEaten)
 }
 
 type updateItemPayload struct {
@@ -34,8 +37,6 @@ func addItem(c *gin.Context) {
 	var body updateItemPayload
 	householdId := c.GetInt("householdId")
 	userId := c.GetString("userId")
-
-	log.Println(body)
 
 	if err := c.BindJSON(&body); err != nil {
 		log.Println(err)
@@ -92,6 +93,9 @@ func addItem(c *gin.Context) {
 }
 
 func updateItem(c *gin.Context) {
+	householdId := c.GetInt("householdId")
+	itemId := common.IntParam(c, "itemId")
+
 	var body updateItemPayload
 
 	if err := c.BindJSON(&body); err != nil {
@@ -101,14 +105,15 @@ func updateItem(c *gin.Context) {
 		return
 	}
 
-	var pantryItem database.PantryItem
+	pantryItem := database.PantryItem{
+		ID:          itemId,
+		HouseholdID: householdId,
+	}
 
 	tx := database.DB.Find(&pantryItem, body.Id)
 
-	if tx.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Item not found",
-		})
+	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+		common.ForbiddenError(c, common.RESOURCE_NOT_FOUND)
 		return
 	}
 
@@ -158,7 +163,7 @@ func getItems(c *gin.Context) {
 	var items []database.PantryItem
 	database.DB.Where(&database.PantryItem{
 		HouseholdID: householdId,
-	}).Find(&items)
+	}).Where("consumed_at IS NULL").Find(&items)
 
 	output := []pantryItem{}
 	for _, item := range items {
@@ -183,4 +188,27 @@ func getItems(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, output)
+}
+
+func markItemAsEaten(c *gin.Context) {
+	householdId := c.GetInt("householdId")
+	itemId := common.IntParam(c, "itemId")
+
+	pantryItem := database.PantryItem{
+		HouseholdID: householdId,
+		ID:          itemId,
+	}
+	tx := database.DB.First(&pantryItem)
+
+	if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+		common.ForbiddenError(c, common.RESOURCE_NOT_FOUND)
+		return
+	}
+
+	utcNow := time.Now().UTC()
+	pantryItem.ConsumedAt = &utcNow
+
+	database.DB.Save(&pantryItem)
+
+	c.Status(http.StatusNoContent)
 }
