@@ -85,7 +85,7 @@ class AppStore extends ChangeNotifier {
       switch (err.runtimeType) {
         case DioException:
           final res = (err as DioException).response;
-          if (res?.statusCode == 404) {
+          if (res?.data?.errorCode == "RESOURCE_NOT_FOUND") {
             await ApiHttp().createUser();
             await ApiHttp()
                 .createHousehold(CreateHouseholdPayload(name: "My House"));
