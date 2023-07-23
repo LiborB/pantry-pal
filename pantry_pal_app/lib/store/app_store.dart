@@ -65,7 +65,18 @@ class AppStore extends ChangeNotifier {
       return;
     }
 
-    _user = await ApiHttp().getUser();
+    try {
+      _user = await ApiHttp().getUser();
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response?.data?.errorCode == "RESOURCE_NOT_FOUND") {
+          await ApiHttp().createUser();
+          await ApiHttp()
+              .createHousehold(CreateHouseholdPayload(name: "My House"));
+          _user = await ApiHttp().getUser();
+        }
+      }
+    }
 
     await refreshHouseholds();
 
@@ -82,16 +93,14 @@ class AppStore extends ChangeNotifier {
     try {
       _user = await ApiHttp().getUser();
     } catch (err) {
-      switch (err.runtimeType) {
-        case DioException:
-          final res = (err as DioException).response;
-          if (res?.data?.errorCode == "RESOURCE_NOT_FOUND") {
-            await ApiHttp().createUser();
-            await ApiHttp()
-                .createHousehold(CreateHouseholdPayload(name: "My House"));
-            _user = await ApiHttp().getUser();
-            break;
-          }
+      if (err is DioException) {
+        print(err.response?.data);
+        if (err.response?.data["errorCode"] == "RESOURCE_NOT_FOUND") {
+          await ApiHttp().createUser();
+          await ApiHttp()
+              .createHousehold(CreateHouseholdPayload(name: "My House"));
+          _user = await ApiHttp().getUser();
+        }
       }
     }
 
